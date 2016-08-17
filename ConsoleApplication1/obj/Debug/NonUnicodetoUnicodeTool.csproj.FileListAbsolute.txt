@@ -1,0 +1,6 @@
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Ude.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\NonUnicodetoUnicodeTool.exe.config
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\NonUnicodetoUnicodeTool.exe
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\NonUnicodetoUnicodeTool.pdb
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.exe
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.pdb
