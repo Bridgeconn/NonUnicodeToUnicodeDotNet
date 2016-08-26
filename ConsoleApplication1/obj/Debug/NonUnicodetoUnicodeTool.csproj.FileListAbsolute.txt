@@ -4,3 +4,5 @@ H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\N
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\NonUnicodetoUnicodeTool.pdb
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.exe
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.pdb
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\RtfWriter.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.csprojResolveAssemblyReference.cache

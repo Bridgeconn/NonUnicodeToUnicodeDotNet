@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Text;
 
 namespace NonUnicodetoUnicodeTool
 {
@@ -14,28 +11,53 @@ namespace NonUnicodetoUnicodeTool
             bool isSuccesfull;
             try
             {
-                // FOR TEST: Create a file that contains the Greek work ψυχή (psyche) when interpreted by using 
-                /* code page 737 ((DOS) Greek). You can also create the file by using Character Map 
-                to paste the characters into Microsoft Word and then "Save As" by using the DOS
-                (Greek) encoding. (Word will actually create a six-byte file by appending "\r\n" at the end.)
-                System.IO.File.WriteAllBytes(nonUnicodeTxtFilePath, new byte[] { 0xAF, 0xAC, 0xAE, 0x9E });
-                
-                Ha Ka La in Marathi
-                  System.IO.File.WriteAllBytes(nonUnicodeTxtFilePath, new byte[] { 0xD1, 0xA7, 0xD7 });*/
+                string extension = Path.GetExtension(unicodeTxtFilePath).ToLower();
 
-                // Specify the code page to correctly interpret byte values
-                Encoding encoding = Encoding.GetEncoding(characterSetCode); //(DOS) Greek code page
-                byte[] codePageValues = System.IO.File.ReadAllBytes(nonUnicodeTxtFilePath);
+                if (extension == ".txt")
+                {
+                    // Specify the code page to correctly interpret byte values
+                    Encoding encoding = Encoding.GetEncoding(characterSetCode);
 
-                // Same content is now encoded as UTF-16
-                string unicodeValues = encoding.GetString(codePageValues);
+                    // Read bytes from the non-unicode file
+                    byte[] codePageValues = File.ReadAllBytes(nonUnicodeTxtFilePath);
 
-                // Show that the text content is still intact in Unicode string
-                // (Add a reference to System.Windows.Forms.dll)
-                //System.Windows.Forms.MessageBox.Show(unicodeValues);
+                    // Same content is now encoded as UTF-16
+                    string unicodeValues = encoding.GetString(codePageValues);
 
-                // Same content "ψυχή" is stored as UTF-8
-                System.IO.File.WriteAllText(unicodeTxtFilePath, unicodeValues);
+                    // Write the unicode txt file
+                    File.WriteAllText(unicodeTxtFilePath, unicodeValues, Encoding.UTF8);
+                }
+                else if (extension == ".rtf")
+                {
+                    // Specify the code page to correctly interpret byte values
+                    Encoding encoding = Encoding.GetEncoding(characterSetCode);
+
+                    var file = new StreamReader(nonUnicodeTxtFilePath);
+                    string line;
+                    var sb = new StringBuilder();
+
+                    // Read from the non-unicode file
+                    while ((line = file.ReadLine()) != null)
+                    {
+                        // Read bytes from the non-unicode file and encode
+                        byte[] codePageValues = Encoding.Convert(encoding, Encoding.UTF8, StringAndBytesUtility.GetBytes(line));
+                        sb.AppendLine(Encoding.UTF8.GetString(codePageValues));
+                    }
+
+                    file.Close();
+
+                    // Write the encoded strings to a new file
+                    var rtfFile = new System.IO.StreamWriter(unicodeTxtFilePath);
+                    using (StringReader reader = new StringReader(sb.ToString()))
+                    {
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            rtfFile.WriteLine(line);
+                        }
+                    }
+
+                    rtfFile.Close();
+                }
 
                 // Conversion is complete. Check the bytes to prove the conversion. 
                 /*

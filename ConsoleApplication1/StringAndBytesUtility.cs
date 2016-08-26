@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NonUnicodetoUnicodeTool
+﻿namespace NonUnicodetoUnicodeTool
 {
     public static class StringAndBytesUtility
     {
+        // Convert string to bytes
         public static byte[] GetBytes(string str)
         {
             byte[] bytes = new byte[str.Length * sizeof(char)];
@@ -15,6 +10,7 @@ namespace NonUnicodetoUnicodeTool
             return bytes;
         }
 
+        // Convert bytes to string
         public static string GetString(byte[] bytes)
         {
             char[] chars = new char[bytes.Length / sizeof(char)];

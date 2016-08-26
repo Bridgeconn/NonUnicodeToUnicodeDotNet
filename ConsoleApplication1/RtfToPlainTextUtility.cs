@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NonUnicodetoUnicodeTool
 {
@@ -35,9 +31,8 @@ namespace NonUnicodetoUnicodeTool
                 System.IO.File.WriteAllText(txtFilePath, plainText);
 
                 isSuccesfull = true;
-
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 isSuccesfull = false;
             }

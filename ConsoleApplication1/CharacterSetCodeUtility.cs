@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using System.IO;
 
-namespace ConsoleApplication1
+namespace NonUnicodetoUnicodeTool
 {
     // Helps to get the CharacterSetCode
     public static class CharacterSetCodeUtility
@@ -19,17 +14,14 @@ namespace ConsoleApplication1
                 cdet.DataEnd();
                 if (cdet.Charset != null)
                 {
-                    //Console.WriteLine("Charset: {0}, confidence: {1}", cdet.Charset, cdet.Confidence);
+                    // cdet.Confidence provides us the confidence factor
                     return cdet.Charset;
                 }
                 else
                 {
-                    //Console.WriteLine("Detection failed.");
-
+                    return "Detection failed.";
                 }
             }
-
-            return string.Empty;
         }
     }
 }
