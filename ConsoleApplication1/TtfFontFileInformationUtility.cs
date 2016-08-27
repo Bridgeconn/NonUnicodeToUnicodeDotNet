@@ -19,8 +19,11 @@ namespace NonUnicodetoUnicodeTool
                 {
                     GlyphTypeface glyph;
                     typeface.TryGetGlyphTypeface(out glyph);
-                    IDictionary<int, ushort> characterMap = glyph.CharacterToGlyphMap;
 
+                    // Check if the font conforms to Unicode
+                    bool isUnicode = glyph.Symbol; 
+
+                    IDictionary<int, ushort> characterMap = glyph.CharacterToGlyphMap;
                     foreach (KeyValuePair<int, ushort> kvp in characterMap)
                     {
                         Console.WriteLine(String.Format("{0}:{1}", kvp.Key, kvp.Value));
@@ -29,17 +32,5 @@ namespace NonUnicodetoUnicodeTool
                 }
             }
         }
-
-        /*
-         *    GlyphTypeface ttf = new GlyphTypeface(new Uri(@"H:\WA\Scripts\Marathi NU - U\DV_ME_Shree0708.ttf"));
-
-                      Console.WriteLine(ttf.Symbol); //True for unicode and false for non-unicode
-
-                      //Console.WriteLine(ttf.Weight.ToString()); //=Bold or Normal
-
-                      GlyphTypeface ttf2 = new GlyphTypeface(new Uri(@"H:\WA\Scripts\Marathi NU - U\MANGAL\MANGAL.ttf"));
-
-                      Console.WriteLine(ttf2.Symbol); //True for unicode and false for non-unicode
-                      */
     }
 }

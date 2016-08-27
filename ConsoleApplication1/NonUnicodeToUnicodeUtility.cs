@@ -24,8 +24,8 @@ namespace NonUnicodetoUnicodeTool
                     // Same content is now encoded as UTF-16
                     string unicodeValues = encoding.GetString(codePageValues);
 
-                    // Write the unicode txt file
-                    File.WriteAllText(unicodeTxtFilePath, unicodeValues, Encoding.UTF8);
+                    // Write the unicode txt file as UTF-8
+                    File.WriteAllText(unicodeTxtFilePath, unicodeValues);
                 }
                 else if (extension == ".rtf")
                 {
