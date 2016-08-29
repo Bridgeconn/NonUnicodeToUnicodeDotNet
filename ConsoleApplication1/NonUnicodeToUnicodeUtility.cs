@@ -25,7 +25,7 @@ namespace NonUnicodetoUnicodeTool
                     string unicodeValues = encoding.GetString(codePageValues);
 
                     // Write the unicode txt file as UTF-8
-                    File.WriteAllText(unicodeTxtFilePath, unicodeValues);
+                    File.WriteAllText(unicodeTxtFilePath, unicodeValues, Encoding.UTF8);
                 }
                 else if (extension == ".rtf")
                 {

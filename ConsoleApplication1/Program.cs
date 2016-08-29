@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+//using ICU4NET;
+//using ICU4NETExtension;
 
 namespace NonUnicodetoUnicodeTool
 {
@@ -7,7 +9,6 @@ namespace NonUnicodetoUnicodeTool
     {
         static void Main(string[] args)
         {
-
             /********************* 
             // Obtaining font File information - Only observation by debugging as of now
             */
@@ -25,8 +26,8 @@ namespace NonUnicodetoUnicodeTool
             /*********************
             // TXT FILE: Convert NonUnicode To Unicode
            
-            string sourceFilePath = @"H:\WA\Scripts\Demos\Greek\Greek.txt";
-            string targetFilePath = @"H:\WA\Scripts\Demos\Greek\GreekUnicode.txt";
+            string sourceFilePath = @"Demo\Greek\Greek.txt";
+            string targetFilePath = @"Demo\Greek\GreekUnicode.txt";
 
             // Create a file that contains the Greek work ψυχή (psyche) - encoding 737 (DOS) Greek code page
             File.WriteAllBytes(sourceFilePath, new byte[] { 0xAF, 0xAC, 0xAE, 0x9E });
@@ -49,8 +50,8 @@ namespace NonUnicodetoUnicodeTool
             /*********************
             // TXT FILE: Convert NonUnicode To Unicode
          
-            string demo2SourceFilePath = @"H:\WA\Scripts\Demos\Marathi by code\Marathi37.txt";
-            string demo2targetFilePath = @"H:\WA\Scripts\Demos\Marathi by code\Marathi37Unicode.txt";
+            string demo2SourceFilePath = @"Demo\Marathi by code\Marathi37.txt";
+            string demo2targetFilePath = @"Demo\Marathi by code\Marathi37Unicode.txt";
 
             // The word 'red' in Marathi is programmatically written as a non-unicode txt file - 37 code page needs to be used
             File.WriteAllBytes(demo2SourceFilePath, new byte[] { 0x72, 0x65, 0x64 }); 
@@ -71,10 +72,12 @@ namespace NonUnicodetoUnicodeTool
 
             /*********************
            // TXT FILE: Convert NonUnicode To Unicode
+            
            
-           string demo3SourceFilePath = @"H:\WA\Scripts\Demos\Marathi DV font\Marathi.txt";
-           string demo3targetFilePath = @"H:\WA\Scripts\Demos\Marathi DV font\MarathiUnicode.txt";
+           string demo3SourceFilePath = @"Demo\Marathi DV font\Marathi.txt";
+           string demo3targetFilePath = @"Demo\Marathi DV font\MarathiUnicode.txt";
 
+           var setCode31 = CharacterSetCodeUtility.GetCharacterSetCode(demo3SourceFilePath);
            if (NonUnicodeToUnicodeUtility.ConvertNonUnicodeToUnicode(1252, demo3SourceFilePath, demo3targetFilePath))
            {
                Console.WriteLine("Conversion is successful!");
@@ -83,11 +86,11 @@ namespace NonUnicodetoUnicodeTool
            {
                Console.WriteLine("Conversion is failed!");
            }
-           var setCode31 = CharacterSetCodeUtility.GetCharacterSetCode(demo3SourceFilePath);
+           
            var setCode32 = CharacterSetCodeUtility.GetCharacterSetCode(demo3targetFilePath);
 
            Console.Read();
-           */
+          */
 
             /*********************
            // RTF FILE: Convert NonUnicode To Unicode

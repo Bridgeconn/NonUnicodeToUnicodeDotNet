@@ -5,4 +5,10 @@ H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\N
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.exe
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.pdb
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\RtfWriter.dll
-H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.csprojResolveAssemblyReference.cache
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\icudt55.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\icuin55.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\icuio55.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\icule55.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\iculx55.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\icutu55.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\icuuc55.dll
