@@ -70,38 +70,40 @@
     <None Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Demo\" />
+    <Folder Include="Demo\MarathiTxtFiles\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\packages\ICU4C-55.1-bin32.1.0.2\tools\ICU4C\icudt55.dll">
       <Link>Libs\icudt55.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\packages\ICU4C-55.1-bin32.1.0.2\tools\ICU4C\icuin55.dll">
       <Link>Libs\icuin55.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\packages\ICU4C-55.1-bin32.1.0.2\tools\ICU4C\icuio55.dll">
       <Link>Libs\icuio55.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\packages\ICU4C-55.1-bin32.1.0.2\tools\ICU4C\icule55.dll">
       <Link>Libs\icule55.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\packages\ICU4C-55.1-bin32.1.0.2\tools\ICU4C\iculx55.dll">
       <Link>Libs\iculx55.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\packages\ICU4C-55.1-bin32.1.0.2\tools\ICU4C\icutu55.dll">
       <Link>Libs\icutu55.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\packages\ICU4C-55.1-bin32.1.0.2\tools\ICU4C\icuuc55.dll">
       <Link>Libs\icuuc55.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Libs\RtfWriter.dll" />
+    <Content Include="Libs\RtfWriter.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

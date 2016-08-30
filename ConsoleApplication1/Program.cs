@@ -49,14 +49,14 @@ namespace NonUnicodetoUnicodeTool
 
             /*********************
             // TXT FILE: Convert NonUnicode To Unicode
-         
-            string demo2SourceFilePath = @"Demo\Marathi by code\Marathi37.txt";
-            string demo2targetFilePath = @"Demo\Marathi by code\Marathi37Unicode.txt";
+            
+            string demo2SourceFilePath = @"H:\WA\Scripts\Demos\Marathi DV font\shusha.txt";
+            string demo2targetFilePath = @"H:\WA\Scripts\Demos\Marathi DV font\shushaUnicode.txt";
 
-            // The word 'red' in Marathi is programmatically written as a non-unicode txt file - 37 code page needs to be used
-            File.WriteAllBytes(demo2SourceFilePath, new byte[] { 0x72, 0x65, 0x64 }); 
+            // The word 'red' in Marathi is programmatically written as a non-unicode txt file - Devanagari code page (57002) code page needs to be used
+            File.WriteAllBytes(demo2SourceFilePath, new byte[] { 0xac, 0xb4 }); 
 
-            if (NonUnicodeToUnicodeUtility.ConvertNonUnicodeToUnicode(437, demo2SourceFilePath, demo2targetFilePath))
+            if (NonUnicodeToUnicodeUtility.ConvertNonUnicodeToUnicode(57002, demo2SourceFilePath, demo2targetFilePath))
             {
                 Console.WriteLine("Conversion is successful!");
             }
@@ -72,13 +72,12 @@ namespace NonUnicodetoUnicodeTool
 
             /*********************
            // TXT FILE: Convert NonUnicode To Unicode
-            
-           
-           string demo3SourceFilePath = @"Demo\Marathi DV font\Marathi.txt";
-           string demo3targetFilePath = @"Demo\Marathi DV font\MarathiUnicode.txt";
+           */
+            string demo3SourceFilePath = @"H:\WA\Scripts\Demos\Marathi DV font\shusha.txt";
+            string demo3targetFilePath = @"H:\WA\Scripts\Demos\Marathi DV font\shushaUnicode.txt";
 
            var setCode31 = CharacterSetCodeUtility.GetCharacterSetCode(demo3SourceFilePath);
-           if (NonUnicodeToUnicodeUtility.ConvertNonUnicodeToUnicode(1252, demo3SourceFilePath, demo3targetFilePath))
+           if (NonUnicodeToUnicodeUtility.ConvertNonUnicodeToUnicode(57002, demo3SourceFilePath, demo3targetFilePath))
            {
                Console.WriteLine("Conversion is successful!");
            }
@@ -90,7 +89,7 @@ namespace NonUnicodetoUnicodeTool
            var setCode32 = CharacterSetCodeUtility.GetCharacterSetCode(demo3targetFilePath);
 
            Console.Read();
-          */
+           
 
             /*********************
            // RTF FILE: Convert NonUnicode To Unicode
@@ -108,9 +107,9 @@ namespace NonUnicodetoUnicodeTool
            }
            var setCode1 = CharacterSetCodeUtility.GetCharacterSetCode(sourceFilePath);
            var setCode2 = CharacterSetCodeUtility.GetCharacterSetCode(targetFilePath);
-           */
 
-            Console.Read();
+           Console.Read();
+           */
         }
     }
 }
