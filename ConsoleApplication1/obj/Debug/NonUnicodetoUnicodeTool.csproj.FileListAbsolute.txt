@@ -13,3 +13,14 @@ H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\L
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\icutu55.dll
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\icuuc55.dll
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Libs\RtfWriter.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\AIGuesserEC.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\CcEC.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\ECInterfaces.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\geckofx-core.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Geckofx-Winforms.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\IcuEC.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\PerlExpressionEC.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\PyScriptEC.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\SilEncConverters40.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\SilIndicEncConverters40.dll
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.csprojResolveAssemblyReference.cache
