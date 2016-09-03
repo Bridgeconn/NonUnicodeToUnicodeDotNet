@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterSetCodeUtility.cs" />
+    <Compile Include="CharacterSetConversionUtility.cs" />
     <Compile Include="ISCIIEncoding.cs" />
     <Compile Include="NonUnicodeToUnicodeUtility.cs" />
     <Compile Include="Program.cs" />
@@ -165,9 +166,6 @@
     <Content Include="Libs\RtfWriter.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
