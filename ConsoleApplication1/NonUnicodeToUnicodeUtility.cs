@@ -8,7 +8,7 @@ namespace NonUnicodetoUnicodeTool
 {
     public static class NonUnicodeToUnicodeUtility
     {
-      public static string Convert()
+      public static string Convert(string fontConversionID, string sourceFilePath, string targetFilePath)
         {
             string resultStatus = string.Empty;
 
@@ -16,14 +16,14 @@ namespace NonUnicodetoUnicodeTool
             EncConverters aECs = new EncConverters();
 
             // Add Ticket tec file generated from the map file
-            aECs.Add("DV_SHREE<>UNICODE", @"H:\WA\Scripts\Marathi NU - U\Font Study\Untitled.tec", ConvType.Legacy_to_from_Unicode, "DV_ME_80", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
+            aECs.Add("DV_SHREE<>UNICODE", "dv_shree.tec", ConvType.Legacy_to_from_Unicode, "DV_ME_80", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
 
             // Get a reference to the converter
             IEncConverter conv = aECs.GetMapByName("DV_SHREE<>UNICODE");
 
-            string strIn = "ZàÐmàwÂàà - ¥§ý âkwÞm §ýnà";
+            string strIn = File.ReadAllText(sourceFilePath);
             string strOut = conv.Convert(strIn);
-            File.WriteAllText(@"H:\Test.txt", strOut);
+            File.WriteAllText(targetFilePath, strOut);
             Console.WriteLine(String.Format("'{1}' became '{0}'", strOut, strIn));
 
             return resultStatus;
