@@ -12,7 +12,9 @@ Each Legacy Font’s glyph codes need to be converted to UNICODE in order to be 
 ### Approach:
 SIL's conversion platform has been used.
 
-# Prerequisite: .NET Platform
+# Prerequisite: .NET Framework
+
+Windows & other Operating Systems: https://www.microsoft.com/net/download
 
 Linux: http://www.mono-project.com/docs/getting-started/install/linux/
 
