@@ -30,7 +30,5 @@ Visual Studio Community Edition: https://www.visualstudio.com/en-us/products/vis
 # Tool usage steps
 
 - Console application's directory has the NU2U.exe that could be executed on the console application with the below arguments:
---
---
 
 
