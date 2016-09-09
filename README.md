@@ -20,8 +20,9 @@ Mac: http://www.mono-project.com/docs/getting-started/install/mac/
 
 # Integrated development environment
 
-Visual Studio Community Edition: https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx
+Windows' Visual Studio Community Edition: https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx
 
+Cross platform IDE for C#, F# and more: http://www.monodevelop.com/download/
 
 # Installation of the conversion tool
 
