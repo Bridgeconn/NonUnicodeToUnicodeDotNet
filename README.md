@@ -22,7 +22,13 @@ Mac: http://www.mono-project.com/docs/getting-started/install/mac/
 
 Windows' Visual Studio Community Edition: https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx
 
+- Cross platfrom
+
+Visual Studio Code: https://code.visualstudio.com/
+
 Cross platform IDE for C#, F# and more: http://www.monodevelop.com/download/
+
+MAC & Windows - Xamarin Studio: https://www.xamarin.com/studio
 
 # Installation of the conversion tool
 
