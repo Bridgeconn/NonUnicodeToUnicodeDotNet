@@ -18,14 +18,19 @@ Linux: http://www.mono-project.com/docs/getting-started/install/linux/
 
 Mac: http://www.mono-project.com/docs/getting-started/install/mac/
 
-# IDE
+# Integrated development environment
 
 Visual Studio Community Edition: https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx
 
 
 # Installation of the conversion tool
 
+- Console application's directory needs to be copied on the target machine.
 
 # Tool usage steps
+
+- Console application's directory has the NU2U.exe that could be executed on the console application with the below arguments:
+--
+--
 
 
