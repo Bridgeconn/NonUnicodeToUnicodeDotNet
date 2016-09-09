@@ -2,7 +2,7 @@
 
 Still working on the conversion from legacy font to unicode!  
 
-# .NET Platform
+# Prerequisite: .NET Platform
 
 Linux: http://www.mono-project.com/docs/getting-started/install/linux/
 
@@ -10,11 +10,12 @@ Mac: http://www.mono-project.com/docs/getting-started/install/mac/
 
 # IDE
 
-Visual Studio:
-
-# INSTALLATION OF THE TOOL
+Visual Studio Community Edition: https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx
 
 
-# USAGE
+# Installation of the conversion tool
+
+
+# Tool usage steps
 
 
