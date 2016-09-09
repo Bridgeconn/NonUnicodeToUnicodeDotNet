@@ -1,4 +1,4 @@
-# NonUnicodeToUnicodeDotNet
+# NU2U Tool - Converting Non-Unicode font text to Unicode!
 
 # The issue!
 Text documents that were created long ago were stored in font dependent glyph codes hence those fonts are known as legacy fonts. These texts are no longer compliant with the modern fonts as there is a unified character encoding standard named as UNICODE that they are compliant with. Hence, there is a great need for the conversion of NON-UNICODE text documents to UNICODE standards.
