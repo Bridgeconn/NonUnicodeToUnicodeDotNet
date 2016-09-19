@@ -73,6 +73,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\RtfWriter.dll</HintPath>
     </Reference>
+    <Reference Include="SecOffice_ManagedAggregator13, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d51fbf4dbc2f7f14, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\SecOffice_ManagedAggregator13.dll</HintPath>
+    </Reference>
+    <Reference Include="SILConvertersOffice13, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\SILConvertersOffice13.dll</HintPath>
+    </Reference>
     <Reference Include="SilEncConverters40, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485" />
     <Reference Include="SilIndicEncConverters40, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

@@ -16,15 +16,15 @@ namespace NonUnicodetoUnicodeTool
             EncConverters aECs = new EncConverters();
 
             // Add Ticket tec file generated from the map file
-            aECs.Add("DV_SHREE<>UNICODE", "dv_shree.tec", ConvType.Legacy_to_from_Unicode, "DV_ME_80", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
+            aECs.Add("S_D_708<>Unicode", "SD708.tec", ConvType.Legacy_to_from_Unicode, "SD708", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
 
             // Get a reference to the converter
-            IEncConverter conv = aECs.GetMapByName("DV_SHREE<>UNICODE");
+            IEncConverter conv = aECs.GetMapByName("S_D_708<>Unicode");
 
             string strIn = File.ReadAllText(sourceFilePath);
             string strOut = conv.Convert(strIn);
             File.WriteAllText(targetFilePath, strOut);
-            Console.WriteLine(String.Format("'{1}' became '{0}'", strOut, strIn));
+            Console.WriteLine("Unicode conversion is completed!");
 
             return resultStatus;
         }
