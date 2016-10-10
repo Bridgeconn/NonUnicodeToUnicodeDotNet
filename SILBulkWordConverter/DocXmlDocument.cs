@@ -35,7 +35,7 @@ namespace SILConvertersWordML
             }
             else
             {
-                strXsltOutputFilename = FontsStylesForm.GetTempFilename;
+                strXsltOutputFilename = ConverterUtility.GetTempFilename;
             }
             return strXsltOutputFilename;
         }
