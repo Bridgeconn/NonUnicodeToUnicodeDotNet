@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConverterUtility.cs" />
+    <Compile Include="FileFinderForFonts.cs" />
     <Compile Include="ProcessManager.cs" />
     <Compile Include="ProcessMessenger.cs" />
     <Compile Include="DocXmlDocument.cs" />
