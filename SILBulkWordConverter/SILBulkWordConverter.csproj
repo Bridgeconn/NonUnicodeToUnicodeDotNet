@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConverterUtility.cs" />
-    <Compile Include="FileFinderForFonts.cs" />
+    <Compile Include="FileFinderForFonts.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ILogger.cs" />
     <Compile Include="ProcessManager.cs" />
     <Compile Include="ProcessMessenger.cs" />
@@ -55,8 +58,29 @@
     <Compile Include="WordLinqDocument.cs" />
     <Compile Include="WordMLDocument.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Libs\" />
+    <Content Include="Libs\AIGuesserEC.dll" />
+    <Content Include="Libs\CcEC.dll" />
+    <Content Include="Libs\ECDriver.dll" />
+    <Content Include="Libs\ECInterfaces.dll" />
+    <Content Include="Libs\Geckofx-Core.dll" />
+    <Content Include="Libs\Geckofx-Winforms.dll" />
+    <Content Include="Libs\GuesserEC.dll" />
+    <Content Include="Libs\IcuConvEC.dll" />
+    <Content Include="Libs\icudt54.dll" />
+    <Content Include="Libs\IcuEC.dll" />
+    <Content Include="Libs\icuin54.dll" />
+    <Content Include="Libs\IcuRegexEC.dll" />
+    <Content Include="Libs\IcuTranslitEC.dll" />
+    <Content Include="Libs\icuuc54.dll" />
+    <Content Include="Libs\PerlExpressionEC.dll" />
+    <Content Include="Libs\PyScriptEC.dll" />
+    <Content Include="Libs\PyScriptEncConverter.dll" />
+    <Content Include="Libs\python27.dll" />
+    <Content Include="Libs\pythoncom27.dll" />
+    <Content Include="Libs\SilEncConverters40.dll" />
+    <Content Include="Libs\SilIndicEncConverters40.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
