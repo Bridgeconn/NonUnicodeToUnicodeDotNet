@@ -52,7 +52,7 @@ namespace SILConvertersWordML
 
         protected override string GetXmlFileSuffix
         {
-            get { return FontsStylesForm.cstrLeftXmlFileSuffixAfterLinqTransform; }
+            get { return ProcessManager.cstrLeftXmlFileSuffixAfterLinqTransform; }
         }
 
         public override bool ConvertDocumentByFontNameAndStyle(Dictionary<string, Font> mapName2Font,

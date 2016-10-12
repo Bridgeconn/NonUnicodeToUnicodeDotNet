@@ -16,11 +16,11 @@ namespace SILConvertersWordML
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (Properties.Settings.Default.RecentFiles == null)
-                Properties.Settings.Default.RecentFiles = new System.Collections.Specialized.StringCollection();
+            //if (Properties.Settings.Default.RecentFiles == null)
+            //    Properties.Settings.Default.RecentFiles = new System.Collections.Specialized.StringCollection();
 
-            if (Properties.Settings.Default.ConverterMappingRecentFiles == null)
-                Properties.Settings.Default.ConverterMappingRecentFiles = new System.Collections.Specialized.StringCollection();
+            //if (Properties.Settings.Default.ConverterMappingRecentFiles == null)
+            //    Properties.Settings.Default.ConverterMappingRecentFiles = new System.Collections.Specialized.StringCollection();
 
             myTimer.Tick += new EventHandler(TimerEventProcessor);
             myTimer.Interval = 500;    // half a second
@@ -31,11 +31,12 @@ namespace SILConvertersWordML
                 myTimer.Start();
             }
 
-            m_aForm = new FontsStylesForm();
-            Application.Run(m_aForm);
+            m_aForm = new ProcessManager(new ProcessRequest(null)); //TBD
+
+            //Application.Run(m_aForm);
         }
 
-        public static FontsStylesForm m_aForm = null;
+        public static ProcessManager m_aForm = null;
         public static string[] FileNames = null;
         public static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
 

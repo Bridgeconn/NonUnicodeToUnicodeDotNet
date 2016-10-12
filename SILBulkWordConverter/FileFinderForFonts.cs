@@ -13,7 +13,8 @@ using Microsoft.Win32;                  // for RegistryKey
 
 namespace SILConvertersWordML
 {
-    public partial class FileFinderForFonts : Form
+    /*
+    public partial class FileFinderForFonts //: Form
     {
         const int cnFontColumn = 0;
         const string cstrDefaultFilter = "*.doc;*.rtf";
@@ -29,7 +30,7 @@ namespace SILConvertersWordML
         protected List<string> m_astrFontsToSearchFor = new List<string>();
         protected List<string> m_astrSearchFilters = new List<string>();
 
-        public AutoSearchOptions()
+        public FileFinderForFonts()
         {
             InitializeComponent();
 
@@ -174,4 +175,5 @@ namespace SILConvertersWordML
             this.Close();
         }
     }
+    */
 }

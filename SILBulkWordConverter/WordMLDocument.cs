@@ -235,7 +235,7 @@ namespace SILConvertersWordML
                 MessageBox.Show(
                     String.Format(
                         "The Word document '{0}' contains two styles with the same name '{1}'. After the conversion, you should check the converted file carefully to see if the data in that style name was converted correctly. You may need to combine the segments into a single style for this to work properly.",
-                        strFilename, strName), FontsStylesForm.cstrCaption);
+                        strFilename, strName), ProcessManager.cstrCaption);
             else
                 MapStyleName2FontName.Add(strName, strFont);
         }

@@ -63,21 +63,24 @@ namespace SILConvertersWordML
         object oMissing = System.Reflection.Missing.Value;
         object oFalse = false;
         object oTrue = true;
+        ProcessRequest processRequest;
 
-        public FontsStylesForm()
+        public ProcessManager(ProcessRequest processRequest)
         {
-            InitializeComponent();
+            this.processRequest = processRequest;
 
-            helpProvider.SetHelpString(this.dataGridView, Properties.Resources.dataGridViewHelp);
+            //InitializeComponent();
+
+            //helpProvider.SetHelpString(this.dataGridView, Properties.Resources.dataGridViewHelp);
 
 #if DEBUG
-            leaveXMLFileInFolderToolStripMenuItem.Checked = true;
+            //leaveXMLFileInFolderToolStripMenuItem.Checked = true;
 #endif
         }
 
         public void OpenDocuments(string[] astrFilenames)
         {
-            Cursor = Cursors.WaitCursor;
+            //Cursor = Cursors.WaitCursor;
 
             // in case the app was already open and the user clicks the "Open SFM document" again.
             Reset();
@@ -85,18 +88,21 @@ namespace SILConvertersWordML
             GetXmlDocuments(astrFilenames);
             DoRestOfOpen(astrFilenames);
 
-            Cursor = Cursors.Default;
+            //Cursor = Cursors.Default;
         }
 
         public void DoRestOfOpen(string[] astrFilenames)
         {
             PopulateGrid();
-            AddFilenameToTitle(astrFilenames);
-            convertAndSaveDocumentsToolStripMenuItem.Enabled = this.toolStripButtonConvertAndSave.Enabled =
+
+            /*
+              AddFilenameToTitle(astrFilenames);
+              convertAndSaveDocumentsToolStripMenuItem.Enabled = this.toolStripButtonConvertAndSave.Enabled =
                 singlestepConversionToolStripMenuItem.Enabled = toolStripButtonSingleStep.Enabled =
-                reloadToolStripMenuItem.Enabled = this.toolStripButtonRefresh.Enabled = true;
+                reloadToolStripMenuItem.Enabled = this.toolStripButtonRefresh.Enabled = true;*/
         }
 
+        /*
         public void AddFilenameToTitle(string[] FileNames)
         {
             Debug.Assert(FileNames.Length > 0);
@@ -118,7 +124,6 @@ namespace SILConvertersWordML
                 Properties.Settings.Default.RecentFiles.Insert(0, strFilename);
                 Properties.Settings.Default.Save();
             }
-
             this.Text = String.Format("{0} -- {1}", cstrCaption, strTitleName);
         }
 
@@ -135,7 +140,7 @@ namespace SILConvertersWordML
             Properties.Settings.Default.ConverterMappingRecentFiles.Insert(0, strFilename);
             Properties.Settings.Default.Save();
         }
-
+        */
         protected DataIterator GetIteratorFromMap(string strFontName, IteratorMap mapNames2Iterator)
         {
             return mapNames2Iterator[strFontName];
@@ -209,29 +214,29 @@ namespace SILConvertersWordML
 
         protected void PopulateGrid()
         {
-            dataGridView.Rows.Clear();
+            //dataGridView.Rows.Clear();
             var lstInGrid = new List<string>();    // used so we don't add something twice
-            if (this.radioButtonEverything.Checked)
+            if ((processRequest.ConversionElements == ConversionElements.FontsAndStyles))
             {
-                ColumnFont.HeaderText = "Font";
-                ColumnTargetFont.HeaderText = "Apply Font";
+                //ColumnFont.HeaderText = "Font";
+                //ColumnTargetFont.HeaderText = "Apply Font";
 
                 // get the Fonts and Styles out of the xml docs
                 GetTextIteratorListCustomFont(ref lstInGrid);
                 GetTextIteratorListStyleFont(ref lstInGrid);
             }
-            else if (radioButtonStylesOnly.Checked)
+            else if ((processRequest.ConversionElements == ConversionElements.StylesAlone))
             {
-                ColumnFont.HeaderText = "Style";
-                ColumnTargetFont.HeaderText = "New Style Font";
+                //ColumnFont.HeaderText = "Style";
+                //ColumnTargetFont.HeaderText = "New Style Font";
 
                 // get the Fonts and Styles out of the xml doc
                 GetTextIteratorListStyleOnly(ref lstInGrid);
             }
-            else if (radioButtonFontsOnly.Checked)
+            else if ((processRequest.ConversionElements == ConversionElements.FontsAlone)
             {
-                ColumnFont.HeaderText = "Font";
-                ColumnTargetFont.HeaderText = "Apply Font";
+                //ColumnFont.HeaderText = "Font";
+                //ColumnTargetFont.HeaderText = "Apply Font";
 
                 // get the Fonts and Styles out of the xml doc
                 GetTextIteratorListCustomFont(ref lstInGrid);
@@ -316,6 +321,7 @@ namespace SILConvertersWordML
             thisRow.Height = RowMaxHeight;
         }
 
+        /*
         // the creation of a Font can throw an exception if, for example, you try to construct one with
         //  the default style 'Regular' when the font itself doesn't have a Regular style. So this method
         //  can be called to create one and it'll try different styles if it fails.
@@ -355,6 +361,7 @@ namespace SILConvertersWordML
 
             return font;
         }
+        */
 
         protected string CallSafeConvert(DirectableEncConverter aEC, string strInput)
         {
@@ -697,6 +704,22 @@ namespace SILConvertersWordML
             catch { }
         }
 
+        internal static EncConverters GetEncConverters
+        {
+            get
+            {
+                try
+                {
+                    return DirectableEncConverter.EncConverters;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Can't access the repository because: " + ex.Message, cstrCaption);
+                }
+                return null;
+            }
+        }
+        /*
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult res = this.openFileDialog.ShowDialog();
@@ -711,6 +734,7 @@ namespace SILConvertersWordML
                 Program.myTimer.Start();
             }
         }
+        */
 
         // the GetDirectoryName returns a final slash, but only for files in the root folder
         //  so make sure we get exactly one.
@@ -725,7 +749,7 @@ namespace SILConvertersWordML
         private void convertAndSaveDocumentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // TODO: see what happens if PIAs aren't installed
-            Cursor = Cursors.WaitCursor;
+            //Cursor = Cursors.WaitCursor;
             if (!CheckForWinWord())
                 return;
 
@@ -760,7 +784,7 @@ namespace SILConvertersWordML
                             Path.GetDirectoryName(strNewSaveFileSpec), Path.GetFileName(strOrigFileSpec));
                         File.Move(strNewSaveFileSpec, strBackup);
 
-                        if (leaveXMLFileInFolderToolStripMenuItem.Checked)
+                        if (processRequest.LeaveXMLFileInFolder)
                         {
                             string strBackupXml = String.Format(@"{0}\{1}",
                                 Path.GetDirectoryName(strNewSaveFileSpec), Path.GetFileName(strConvertedXmlFilename));
@@ -859,7 +883,7 @@ namespace SILConvertersWordML
             {
                 ((Microsoft.Office.Interop.Word._Application)wrdApp).Quit(ref oMissing, ref oMissing, ref oMissing);
                 Marshal.ReleaseComObject(wrdApp);
-                Cursor = Cursors.Default;
+                //Cursor = Cursors.Default;
             }
         }
 
@@ -887,15 +911,15 @@ namespace SILConvertersWordML
             var doc = m_mapDocName2XmlDocument[strDocFilename];
             bool bModified = false;
 
-            if (this.radioButtonEverything.Checked)
+            if (processRequest.ConversionElements == ConversionElements.FontsAndStyles)
             {
                 bModified |= doc.ConvertDocumentByFontNameAndStyle(mapName2Font, ConvertDoc);
             }
-            else if (radioButtonStylesOnly.Checked)
+            else if (processRequest.ConversionElements == ConversionElements.StylesAlone)
             {
                 bModified |= doc.ConvertDocumentByStylesOnly(mapName2Font, ConvertDoc);
             }
-            else if (radioButtonFontsOnly.Checked)
+            else if (processRequest.ConversionElements == ConversionElements.FontsAlone)
             {
                 bModified |= doc.ConvertDocumentByFontNameOnly(mapName2Font, ConvertDoc);
             }
@@ -904,7 +928,7 @@ namespace SILConvertersWordML
 
             try
             {
-                if (leaveXMLFileInFolderToolStripMenuItem.Checked)
+                if (processRequest.LeaveXMLFileInFolder)
                 {
                     strXmlOutputFilename = String.Format(@"{0}\{1}{2}",
                                 Path.GetDirectoryName(strDocFilename),
@@ -1229,256 +1253,243 @@ namespace SILConvertersWordML
             }
         }
 
-        internal static EncConverters GetEncConverters
-        {
-            get
-            {
-                try
-                {
-                    return DirectableEncConverter.EncConverters;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Can't access the repository because: " + ex.Message, cstrCaption);
-                }
-                return null;
-            }
-        }
+      
 
-        private void setDefaultConverterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
+        /*
+       private void setDefaultConverterToolStripMenuItem_Click(object sender, EventArgs e)
+       {
+           Cursor = Cursors.WaitCursor;
 
-            EncConverters aECs = GetEncConverters;
-            if (aECs != null)
-            {
-                IEncConverter aIEC = aECs.AutoSelectWithTitle(ConvType.Unknown, "Select Default Converter");
-                if (aIEC != null)
-                {
-                    DirectableEncConverter aEC = new DirectableEncConverter(aIEC);
-                    foreach (DataGridViewRow aRow in dataGridView.Rows)
-                    {
-                        string strFontStyle = (string)aRow.Cells[cnFontStyleColumn].Value;
-                        if (!IsConverterDefined(strFontStyle))
-                        {
-                            DefineConverter(strFontStyle, aEC);    // add it
-                            aRow.Cells[cnEncConverterColumn].Value = aEC.Name;
-                            aRow.Cells[cnEncConverterColumn].ToolTipText = aEC.ToString();
-                            string strInput = (string)aRow.Cells[cnExampleDataColumn].Value;
-                            aRow.Cells[cnExampleOutputColumn].Value = CallSafeConvert(aEC, strInput);
-                        }
-                    }
+           EncConverters aECs = GetEncConverters;
+           if (aECs != null)
+           {
+               IEncConverter aIEC = aECs.AutoSelectWithTitle(ConvType.Unknown, "Select Default Converter");
+               if (aIEC != null)
+               {
+                   DirectableEncConverter aEC = new DirectableEncConverter(aIEC);
+                   foreach (DataGridViewRow aRow in dataGridView.Rows)
+                   {
+                       string strFontStyle = (string)aRow.Cells[cnFontStyleColumn].Value;
+                       if (!IsConverterDefined(strFontStyle))
+                       {
+                           DefineConverter(strFontStyle, aEC);    // add it
+                           aRow.Cells[cnEncConverterColumn].Value = aEC.Name;
+                           aRow.Cells[cnEncConverterColumn].ToolTipText = aEC.ToString();
+                           string strInput = (string)aRow.Cells[cnExampleDataColumn].Value;
+                           aRow.Cells[cnExampleOutputColumn].Value = CallSafeConvert(aEC, strInput);
+                       }
+                   }
 
-                    // clear the last one selected so that a right-click can be used to cancel the selection
-                    m_aECLast = null;
-                }
-            }
+                   // clear the last one selected so that a right-click can be used to cancel the selection
+                   m_aECLast = null;
+               }
+           }
 
-            Cursor = Cursors.Default;
-        }
+           Cursor = Cursors.Default;
+       }
 
-        private void UpdateConverterNames()
-        {
-            foreach (DataGridViewRow aRow in dataGridView.Rows)
-            {
-                string strFontStyle = (string)aRow.Cells[cnFontStyleColumn].Value;
-                UpdateExampleDataColumns(aRow, (string)aRow.Cells[cnExampleDataColumn].Value);
-                UpdateConverterCellValue(aRow.Cells[cnEncConverterColumn], GetConverter(strFontStyle));
-                if (mapName2Font.ContainsKey(strFontStyle))
-                    UpdateTargetFontCellValue(aRow, mapName2Font[strFontStyle]);
-            }
-        }
+       private void UpdateConverterNames()
+       {
+           foreach (DataGridViewRow aRow in dataGridView.Rows)
+           {
+               string strFontStyle = (string)aRow.Cells[cnFontStyleColumn].Value;
+               UpdateExampleDataColumns(aRow, (string)aRow.Cells[cnExampleDataColumn].Value);
+               UpdateConverterCellValue(aRow.Cells[cnEncConverterColumn], GetConverter(strFontStyle));
+               if (mapName2Font.ContainsKey(strFontStyle))
+                   UpdateTargetFontCellValue(aRow, mapName2Font[strFontStyle]);
+           }
+       }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_mapEncConverters.Clear();
-            UpdateConverterNames();
-        }
+       private void newToolStripMenuItem_Click(object sender, EventArgs e)
+       {
+           m_mapEncConverters.Clear();
+           UpdateConverterNames();
+       }
 
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dlgSettings = new OpenFileDialog();
-            dlgSettings.DefaultExt = "fcm";
-            dlgSettings.InitialDirectory = Application.UserAppDataPath;
-            dlgSettings.Filter = "Font-Style Converter mapping files (*.fcm)|*.fcm|All files|*.*";
-            dlgSettings.RestoreDirectory = true;
+       private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+       {
+           OpenFileDialog dlgSettings = new OpenFileDialog();
+           dlgSettings.DefaultExt = "fcm";
+           dlgSettings.InitialDirectory = Application.UserAppDataPath;
+           dlgSettings.Filter = "Font-Style Converter mapping files (*.fcm)|*.fcm|All files|*.*";
+           dlgSettings.RestoreDirectory = true;
 
-            if (dlgSettings.ShowDialog() == DialogResult.OK)
-            {
-                LoadConverterMappingFile(dlgSettings.FileName);
-            }
-        }
+           if (dlgSettings.ShowDialog() == DialogResult.OK)
+           {
+               LoadConverterMappingFile(dlgSettings.FileName);
+           }
+       }
 
-        protected void LoadConverterMappingFile(string strFilename)
-        {
-            FileStream fs = new FileStream(strFilename, FileMode.Open);
+       protected void LoadConverterMappingFile(string strFilename)
+       {
+           FileStream fs = new FileStream(strFilename, FileMode.Open);
 
-            // Construct a SoapFormatter and use it 
-            // to serialize the data to the stream.
-            try
-            {
-                SoapFormatter formatter = new SoapFormatter();
-                formatter.Binder = new DirectableEncConverterDeserializationBinder();
-                formatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
-                Hashtable map = (Hashtable)formatter.Deserialize(fs);
-                foreach (string strKey in map.Keys)
-                {
-                    if (mapName2Font.ContainsKey(strKey))
-                        mapName2Font.Remove(strKey);
-                    mapName2Font.Add(strKey, (Font)map[strKey]);
-                }
+           // Construct a SoapFormatter and use it 
+           // to serialize the data to the stream.
+           try
+           {
+               SoapFormatter formatter = new SoapFormatter();
+               formatter.Binder = new DirectableEncConverterDeserializationBinder();
+               formatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+               Hashtable map = (Hashtable)formatter.Deserialize(fs);
+               foreach (string strKey in map.Keys)
+               {
+                   if (mapName2Font.ContainsKey(strKey))
+                       mapName2Font.Remove(strKey);
+                   mapName2Font.Add(strKey, (Font)map[strKey]);
+               }
 
-                m_mapEncConverters = (Hashtable)formatter.Deserialize(fs);
-                AddToConverterMappingRecentlyUsed(strFilename);
-            }
-            catch (SerializationException ex)
-            {
-                MessageBox.Show("Failed to open mapping file. Reason: " + ex.Message + Environment.NewLine + "Sorry... this must be from an incompatible version...", cstrCaption);
-                if (m_mapEncConverters == null)
-                    m_mapEncConverters = new Hashtable();   // the rest of the program doesn't like this to potentially be null
-            }
-            finally
-            {
-                fs.Close();
-            }
+               m_mapEncConverters = (Hashtable)formatter.Deserialize(fs);
+               AddToConverterMappingRecentlyUsed(strFilename);
+           }
+           catch (SerializationException ex)
+           {
+               MessageBox.Show("Failed to open mapping file. Reason: " + ex.Message + Environment.NewLine + "Sorry... this must be from an incompatible version...", cstrCaption);
+               if (m_mapEncConverters == null)
+                   m_mapEncConverters = new Hashtable();   // the rest of the program doesn't like this to potentially be null
+           }
+           finally
+           {
+               fs.Close();
+           }
 
-            if ((m_mapEncConverters != null) && (m_mapEncConverters.Count > 0))
-                UpdateConverterNames();
-        }
+           if ((m_mapEncConverters != null) && (m_mapEncConverters.Count > 0))
+               UpdateConverterNames();
+       }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog dlgSettings = new SaveFileDialog();
-            dlgSettings.DefaultExt = "fcm";
-            dlgSettings.FileName = "Font-Style Converter mapping1.fcm";
-            if (!Directory.Exists(Application.UserAppDataPath))
-                Directory.CreateDirectory(Application.UserAppDataPath);
-            dlgSettings.InitialDirectory = Application.UserAppDataPath;
-            dlgSettings.Filter = "Font-Style Converter mapping files (*.fcm)|*.fcm|All files|*.*";
-            dlgSettings.RestoreDirectory = true;
+       private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+       {
+           SaveFileDialog dlgSettings = new SaveFileDialog();
+           dlgSettings.DefaultExt = "fcm";
+           dlgSettings.FileName = "Font-Style Converter mapping1.fcm";
+           if (!Directory.Exists(Application.UserAppDataPath))
+               Directory.CreateDirectory(Application.UserAppDataPath);
+           dlgSettings.InitialDirectory = Application.UserAppDataPath;
+           dlgSettings.Filter = "Font-Style Converter mapping files (*.fcm)|*.fcm|All files|*.*";
+           dlgSettings.RestoreDirectory = true;
 
-            if (dlgSettings.ShowDialog() == DialogResult.OK)
-            {
-                // Construct a SoapFormatter and use it 
-                // to serialize the data to the stream.
-                FileStream fs = new FileStream(dlgSettings.FileName, FileMode.Create);
-                SoapFormatter formatter = new SoapFormatter();
-                try
-                {
-                    formatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+           if (dlgSettings.ShowDialog() == DialogResult.OK)
+           {
+               // Construct a SoapFormatter and use it 
+               // to serialize the data to the stream.
+               FileStream fs = new FileStream(dlgSettings.FileName, FileMode.Create);
+               SoapFormatter formatter = new SoapFormatter();
+               try
+               {
+                   formatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
 
-                    // save the (font/style) name to Font map (have to put it into a Hashtable, because we can't
-                    //  (yet) serialize generic types
-                    Hashtable map = new Hashtable();
-                    foreach (KeyValuePair<string, Font> kvp in mapName2Font)
-                        if (kvp.Value.Name != "Microsoft Sans Serif")
-                            map.Add(kvp.Key, kvp.Value);
+                   // save the (font/style) name to Font map (have to put it into a Hashtable, because we can't
+                   //  (yet) serialize generic types
+                   Hashtable map = new Hashtable();
+                   foreach (KeyValuePair<string, Font> kvp in mapName2Font)
+                       if (kvp.Value.Name != "Microsoft Sans Serif")
+                           map.Add(kvp.Key, kvp.Value);
 
-                    formatter.Serialize(fs, map);
-                    formatter.Serialize(fs, m_mapEncConverters);
-                    AddToConverterMappingRecentlyUsed(dlgSettings.FileName);
-                }
-                catch (SerializationException ex)
-                {
-                    MessageBox.Show("Failed to save! Reason: " + ex.Message, cstrCaption);
-                }
-                finally
-                {
-                    fs.Close();
-                }
-            }
-        }
+                   formatter.Serialize(fs, map);
+                   formatter.Serialize(fs, m_mapEncConverters);
+                   //AddToConverterMappingRecentlyUsed(dlgSettings.FileName);
+               }
+               catch (SerializationException ex)
+               {
+                   MessageBox.Show("Failed to save! Reason: " + ex.Message, cstrCaption);
+               }
+               finally
+               {
+                   fs.Close();
+               }
+           }
+       }
 
-        private void radioButtonFontsOnly_Click(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
-            PopulateGrid();
-            Cursor = Cursors.Default;
-        }
+       private void radioButtonFontsOnly_Click(object sender, EventArgs e)
+       {
+           Cursor = Cursors.WaitCursor;
+           PopulateGrid();
+           Cursor = Cursors.Default;
+       }
 
-        private void radioButtonStylesOnly_Click(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
-            PopulateGrid();
-            Cursor = Cursors.Default;
-        }
+       private void radioButtonStylesOnly_Click(object sender, EventArgs e)
+       {
+           Cursor = Cursors.WaitCursor;
+           PopulateGrid();
+           Cursor = Cursors.Default;
+       }
 
-        private void radioButtonEverything_Click(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
-            PopulateGrid();
-            Cursor = Cursors.Default;
-        }
+       private void radioButtonEverything_Click(object sender, EventArgs e)
+       {
+           Cursor = Cursors.WaitCursor;
+           PopulateGrid();
+           Cursor = Cursors.Default;
+       }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+       private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+       {
+           this.Close();
+       }
 
-        void recentFilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ToolStripDropDownItem aRecentFile = (ToolStripDropDownItem)sender;
-            try
-            {
-                Program.FileNames = new string[] { aRecentFile.Text };
-                Program.myTimer.Start();
-            }
-            catch (Exception ex)
-            {
-                // probably means the file doesn't exist anymore, so remove it from the recent used list
-                Properties.Settings.Default.RecentFiles.Remove(aRecentFile.Text);
-                MessageBox.Show(ex.Message, cstrCaption);
-            }
-        }
+       void recentFilesToolStripMenuItem_Click(object sender, EventArgs e)
+       {
+           ToolStripDropDownItem aRecentFile = (ToolStripDropDownItem)sender;
+           try
+           {
+               Program.FileNames = new string[] { aRecentFile.Text };
+               Program.myTimer.Start();
+           }
+           catch (Exception ex)
+           {
+               // probably means the file doesn't exist anymore, so remove it from the recent used list
+               Properties.Settings.Default.RecentFiles.Remove(aRecentFile.Text);
+               MessageBox.Show(ex.Message, cstrCaption);
+           }
+       }
 
-        void converterMapRecentFilesMenuItem_Click(object sender, EventArgs e)
-        {
-            ToolStripDropDownItem aRecentFile = (ToolStripDropDownItem)sender;
-            try
-            {
-                LoadConverterMappingFile(aRecentFile.Text);
-            }
-            catch (Exception ex)
-            {
-                // probably means the file doesn't exist anymore, so remove it from the recent used list
-                Properties.Settings.Default.ConverterMappingRecentFiles.Remove(aRecentFile.Text);
-                MessageBox.Show(ex.Message, cstrCaption);
-            }
-        }
+       void converterMapRecentFilesMenuItem_Click(object sender, EventArgs e)
+       {
+           ToolStripDropDownItem aRecentFile = (ToolStripDropDownItem)sender;
+           try
+           {
+               LoadConverterMappingFile(aRecentFile.Text);
+           }
+           catch (Exception ex)
+           {
+               // probably means the file doesn't exist anymore, so remove it from the recent used list
+               Properties.Settings.Default.ConverterMappingRecentFiles.Remove(aRecentFile.Text);
+               MessageBox.Show(ex.Message, cstrCaption);
+           }
+       }
 
-        private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            recentFilesToolStripMenuItem.DropDownItems.Clear();
-            foreach (string strRecentFile in Properties.Settings.Default.RecentFiles)
-                recentFilesToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentFilesToolStripMenuItem_Click);
+       private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+       {
+           recentFilesToolStripMenuItem.DropDownItems.Clear();
+           foreach (string strRecentFile in Properties.Settings.Default.RecentFiles)
+               recentFilesToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentFilesToolStripMenuItem_Click);
 
-            recentFilesToolStripMenuItem.Enabled = (recentFilesToolStripMenuItem.DropDownItems.Count > 0);
-        }
+           recentFilesToolStripMenuItem.Enabled = (recentFilesToolStripMenuItem.DropDownItems.Count > 0);
+       }
 
-        private void converterMappingsToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            recentToolStripMenuItem.DropDownItems.Clear();
-            foreach (string strRecentFile in Properties.Settings.Default.ConverterMappingRecentFiles)
-                recentToolStripMenuItem.DropDownItems.Add(strRecentFile, null, converterMapRecentFilesMenuItem_Click);
+       private void converterMappingsToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+       {
+           recentToolStripMenuItem.DropDownItems.Clear();
+           foreach (string strRecentFile in Properties.Settings.Default.ConverterMappingRecentFiles)
+               recentToolStripMenuItem.DropDownItems.Add(strRecentFile, null, converterMapRecentFilesMenuItem_Click);
 
-            recentToolStripMenuItem.Enabled = (recentToolStripMenuItem.DropDownItems.Count > 0);
-        }
+           recentToolStripMenuItem.Enabled = (recentToolStripMenuItem.DropDownItems.Count > 0);
+       }
 
-        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Program.myTimer.Start();
-        }
+       private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+       {
+           Program.myTimer.Start();
+       }
 
-        private void toolStripButtonSingleStep_CheckStateChanged(object sender, EventArgs e)
-        {
-            singlestepConversionToolStripMenuItem.Checked = ((ToolStripButton)sender).Checked;
-        }
+       private void toolStripButtonSingleStep_CheckStateChanged(object sender, EventArgs e)
+       {
+           singlestepConversionToolStripMenuItem.Checked = ((ToolStripButton)sender).Checked;
+       }
 
-        private void singlestepConversionToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
-        {
-            toolStripButtonSingleStep.Checked = ((ToolStripMenuItem)sender).Checked;
-        }
-
+       private void singlestepConversionToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+       {
+           toolStripButtonSingleStep.Checked = ((ToolStripMenuItem)sender).Checked;
+       }
+       */
         protected void BackupFile(FileInfo fiFrom, FileInfo fiTo)
         {
             Debug.Assert(fiFrom.Exists);
@@ -1533,6 +1544,7 @@ namespace SILConvertersWordML
             }
         }
 
+        /*
         private void autoSearchToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Reset();
@@ -1601,7 +1613,8 @@ namespace SILConvertersWordML
                 }
             }
         }
-
+        */
+        /*
         protected void SetSaveConvertToolTip(string strBackupPath, bool bConvertBackupFiles)
         {
             string str = (bConvertBackupFiles) ? "copied to the backup folder '{0}'" : "in their original locations after saving a backup copy in '{0}'";
@@ -1609,6 +1622,7 @@ namespace SILConvertersWordML
                 String.Format("Click to convert the Word document(s) {0}", String.Format(str, strBackupPath));
 
         }
+        */
 
         protected bool m_bAnnoyAboutReadonly = true;
 

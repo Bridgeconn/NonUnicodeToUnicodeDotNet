@@ -27,4 +27,3 @@ H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\S
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\SILConvertersOffice13.dll
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Extensibility.dll
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\bin\Debug\Extensibility.xml
-H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\ConsoleApplication1\obj\Debug\NonUnicodetoUnicodeTool.csprojResolveAssemblyReference.cache

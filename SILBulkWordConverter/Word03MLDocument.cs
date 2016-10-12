@@ -329,7 +329,7 @@ namespace SILConvertersWordML
 
         protected override string GetXmlFileSuffix
         {
-            get { return FontsStylesForm.cstrLeftXmlFileSuffixAfterXsltTransform; }
+            get { return ProcessManager.cstrLeftXmlFileSuffixAfterXsltTransform; }
         }
     }
 }

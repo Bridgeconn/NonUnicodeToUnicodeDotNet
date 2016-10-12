@@ -1,1 +1,2 @@
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\SILBulkWordConverter\obj\Debug\SILBulkWordConverter.csprojResolveAssemblyReference.cache
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\SILBulkWordConverter\obj\Debug\SILBulkWordConverter.csproj.ResolveComReference.cache
