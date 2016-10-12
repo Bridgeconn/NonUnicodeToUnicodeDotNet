@@ -74,7 +74,7 @@ namespace SILConvertersWordML
             //helpProvider.SetHelpString(this.dataGridView, Properties.Resources.dataGridViewHelp);
 
 #if DEBUG
-            //leaveXMLFileInFolderToolStripMenuItem.Checked = true;
+            //processRequest.LeaveXMLFileInFolder = true;
 #endif
         }
 
@@ -251,6 +251,9 @@ namespace SILConvertersWordML
 
         public int RowMaxHeight = 28;    // start with this
 
+
+        /*
+         * Configuration from the user
         protected void DisplayInGrid(string strName, DataIterator dataIterator)
         {
             string strTextSample = GetCurrentValue(dataIterator);
@@ -320,6 +323,7 @@ namespace SILConvertersWordML
             thisRow.Cells[cnExampleOutputColumn].Style.Font = fontTarget;
             thisRow.Height = RowMaxHeight;
         }
+        */
 
         /*
         // the creation of a Font can throw an exception if, for example, you try to construct one with
@@ -380,13 +384,13 @@ namespace SILConvertersWordML
         protected void Reset()
         {
             m_mapDocName2XmlDocument.Clear();
-            dataGridView.Rows.Clear();
+            //dataGridView.Rows.Clear();
             m_mapBackupNameToDocName.Clear();
 
             // initialize the tooltip for the convert and save button (assume that it'll be "save with new name")
             //  but override in the AutoSearch, which saves the files automatically either in-situ or in the backup folder
-            this.convertAndSaveDocumentsToolStripMenuItem.ToolTipText = this.toolStripButtonConvertAndSave.ToolTipText =
-                "Click to convert the opened Word document(s) and save them with a new name";
+            //this.convertAndSaveDocumentsToolStripMenuItem.ToolTipText = this.toolStripButtonConvertAndSave.ToolTipText =
+              //  "Click to convert the opened Word document(s) and save them with a new name";
         }
 
         // if the document is based on a SaveFormat from Office 2007, then use the Office2007 "FlatXML" format
@@ -441,14 +445,14 @@ namespace SILConvertersWordML
 
             SaveIntermediateXmlFile(ref strXmlFilename, cstrLeftXmlFileSuffixBefore,
                                     strDocFilename,
-                                    leaveXMLFileInFolderToolStripMenuItem.Checked, null);
+                                    processRequest.LeaveXMLFileInFolder, null);
 
-            var bUsingLinq = useLinqToolStripMenuItem.Checked;
+            var bUsingLinq = processRequest.UseLinqConversion;
             var doc = bUsingLinq
                           ? WordLinqDocument.GetXmlDocument(ref strXmlFilename, strDocFilename,
-                                                            leaveXMLFileInFolderToolStripMenuItem.Checked)
+                                                            processRequest.LeaveXMLFileInFolder)
                           : Word03MLDocument.GetXmlDocument(ref strXmlFilename, strDocFilename,
-                                                            leaveXMLFileInFolderToolStripMenuItem.Checked);
+                                                            processRequest.LeaveXMLFileInFolder);
 
             return doc;
         }
@@ -698,7 +702,7 @@ namespace SILConvertersWordML
             try
             {
                 // at least *try* to clean up the temp files
-                if (!leaveXMLFileInFolderToolStripMenuItem.Checked)
+                if (!processRequest.LeaveXMLFileInFolder)
                     File.Delete(strXmlFilename);
             }
             catch { }
@@ -887,16 +891,13 @@ namespace SILConvertersWordML
             }
         }
 
-        public bool ConvertDoc(string strFontStyleName, DataIterator dataIteratorFontStyleText,
-            string strLhsFont, Font fontApply, bool bConvertCharValue)
+        public bool ConvertDoc(string strFontStyleName, DataIterator dataIteratorFontStyleText, string strLhsFont, bool bConvertCharValue)
         {
             bool bModified = false;
             if (IsConverterDefined(strFontStyleName))
             {
                 var aEC = GetConverter(strFontStyleName);
-                var fontLhs = CreateFontSafe(strLhsFont);
-                bModified = SetValues(dataIteratorFontStyleText, strFontStyleName, aEC,
-                    fontLhs, fontApply, bConvertCharValue);
+                bModified = SetValues(dataIteratorFontStyleText, strFontStyleName, aEC, bConvertCharValue);
             }
             return bModified;
         }
@@ -958,13 +959,8 @@ namespace SILConvertersWordML
         }
 
         protected bool SetValues(DataIterator dataIterator, string strFontStyleName,
-            DirectableEncConverter aEC, Font fontLhs, Font fontRhs, bool bConvertCharValue)
+            DirectableEncConverter aEC, bool bConvertCharValue)
         {
-            BaseConverterForm dlg = null;
-            if (SingleStep)
-                dlg = new BaseConverterForm(aEC, fontLhs, fontRhs, m_strCurrentDocument);
-
-            FormButtons res = FormButtons.Replace;  // default behavior
             bool bModified = false, bContinue = true;
             string strReplacementCharacter = (aEC.IsRhsLegacy) ? "?" : "\ufffd";
             do
@@ -987,9 +983,9 @@ namespace SILConvertersWordML
                     if (strWithoutErrors.Length < (strOutput.Length * cfMinErrorDetectPercentage))
                     {
                         bShowPotentialError = true;
-                        if (dlg == null)
-                            dlg = new BaseConverterForm(aEC, fontLhs, fontRhs, m_strCurrentDocument);
-                        dlg.Text = "Potential error detected: " + dlg.Text;
+                        //if (dlg == null)
+                        //    dlg = new BaseConverterForm(aEC, fontLhs, fontRhs, m_strCurrentDocument);
+                        //dlg.Text = "Potential error detected: " + dlg.Text;
                     }
                 }
 
@@ -1005,33 +1001,19 @@ namespace SILConvertersWordML
                 */
 
                 // show user this one 
-                if (((res != FormButtons.ReplaceAll)
-                        && SingleStep
-                        && (!dlg.SkipIdenticalValues || (strInput != strOutput))
-                        )
-                    || bShowPotentialError)
-                {
-                    res = dlg.Show(strInput, strOutput);
-                    strOutput = dlg.ForwardString;  // just in case the user re-typed it
-                }
+                //if (((res != FormButtons.ReplaceAll)
+                //        && SingleStep
+                //        && (!dlg.SkipIdenticalValues || (strInput != strOutput))
+                //        )
+                //    || bShowPotentialError)
+                //{
+                //    res = dlg.Show(strInput, strOutput);
+                //    strOutput = dlg.ForwardString;  // just in case the user re-typed it // TOBECHECKED??
+                //}
 
-                if ((res == FormButtons.Replace) || (res == FormButtons.ReplaceAll))
-                {
-                    dataIterator.SetCurrentValue(strOutput);
-                    bModified = true;
-                }
-                else if (res == FormButtons.Cancel)
-                {
-                    DialogResult dres = MessageBox.Show("If you have converted some of the document already, then cancelling now will leave your document in an unuseable state (unless you are doing 'spell fixing' or something which doesn't change the encoding). Click 'Yes' to confirm the cancellation or 'No' to continue with the conversion.", cstrCaption, MessageBoxButtons.YesNo);
-                    if (dres == DialogResult.Yes)
-                        throw new ApplicationException("User cancelled");
-                    continue;
-                }
-                else
-                {
-                    Debug.Assert(res == FormButtons.Next);
-                    res = FormButtons.Replace;  // reset for next time.
-                }
+
+                dataIterator.SetCurrentValue(strOutput);
+                bModified = true;
 
                 // don't put this in the while look in case the above 'continue' is executed (which will cause
                 //  us to repeat the last word again)

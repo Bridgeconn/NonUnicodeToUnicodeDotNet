@@ -643,7 +643,7 @@ namespace SILConvertersWordML
             return bModified;
         }
 
-        public override bool ConvertDocumentByFontNameOnly(Dictionary<string, Font> mapName2Font, Func<string, DataIterator, string, Font, bool, bool> convertDoc)
+        public override bool ConvertDocumentByFontNameOnly(Dictionary<string, Font> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc)
         {
             // MapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
             //  only one doc, then we're done. But if there's more than one doc, then we have to treat each 
@@ -663,7 +663,7 @@ namespace SILConvertersWordML
                 Font fontTarget = mapName2Font[strFontName];
 
                 bModified |= convertDoc(strFontName, MyMapIteratorList.MapFontNames2Iterator[strFontName],
-                                        strFontName, fontTarget, false);
+                                        strFontName, false);
 
                 // update the font name as well
                 if (strFontName != fontTarget.Name)
@@ -676,7 +676,7 @@ namespace SILConvertersWordML
                 Font fontTarget = mapName2Font[strFontName];
 
                 bModified |= convertDoc(strFontName, MyMapIteratorList.MapSymbolFontNames2Iterator[strFontName],
-                                        strFontName, fontTarget, false);
+                                        strFontName, false);
 
                 // update the font name as well
                 if (strFontName != fontTarget.Name)

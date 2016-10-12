@@ -15,6 +15,7 @@ namespace SILConvertersWordML
         string[] inputFiles;
         string[] outputFiles;
         bool leaveXMLFileInFolder;
+        bool useLinqConversion;
         ConversionElements conversionElements;
 
         public ProcessRequest(string[] inputFiles, bool leaveXMLFileInFolder = false)
@@ -63,6 +64,14 @@ namespace SILConvertersWordML
             set
             {
                 conversionElements = value;
+            }
+        }
+
+        public bool UseLinqConversion
+        {
+            get
+            {
+                return useLinqConversion;
             }
         }
     }
