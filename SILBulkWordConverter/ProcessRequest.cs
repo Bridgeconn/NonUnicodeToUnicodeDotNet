@@ -16,6 +16,8 @@ namespace SILConvertersWordML
         string[] outputFiles;
         bool leaveXMLFileInFolder;
         bool useLinqConversion;
+        bool singleStep;
+
         ConversionElements conversionElements;
 
         public ProcessRequest(string[] inputFiles, bool leaveXMLFileInFolder = false)
@@ -72,6 +74,14 @@ namespace SILConvertersWordML
             get
             {
                 return useLinqConversion;
+            }
+        }
+
+        public bool SingleStep
+        {
+            get
+            {
+                return singleStep;
             }
         }
     }

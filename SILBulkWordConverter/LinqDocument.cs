@@ -55,8 +55,8 @@ namespace SILConvertersWordML
             get { return ProcessManager.cstrLeftXmlFileSuffixAfterLinqTransform; }
         }
 
-        public override bool ConvertDocumentByFontNameAndStyle(Dictionary<string, Font> mapName2Font,
-                                                               Func<string, DataIterator, string, Font, bool, bool> convertDoc)
+        public override bool ConvertDocumentByFontNameAndStyle(Dictionary<string, string> mapName2Font,
+                                                               Func<string, DataIterator, string, bool, bool> convertDoc)
         {
             // mapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
             //  only one doc, then it's already loaded. But if there's more than one doc, then we have to treat each 
@@ -73,34 +73,34 @@ namespace SILConvertersWordML
             foreach (var strFontName in map2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontName));
-                var fontTarget = mapName2Font[strFontName];
+                var fontTargetName = mapName2Font[strFontName];
 
                 var mapItem = map2Iterator.FirstOrDefault(kvp => kvp.Key == strFontName);
-                bModified |= convertDoc(strFontName, mapItem.Value, strFontName, fontTarget, false);
+                bModified |= convertDoc(strFontName, mapItem.Value, strFontName, false);
 
                 // update the font name as well if it changed...
-                if (strFontName == fontTarget.Name)
+                if (strFontName == fontTargetName)
                     continue;
 
-                ReplaceCustomFontName(mapItem, fontTarget.Name);
-                ReplaceFontElementNames(strFontName, fontTarget.Name);
+                ReplaceCustomFontName(mapItem, fontTargetName);
+                ReplaceFontElementNames(strFontName, fontTargetName);
             }
 
             map2Iterator = MyMapIteratorList.MapStyleFontName2Iterator;
             foreach (var strFontName in map2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontName));
-                var fontTarget = mapName2Font[strFontName];
+                var fontTargetName = mapName2Font[strFontName];
 
                 var mapItem = map2Iterator.FirstOrDefault(kvp => kvp.Key == strFontName);
-                bModified |= convertDoc(strFontName, mapItem.Value, strFontName, fontTarget, false);
+                bModified |= convertDoc(strFontName, mapItem.Value, strFontName, false);
 
                 // update the font name as well if it changed...
-                if (strFontName == fontTarget.Name)
+                if (strFontName == fontTargetName)
                     continue;
 
-                ReplaceStyleFontName(mapItem, fontTarget.Name);
-                ReplaceFontElementNames(strFontName, fontTarget.Name);
+                ReplaceStyleFontName(mapItem, fontTargetName);
+                ReplaceFontElementNames(strFontName, fontTargetName);
             }
             return bModified;
         }
@@ -178,8 +178,8 @@ namespace SILConvertersWordML
                 attr.Value = strNewValue;
         }
 
-        public override bool ConvertDocumentByStylesOnly(Dictionary<string, Font> mapName2Font,
-                                                         Func<string, DataIterator, string, Font, bool, bool> convertDoc)
+        public override bool ConvertDocumentByStylesOnly(Dictionary<string, string> mapName2Font,
+                                                         Func<string, DataIterator, string, bool, bool> convertDoc)
         {
             // mapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
             //  only one doc, then it's already loaded. But if there's more than one doc, then we have to treat each 
@@ -196,23 +196,23 @@ namespace SILConvertersWordML
                                                    .Where(sn => Program.m_aForm.IsConverterDefined(sn)))
             {
                 Debug.Assert(mapName2Font.ContainsKey(strStyleId));
-                var fontTarget = mapName2Font[strStyleId];
+                var fontTargetName = mapName2Font[strStyleId];
 
                 var mapItem = map2Iterator.FirstOrDefault(kvp => kvp.Key == strStyleId);
-                bModified |= convertDoc(strStyleId, mapItem.Value, strStyleId, fontTarget, false);
+                bModified |= convertDoc(strStyleId, mapItem.Value, strStyleId, false);
 
                 // update the font name as well if it changed...
-                if (Styles[strStyleId].FontNames.Contains(fontTarget.Name))
+                if (Styles[strStyleId].FontNames.Contains(fontTargetName))
                     continue;
 
-                ReplaceStyleFontName(mapItem, fontTarget.Name);
+                ReplaceStyleFontName(mapItem, fontTargetName);
             }
 
             return bModified;
         }
 
-        public override bool ConvertDocumentByFontNameOnly(Dictionary<string, Font> mapName2Font,
-                                                           Func<string, DataIterator, string, Font, bool, bool>
+        public override bool ConvertDocumentByFontNameOnly(Dictionary<string, string> mapName2Font,
+                                                           Func<string, DataIterator, string,  bool, bool>
                                                                convertDoc)
         {
             // mapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
@@ -229,17 +229,17 @@ namespace SILConvertersWordML
             foreach (var strFontName in map2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontName));
-                var fontTarget = mapName2Font[strFontName];
+                var fontTargetName = mapName2Font[strFontName];
 
                 var mapItem = map2Iterator.FirstOrDefault(kvp => kvp.Key == strFontName);
-                bModified |= convertDoc(strFontName, mapItem.Value, strFontName, fontTarget, false);
+                bModified |= convertDoc(strFontName, mapItem.Value, strFontName, false);
 
                 // update the font name as well if it changed...
-                if (strFontName == fontTarget.Name)
+                if (strFontName == fontTargetName)
                     continue;
 
-                ReplaceCustomFontName(mapItem, fontTarget.Name);
-                ReplaceFontElementNames(strFontName, fontTarget.Name);
+                ReplaceCustomFontName(mapItem, fontTargetName);
+                ReplaceFontElementNames(strFontName, fontTargetName);
             }
 
             return bModified;

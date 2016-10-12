@@ -529,7 +529,7 @@ namespace SILConvertersWordML
             get { return MapIteratorList as MapIteratorListXPath; }
         }
 
-        public override bool ConvertDocumentByFontNameAndStyle(Dictionary<string, Font> mapName2Font, Func<string, DataIterator, string, Font, bool, bool> convertDoc)
+        public override bool ConvertDocumentByFontNameAndStyle(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc)
         {
             // mapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
             //  only one doc, then it's already loaded. But if there's more than one doc, then we have to treat each 
@@ -549,67 +549,67 @@ namespace SILConvertersWordML
             foreach (string strFontName in MyMapIteratorList.MapFontNames2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontName));
-                Font fontTarget = mapName2Font[strFontName];
+                string fontTargetName = mapName2Font[strFontName];
 
                 bModified |= convertDoc(strFontName, MyMapIteratorList.MapFontNames2Iterator[strFontName],
-                                        strFontName, fontTarget, false);
+                                        strFontName, false);
 
                 // update the font name as well
-                if (strFontName != fontTarget.Name)
-                    ReplaceTextFontNameGetFontText(strFontName, fontTarget.Name);
+                if (strFontName != fontTargetName)
+                    ReplaceTextFontNameGetFontText(strFontName, fontTargetName);
             }
 
             foreach (string strFontName in MyMapIteratorList.MapSymbolFontNames2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontName));
-                Font fontTarget = mapName2Font[strFontName];
+                string fontTargetName = mapName2Font[strFontName];
 
                 bModified |= convertDoc(strFontName, MyMapIteratorList.MapSymbolFontNames2Iterator[strFontName],
-                                        strFontName, fontTarget, true);
+                                        strFontName, true);
 
                 // update the font name as well
-                if (strFontName != fontTarget.Name)
-                    ReplaceSymbolTextFontNameGetFontText(strFontName, fontTarget.Name);
+                if (strFontName != fontTargetName)
+                    ReplaceSymbolTextFontNameGetFontText(strFontName, fontTargetName);
             }
 
             foreach (string strFontNameOfStyle in MyMapIteratorList.MapDefStyleFontNames2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontNameOfStyle));
-                Font fontTarget = mapName2Font[strFontNameOfStyle];
+                string fontTargetName = mapName2Font[strFontNameOfStyle];
 
                 bModified |= convertDoc(strFontNameOfStyle, MyMapIteratorList.MapDefStyleFontNames2Iterator[strFontNameOfStyle],
-                                        strFontNameOfStyle, fontTarget, false);
+                                        strFontNameOfStyle, false);
             }
 
             foreach (string strFontNameOfStyle in MyMapIteratorList.MapPStyleFontNames2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontNameOfStyle));
-                Font fontTarget = mapName2Font[strFontNameOfStyle];
+                string fontTargetName = mapName2Font[strFontNameOfStyle];
 
                 bModified |= convertDoc(strFontNameOfStyle, MyMapIteratorList.MapPStyleFontNames2Iterator[strFontNameOfStyle],
-                                        strFontNameOfStyle, fontTarget, false);
+                                        strFontNameOfStyle, false);
 
                 // update the font name as well
-                if (strFontNameOfStyle != fontTarget.Name)
-                    ReplaceTextFontNameGetPStyleFontText(strFontNameOfStyle, fontTarget.Name);
+                if (strFontNameOfStyle != fontTargetName)
+                    ReplaceTextFontNameGetPStyleFontText(strFontNameOfStyle, fontTargetName);
             }
 
             foreach (string strFontNameOfStyle in MyMapIteratorList.MapCStyleFontNames2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontNameOfStyle));
-                Font fontTarget = mapName2Font[strFontNameOfStyle];
+                string fontTargetName = mapName2Font[strFontNameOfStyle];
 
                 bModified |= convertDoc(strFontNameOfStyle, MyMapIteratorList.MapCStyleFontNames2Iterator[strFontNameOfStyle],
-                                        strFontNameOfStyle, fontTarget, false);
+                                        strFontNameOfStyle, false);
 
                 // update the font name as well
-                if (strFontNameOfStyle != fontTarget.Name)
-                    ReplaceTextFontNameGetCStyleFontText(strFontNameOfStyle, fontTarget.Name);
+                if (strFontNameOfStyle != fontTargetName)
+                    ReplaceTextFontNameGetCStyleFontText(strFontNameOfStyle, fontTargetName);
             }
             return bModified;
         }
 
-        public override bool ConvertDocumentByStylesOnly(Dictionary<string, Font> mapName2Font, Func<string, DataIterator, string, Font, bool, bool> convertDoc)
+        public override bool ConvertDocumentByStylesOnly(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc)
         {
             // MapStyleId2Iterator, has one iterator for each unique style (across all docs). If there's
             //  only one doc, then we're done. But if there's more than one doc, then we have to treat each 
@@ -629,21 +629,21 @@ namespace SILConvertersWordML
 
                     Debug.Assert(mapName2Font.ContainsKey(strStyleName));
                     Debug.Assert(MapStyleName2FontName.ContainsKey(strStyleName));
-                    Font fontTarget = mapName2Font[strStyleName];
+                    string fontTargetName = mapName2Font[strStyleName];
                     string strOrigFont = MapStyleName2FontName[strStyleName];
 
                     bModified |= convertDoc(strStyleName, MyMapIteratorList.MapStyleId2Iterator[strStyleId],
-                                            strOrigFont, fontTarget, false);
+                                            strOrigFont, false);
 
                     // update the font name as well
-                    if (strOrigFont != fontTarget.Name)
-                        ReplaceTextFontNameGetStyleText(strStyleName, fontTarget.Name);
+                    if (strOrigFont != fontTargetName)
+                        ReplaceTextFontNameGetStyleText(strStyleName, fontTargetName);
                 }
             }
             return bModified;
         }
 
-        public override bool ConvertDocumentByFontNameOnly(Dictionary<string, Font> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc)
+        public override bool ConvertDocumentByFontNameOnly(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc)
         {
             // MapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
             //  only one doc, then we're done. But if there's more than one doc, then we have to treat each 
@@ -660,27 +660,27 @@ namespace SILConvertersWordML
             foreach (string strFontName in MyMapIteratorList.MapFontNames2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontName));
-                Font fontTarget = mapName2Font[strFontName];
+                string fontTargetName = mapName2Font[strFontName];
 
                 bModified |= convertDoc(strFontName, MyMapIteratorList.MapFontNames2Iterator[strFontName],
                                         strFontName, false);
 
                 // update the font name as well
-                if (strFontName != fontTarget.Name)
-                    ReplaceTextFontNameGetFontText(strFontName, fontTarget.Name);
+                if (strFontName != fontTargetName)
+                    ReplaceTextFontNameGetFontText(strFontName, fontTargetName);
             }
 
             foreach (string strFontName in MyMapIteratorList.MapSymbolFontNames2Iterator.Keys)
             {
                 Debug.Assert(mapName2Font.ContainsKey(strFontName));
-                Font fontTarget = mapName2Font[strFontName];
+                string fontTargetName = mapName2Font[strFontName];
 
                 bModified |= convertDoc(strFontName, MyMapIteratorList.MapSymbolFontNames2Iterator[strFontName],
                                         strFontName, false);
 
                 // update the font name as well
-                if (strFontName != fontTarget.Name)
-                    ReplaceSymbolTextFontNameGetFontText(strFontName, fontTarget.Name);
+                if (strFontName != fontTargetName)
+                    ReplaceSymbolTextFontNameGetFontText(strFontName, fontTargetName);
             }
             return bModified;
         }

@@ -46,7 +46,8 @@ namespace SILConvertersWordML
 
         protected Hashtable m_mapEncConverters = new Hashtable();
 
-        public Dictionary<string, Font> mapName2Font = new Dictionary<string, Font>();
+        // Source font and target font
+        public Dictionary<string, string> mapName2Font = new Dictionary<string, string>();
 
         protected DirectableEncConverter m_aECLast = null;
         protected Font m_aFontLast = null;
@@ -200,12 +201,14 @@ namespace SILConvertersWordML
             }
         }
 
+        /*
         protected void UpdateTargetFontCellValue(DataGridViewRow theRow, Font fontTarget)
         {
             theRow.Cells[cnTargetFontColumn].Value = fontTarget.Name;
             theRow.Cells[cnExampleOutputColumn].Style.Font = fontTarget;
             RowMaxHeight = Math.Max(RowMaxHeight, fontTarget.Height);
         }
+        */
 
         protected string GetCurrentValue(DataIterator dataIterator)
         {
@@ -233,7 +236,7 @@ namespace SILConvertersWordML
                 // get the Fonts and Styles out of the xml doc
                 GetTextIteratorListStyleOnly(ref lstInGrid);
             }
-            else if ((processRequest.ConversionElements == ConversionElements.FontsAlone)
+            else if ((processRequest.ConversionElements == ConversionElements.FontsAlone))
             {
                 //ColumnFont.HeaderText = "Font";
                 //ColumnTargetFont.HeaderText = "Apply Font";
@@ -805,7 +808,7 @@ namespace SILConvertersWordML
                             {
                                 // then no need to query for the name -- just use the bits we figured out from before
                                 var strOutputFilenameOrig = strFilenamePath + strFilenamePrefix + strFileTitle + strFilenameSuffix + strExtn;
-                                saveFileDialog.FileName = strOutputFilenameOrig;
+                                //saveFileDialog.FileName = strOutputFilenameOrig; TBD
                                 strNewSaveFileSpecLowerCase = strOutputFilenameOrig.ToLower();
                             }
                             else
@@ -814,11 +817,11 @@ namespace SILConvertersWordML
                                 var strOutputFilenameOrig = strFilenamePath + strFilenamePrefix + strFileTitle +
                                                                strFilenameSuffix; //  +strExtn;
 
-                                saveFileDialog.FileName = strOutputFilenameOrig;
+                                //saveFileDialog.FileName = strOutputFilenameOrig;TBD
 
-                                DialogResult res = this.saveFileDialog.ShowDialog();
-                                strNewSaveFileSpecLowerCase = saveFileDialog.FileName.ToLower();
-                                if (res == DialogResult.Cancel)
+                                //DialogResult res = this.saveFileDialog.ShowDialog();TBD
+                                //strNewSaveFileSpecLowerCase = saveFileDialog.FileName.ToLower();TBD
+                                /*if (res == DialogResult.Cancel)
                                 {
                                     UpdateStatusBar(
                                         "Do not click 'File', 'Convert and Save' again or you may convert the document twice! Press F5 to reload the files from scratch.");
@@ -826,9 +829,10 @@ namespace SILConvertersWordML
                                 }
                                 else if ((res == DialogResult.OK) && (strNewSaveFileSpecLowerCase == strOrigFileSpecLowerCase))
                                     MessageBox.Show("Sorry, you cannot save this file with the same name", cstrCaption);
+                                    */
                             }
-                        } while (strNewSaveFileSpecLowerCase == strOrigFileSpecLowerCase);
-                        strNewSaveFileSpec = saveFileDialog.FileName;
+                        } while (true/*strNewSaveFileSpecLowerCase == strOrigFileSpecLowerCase*/); // TBD
+                        //strNewSaveFileSpec = saveFileDialog.FileName; TBD
                     }
 
                     string strOutputFilenameNew = strNewSaveFileSpec;
@@ -1028,18 +1032,18 @@ namespace SILConvertersWordML
         {
             get
             {
-                bool b = (toolStripButtonSingleStep.Checked || singlestepConversionToolStripMenuItem.Checked);
+                bool b = (processRequest.SingleStep);
                 return b;
             }
             set
             {
-                toolStripButtonSingleStep.Checked = singlestepConversionToolStripMenuItem.Checked = value;
+                //processRequest.SingleStep = value; TBD
             }
         }
 
         public void UpdateStatusBar(string strMessage)
         {
-            textBoxStatus.Text = strMessage;
+            //textBoxStatus.Text = strMessage;
             Application.DoEvents();
         }
 
@@ -1053,7 +1057,7 @@ namespace SILConvertersWordML
         public void UpdateStatusBarDocNamePlusTwo(string strFormat, string strParam1, string strParam2)
         {
             string strMessage = String.Format(strFormat, m_strCurrentDocument, strParam1, strParam2);
-            textBoxStatus.Text = strMessage;
+            //textBoxStatus.Text = strMessage; TBD
             Application.DoEvents();
         }
 
@@ -1153,6 +1157,7 @@ namespace SILConvertersWordML
             }
         }
 
+        /*
         private void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             int nColumnIndex = e.ColumnIndex;
@@ -1234,10 +1239,7 @@ namespace SILConvertersWordML
                     break;
             }
         }
-
-      
-
-        /*
+        
        private void setDefaultConverterToolStripMenuItem_Click(object sender, EventArgs e)
        {
            Cursor = Cursors.WaitCursor;
