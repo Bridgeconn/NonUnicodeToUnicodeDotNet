@@ -21,7 +21,12 @@ using System.Diagnostics;							// for Process
 
 namespace SILConvertersWordML
 {
-    public partial class FontsStylesForm : Form
+    /*
+     *  Each conversion request will have one new ProcessManager attached to it.
+     *  The conversion request could be made for one or more files.
+     *  This has one new ProcessMessenger attached to it, which listens to internal messages and notify to the provided ILogger object. 
+     */
+    public partial class ProcessManager : Form
     {
         public const string cstrCaption = "SILConverters for Word Documents";
         protected const string cstrClickMsg = "Select a converter";
