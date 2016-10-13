@@ -284,7 +284,7 @@ namespace SILConvertersWordML
             //  don't want them to be separate runs or we won't convert them as a
             //  block. And if we don't convert them as a block, then context effects
             //  (e.g. Greek final sigma) won't behave properly.
-            string strXSLT = Properties.Resources.MergeSingleCharacterRunsWordML;
+            string strXSLT = SILBulkWordConverter.Properties.Resources.MergeSingleCharacterRunsWordML;
             MemoryStream streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXSLT));
 #if DEBUG
             long lStartTime = DateTime.Now.Ticks;

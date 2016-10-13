@@ -15,7 +15,7 @@ using System.Xml.XPath;
 using ECInterfaces;
 using SilEncConverters40;
 using System.Runtime.Serialization;                 // for SerializationException
-using System.Runtime.Serialization.Formatters.Soap; // for soap formatter
+//using System.Runtime.Serialization.Formatters.Soap; // for soap formatter
 using System.Runtime.InteropServices;               // for Marshal
 using System.Diagnostics;							// for Process
 
@@ -50,7 +50,7 @@ namespace SILConvertersWordML
         public Dictionary<string, string> mapName2Font = new Dictionary<string, string>();
 
         protected DirectableEncConverter m_aECLast = null;
-        protected Font m_aFontLast = null;
+        //protected Font m_aFontLast = null;
 
         const int cnFontStyleColumn = 0;
         const int cnExampleDataColumn = 1;
@@ -254,6 +254,10 @@ namespace SILConvertersWordML
 
         public int RowMaxHeight = 28;    // start with this
 
+        // TBD show to the user in expert-user-mode
+        protected void DisplayInGrid(string strName, DataIterator dataIterator)
+        {
+        }
 
         /*
          * Configuration from the user
@@ -328,47 +332,47 @@ namespace SILConvertersWordML
         }
         */
 
-        /*
-        // the creation of a Font can throw an exception if, for example, you try to construct one with
-        //  the default style 'Regular' when the font itself doesn't have a Regular style. So this method
-        //  can be called to create one and it'll try different styles if it fails.
-        protected Font CreateFontSafe(string strFontName)
-        {
-            Font font = null;
-            try
+            /*
+            // the creation of a Font can throw an exception if, for example, you try to construct one with
+            //  the default style 'Regular' when the font itself doesn't have a Regular style. So this method
+            //  can be called to create one and it'll try different styles if it fails.
+            protected Font CreateFontSafe(string strFontName)
             {
-                font = new Font(strFontName, cnDefaultFontSize);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message.IndexOf("' does not support style '") != -1)
+                Font font = null;
+                try
                 {
-                    try
+                    font = new Font(strFontName, cnDefaultFontSize);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.IndexOf("' does not support style '") != -1)
                     {
-                        font = new Font(strFontName, cnDefaultFontSize, FontStyle.Bold);
-                    }
-                    catch
-                    {
-                        if (ex.Message.IndexOf("' does not support style '") != -1)
+                        try
                         {
-                            try
+                            font = new Font(strFontName, cnDefaultFontSize, FontStyle.Bold);
+                        }
+                        catch
+                        {
+                            if (ex.Message.IndexOf("' does not support style '") != -1)
                             {
-                                font = new Font(strFontName, cnDefaultFontSize, FontStyle.Italic);
+                                try
+                                {
+                                    font = new Font(strFontName, cnDefaultFontSize, FontStyle.Italic);
+                                }
+                                catch { }
                             }
-                            catch { }
                         }
                     }
                 }
-            }
-            finally
-            {
-                if (font == null)
-                    font = dataGridView.Font;
-            }
+                finally
+                {
+                    if (font == null)
+                        font = dataGridView.Font;
+                }
 
-            return font;
-        }
-        */
+                return font;
+            }
+            */
 
         protected string CallSafeConvert(DirectableEncConverter aEC, string strInput)
         {
@@ -1050,7 +1054,7 @@ namespace SILConvertersWordML
         public void UpdateStatusBarDocNamePlusOne(string strFormat, string strParam)
         {
             string strMessage = String.Format(strFormat, m_strCurrentDocument, strParam);
-            textBoxStatus.Text = strMessage;
+            //textBoxStatus.Text = strMessage;
             Application.DoEvents();
         }
 
@@ -1732,9 +1736,9 @@ namespace SILConvertersWordML
             {
                 Debug.Assert(doc.MapStyleName2FontName.ContainsKey(strStyleName));
                 string strFontName = doc.MapStyleName2FontName[strStyleName];
-                Font font = CreateFontSafe(strFontName);
-                mapName2Font.Add(strStyleName, font);
-                RowMaxHeight = Math.Max(RowMaxHeight, font.Height);
+                //Font font = CreateFontSafe(strFontName); TBD
+                mapName2Font.Add(strStyleName, strStyleName);
+                //RowMaxHeight = Math.Max(RowMaxHeight, font.Height);
             }
         }
     }
