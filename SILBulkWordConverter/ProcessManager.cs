@@ -72,19 +72,21 @@ namespace SILConvertersWordML
             this.processRequest = processRequest;
 
             // TBD process_ID needs to be generated based on the processrequest
-
             this.processMessenger = new ProcessMessenger(processRequest.Logger);
 
             // Decisions are made on behalf of the user - inputs & gets the final output , perhaps a logging mechanism
             if (processRequest.ConversionMode == ConversionMode.BasicUserMode)
             {
                 OpenDocuments(processRequest.InputFiles);
+                ChooseConverters();
                 convertAndSaveDocuments();
             }
             else // user determines which converters need to be used - GUI interaction
             {
                 OpenDocuments(processRequest.InputFiles);
+
                 // GUI interaction for choice of converters
+                PopulateGrid(); // To & fro interaction is via ProcessRequest object with a flag for final conversion confirmation
 
                 // On final confirmation the below call is made
                 convertAndSaveDocuments();
@@ -120,6 +122,11 @@ namespace SILConvertersWordML
               convertAndSaveDocumentsToolStripMenuItem.Enabled = this.toolStripButtonConvertAndSave.Enabled =
                 singlestepConversionToolStripMenuItem.Enabled = toolStripButtonSingleStep.Enabled =
                 reloadToolStripMenuItem.Enabled = this.toolStripButtonRefresh.Enabled = true;*/
+        }
+
+        public void ChooseConverters()
+        {
+            // For the fonts, the available converters are mapped for conversion.
         }
 
         /*
