@@ -19,6 +19,7 @@ namespace SILConvertersWordML
         bool singleStep;
 
         ConversionElements conversionElements;
+        ConversionMode conversionMode;
         ILogger logger;
 
         public ProcessRequest(string[] inputFiles, ILogger logger, bool leaveXMLFileInFolder = false)
@@ -64,10 +65,13 @@ namespace SILConvertersWordML
             {
                 return conversionElements;
             }
+        }
 
-            set
+        public ConversionMode ConversionMode
+        {
+            get
             {
-                conversionElements = value;
+                return conversionMode;
             }
         }
 

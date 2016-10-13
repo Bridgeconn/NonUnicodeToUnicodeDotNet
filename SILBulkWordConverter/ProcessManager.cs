@@ -71,8 +71,24 @@ namespace SILConvertersWordML
         {
             this.processRequest = processRequest;
 
-            this.processMessenger = new ProcessMessenger(processRequest.Logger);
             // TBD process_ID needs to be generated based on the processrequest
+
+            this.processMessenger = new ProcessMessenger(processRequest.Logger);
+
+            // Decisions are made on behalf of the user - inputs & gets the final output , perhaps a logging mechanism
+            if (processRequest.ConversionMode == ConversionMode.BasicUserMode)
+            {
+                OpenDocuments(processRequest.InputFiles);
+                convertAndSaveDocuments();
+            }
+            else // user determines which converters need to be used - GUI interaction
+            {
+                OpenDocuments(processRequest.InputFiles);
+                // GUI interaction for choice of converters
+
+                // On final confirmation the below call is made
+                convertAndSaveDocuments();
+            }
 
             //InitializeComponent();
 
@@ -760,7 +776,7 @@ namespace SILConvertersWordML
             return strFolder;
         }
 
-        private void convertAndSaveDocumentsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void convertAndSaveDocuments()
         {
             // TODO: see what happens if PIAs aren't installed
             //Cursor = Cursors.WaitCursor;
