@@ -283,12 +283,6 @@ namespace SILConvertersWordML
         // TBD show to the user in expert-user-mode
         protected void DisplayInGrid(string strName, DataIterator dataIterator)
         {
-        }
-
-        /*
-         * Configuration from the user
-        protected void DisplayInGrid(string strName, DataIterator dataIterator)
-        {
             string strTextSample = GetCurrentValue(dataIterator);
             string strConverterName = cstrClickMsg;
             string strOutput = strTextSample;
@@ -340,23 +334,18 @@ namespace SILConvertersWordML
                     }
                 }
 
-                Font font = CreateFontSafe(strTargetFontName);
-                mapName2Font.Add(strName, font);
+                //Font font = CreateFontSafe(strTargetFontName);
+                mapName2Font.Add(strName, strTargetFontName);
             }
 
-            Font fontSource = CreateFontSafe(strName);
-            Font fontTarget = mapName2Font[strName];
+            string[] row = { strName, strTextSample, strConverterName, strOutput, mapName2Font[strName] };
+            // can be used to display to the user TBD
 
-            string[] row = { strName, strTextSample, strConverterName, strOutput, fontTarget.Name };
-            int nIndex = this.dataGridView.Rows.Add(row);
-            DataGridViewRow thisRow = dataGridView.Rows[nIndex];
-            thisRow.Cells[cnEncConverterColumn].ToolTipText = strTooltip;
-            thisRow.Tag = dataIterator;
-            thisRow.Cells[cnExampleDataColumn].Style.Font = fontSource;
-            thisRow.Cells[cnExampleOutputColumn].Style.Font = fontTarget;
-            thisRow.Height = RowMaxHeight;
+            //int nIndex = this.dataGridView.Rows.Add(row);
+            // DataGridViewRow thisRow = dataGridView.Rows[nIndex];
+            //thisRow.Cells[cnEncConverterColumn].ToolTipText = strTooltip;
         }
-        */
+        
 
             /*
             // the creation of a Font can throw an exception if, for example, you try to construct one with
