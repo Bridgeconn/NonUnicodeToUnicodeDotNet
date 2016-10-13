@@ -179,6 +179,7 @@ namespace SILConvertersWordML
             return m_mapEncConverters.ContainsKey(strFontStyleName);
         }
 
+        // This is where the respective EncConverter is mapped for font name
         public void DefineConverter(string strFontStyleName, DirectableEncConverter aEC)
         {
             if (IsConverterDefined(strFontStyleName))
@@ -281,7 +282,7 @@ namespace SILConvertersWordML
 
         public int RowMaxHeight = 28;    // start with this
 
-        // TBD show to the user in expert-user-mode
+        // TBD selection is made for basic-user-mode & have to show to the user in expert-user-mode
         protected void DisplayInGrid(string strName, DataIterator dataIterator)
         {
             string strTextSample = GetCurrentValue(dataIterator);
@@ -289,7 +290,7 @@ namespace SILConvertersWordML
             string strOutput = strTextSample;
             string strTooltip = cstrClickMsg;
 
-            // if there's not already a mapping, see if the repository can help us
+            // if there's not already a mapping, see if the repository can help us TBD this should choose for the basic user mode
             if (!IsConverterDefined(strName))
             {
                 EncConverters aECs = GetEncConverters;
