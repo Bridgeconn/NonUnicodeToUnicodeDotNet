@@ -168,6 +168,7 @@ namespace SILConvertersWordML
             Properties.Settings.Default.Save();
         }
         */
+
         protected DataIterator GetIteratorFromMap(string strFontName, IteratorMap mapNames2Iterator)
         {
             return mapNames2Iterator[strFontName];
@@ -345,9 +346,8 @@ namespace SILConvertersWordML
             // DataGridViewRow thisRow = dataGridView.Rows[nIndex];
             //thisRow.Cells[cnEncConverterColumn].ToolTipText = strTooltip;
         }
-        
 
-            /*
+        /*
             // the creation of a Font can throw an exception if, for example, you try to construct one with
             //  the default style 'Regular' when the font itself doesn't have a Regular style. So this method
             //  can be called to create one and it'll try different styles if it fails.
@@ -1210,6 +1210,8 @@ namespace SILConvertersWordML
                             string strFontName = null;
                             if (!radioButtonStylesOnly.Checked)
                                 strFontName = strFontStyleName;
+
+                            // this is where a dialog is popped up to select the converter TBD
                             IEncConverter aIEC = aECs.AutoSelectWithData(strExampleData, strFontName, ConvType.Unknown, "Select Converter");
                             if (aIEC != null)
                                 aEC = new DirectableEncConverter(aIEC);
@@ -1493,6 +1495,7 @@ namespace SILConvertersWordML
            toolStripButtonSingleStep.Checked = ((ToolStripMenuItem)sender).Checked;
        }
        */
+
         protected void BackupFile(FileInfo fiFrom, FileInfo fiTo)
         {
             Debug.Assert(fiFrom.Exists);
@@ -1617,6 +1620,7 @@ namespace SILConvertersWordML
             }
         }
         */
+
         /*
         protected void SetSaveConvertToolTip(string strBackupPath, bool bConvertBackupFiles)
         {
