@@ -65,15 +65,18 @@ namespace SILConvertersWordML
         object oFalse = false;
         object oTrue = true;
         ProcessRequest processRequest;
+        ProcessMessenger processMessenger;
 
         public ProcessManager(ProcessRequest processRequest)
         {
             this.processRequest = processRequest;
 
+            this.processMessenger = new ProcessMessenger(processRequest.Logger);
+            // TBD process_ID needs to be generated based on the processrequest
+
             //InitializeComponent();
 
             //helpProvider.SetHelpString(this.dataGridView, Properties.Resources.dataGridViewHelp);
-
 #if DEBUG
             //processRequest.LeaveXMLFileInFolder = true;
 #endif

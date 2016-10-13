@@ -31,7 +31,7 @@ namespace SILConvertersWordML
                 myTimer.Start();
             }
 
-            m_aForm = new ProcessManager(new ProcessRequest(null)); //TBD
+            m_aForm = new ProcessManager(new ProcessRequest(null, null)); //TBD
 
             //Application.Run(m_aForm);
         }

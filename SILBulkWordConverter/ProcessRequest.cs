@@ -19,9 +19,11 @@ namespace SILConvertersWordML
         bool singleStep;
 
         ConversionElements conversionElements;
+        ILogger logger;
 
-        public ProcessRequest(string[] inputFiles, bool leaveXMLFileInFolder = false)
+        public ProcessRequest(string[] inputFiles, ILogger logger, bool leaveXMLFileInFolder = false)
         {
+            this.logger = logger;
             this.inputFiles = inputFiles;
             this.leaveXMLFileInFolder = leaveXMLFileInFolder;
             // ConversionElements.FontsAndStyles TBD
@@ -82,6 +84,14 @@ namespace SILConvertersWordML
             get
             {
                 return singleStep;
+            }
+        }
+
+        public ILogger Logger
+        {
+            get
+            {
+                return logger;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace SILConvertersWordML
 
         string processID;
 
-        ProcessMessenger(ILogger logger)
+        public ProcessMessenger(ILogger logger)
         {
             //ProcessID needs to be generated and stored
             this.logger = logger;
