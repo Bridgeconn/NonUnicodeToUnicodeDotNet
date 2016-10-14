@@ -41,7 +41,7 @@ namespace SILConvertersWordML
         }
 
         protected abstract string GetXmlFileSuffix { get; }
-
+        public bool IsSingleDocProcess { get; set; }
         public abstract void InitializeIteratorsCustomFontNames(List<string> lstInGrid, Action<string, DataIterator> displayInGrid);
         public abstract void InitializeIteratorsFontsFromStyles(List<string> lstInGrid, Action<string, DataIterator> displayInGrid);
         public abstract void InitializeIteratorsStyleName(List<string> lstInGrid, Action<string, DataIterator> displayInGrid);

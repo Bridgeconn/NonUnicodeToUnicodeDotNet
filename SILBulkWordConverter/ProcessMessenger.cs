@@ -50,7 +50,7 @@ namespace SILConvertersWordML
             // can be logged in DB using the ProcessID
 
             // Notify to the user
-            logger.LogMessage(DateTime.Now, typeOfMessage, levelOfMessage, message);
+            logger.LogMessage(DateTime.Now, progressPercentage, typeOfMessage, levelOfMessage, message);
         }
     }
 }

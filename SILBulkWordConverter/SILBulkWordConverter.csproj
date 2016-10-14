@@ -70,8 +70,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StyleClass.cs" />
     <Compile Include="Word03MLDocument.cs" />
+    <Compile Include="StyleClass.cs" />
     <Compile Include="WordLinqDocument.cs" />
     <Compile Include="WordMLDocument.cs" />
   </ItemGroup>

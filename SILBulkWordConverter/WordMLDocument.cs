@@ -119,7 +119,7 @@ namespace SILConvertersWordML
             GetStyleNameIdLists(strFilename, XPathGetCStyle, m_xpeCStyleFont, ref LstCStyleIdList);
         }
 
-        protected static string QuoteCharToUse(string strFontNameOrStyleId)
+        protected string QuoteCharToUse(string strFontNameOrStyleId)
         {
             return (strFontNameOrStyleId.IndexOf('\'') != -1) ? "\"" : "'";
         }
@@ -370,7 +370,7 @@ namespace SILConvertersWordML
                     mapNames2Iterator.Add(strFontNameOrStyleId, new IteratorXPath(xpIteratorFontText, bConvertAsCharValue));
             }
             else
-                Debug.Assert(!Program.IsOnlyOneDoc, "Bad assumption: multiple fonts found for the same type of text and *not* because it's multiple documents! Send this document to silconverters_support@sil.org for help");
+                Debug.Assert(!IsSingleDocProcess, "Bad assumption: multiple fonts found for the same type of text and *not* because it's multiple documents! Send this document to silconverters_support@sil.org for help");
 
             return bAdded;
         }
@@ -530,7 +530,7 @@ namespace SILConvertersWordML
             // mapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
             //  only one doc, then it's already loaded. But if there's more than one doc, then we have to treat each 
             //  one as if by itself (which unfortunately means empty the collection and requery)
-            if (!Program.IsOnlyOneDoc)
+            if (!IsSingleDocProcess)
             {
                 MapIteratorList = new MapIteratorListXPath();
 
@@ -610,7 +610,7 @@ namespace SILConvertersWordML
             // MapStyleId2Iterator, has one iterator for each unique style (across all docs). If there's
             //  only one doc, then we're done. But if there's more than one doc, then we have to treat each 
             //  one as if by itself (which unfortunately means empty the collection and requery)
-            if (!Program.IsOnlyOneDoc)
+            if (!IsSingleDocProcess)
             {
                 MapIteratorList = new MapIteratorListXPath();
                 GetTextIteratorListStyle();  // this initializes MapStyleId2Iterator
@@ -644,7 +644,7 @@ namespace SILConvertersWordML
             // MapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
             //  only one doc, then we're done. But if there's more than one doc, then we have to treat each 
             //  one as if by itself (which unfortunately means empty the collection and requery)
-            if (!Program.IsOnlyOneDoc)
+            if (!IsSingleDocProcess)
             {
                 MapIteratorList = new MapIteratorListXPath();
 

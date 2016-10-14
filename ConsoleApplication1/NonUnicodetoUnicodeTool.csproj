@@ -178,6 +178,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SILBulkWordConverter\SILBulkWordConverter.csproj">
+      <Project>{38a0b2c2-e793-4b05-89b4-598b1675ba77}</Project>
+      <Name>SILBulkWordConverter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

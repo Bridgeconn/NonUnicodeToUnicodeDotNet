@@ -8,6 +8,6 @@ namespace SILConvertersWordML
 {   
     public interface ILogger
     {
-        void LogMessage(DateTime datetime, MessageType typeOfMessage, MessageLevel levelOfMessage, string message);
+        void LogMessage(DateTime datetime, ushort progressPercentage, MessageType typeOfMessage, MessageLevel levelOfMessage, string message);
     }
 }

@@ -478,10 +478,8 @@ namespace SILConvertersWordML
 
             var bUsingLinq = processRequest.UseLinqConversion;
             var doc = bUsingLinq
-                          ? WordLinqDocument.GetXmlDocument(ref strXmlFilename, strDocFilename,
-                                                            processRequest.LeaveXMLFileInFolder)
-                          : Word03MLDocument.GetXmlDocument(ref strXmlFilename, strDocFilename,
-                                                            processRequest.LeaveXMLFileInFolder);
+                          ? WordLinqDocument.GetXmlDocument(ref strXmlFilename, strDocFilename, processRequest.LeaveXMLFileInFolder)
+                          : Word03MLDocument.GetXmlDocument(ref strXmlFilename, strDocFilename, processRequest.LeaveXMLFileInFolder);
 
             return doc;
         }
@@ -1144,6 +1142,10 @@ namespace SILConvertersWordML
 
                     // convert the document to XML and get an XmlDoc for it (on which we can do queries for data)
                     var doc = ConvertDocToXml(wrdApp, strDocFilename);
+
+                    //set isSingleFileMode
+                    doc.IsSingleDocProcess = (astrFileNames.Length > 1);
+
                     // put it in a map if it exists
                     if (doc != null)
                         m_mapDocName2XmlDocument.Add(strDocFilename, doc);
