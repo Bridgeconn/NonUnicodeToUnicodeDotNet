@@ -382,8 +382,7 @@ namespace SILConvertersWordML
             // now m_astrFullFontNameList is loaded, so let's see which of these has any text associated 
             foreach (var strFontName in LstFontNamesCustom)
             {
-                Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for custom formatting with font '{1}'...",
-                    strFontName);
+                //Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for custom formatting with font '{1}'...", strFontName);
                 GetTextIteratorForName(strFontName, XPathFormatGetFontText,
                     MyMapIteratorList.MapFontNames2Iterator, false);
             }
@@ -391,8 +390,7 @@ namespace SILConvertersWordML
             // also check for inserted symbols
             foreach (var strFontName in LstFontNamesSymbolText)
             {
-                Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for inserted symbols with font '{1}'...",
-                    strFontName);
+                //Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for inserted symbols with font '{1}'...", strFontName);
                 GetTextIteratorForName(strFontName, XPathFormatGetSymbolFontText,
                     MyMapIteratorList.MapSymbolFontNames2Iterator, true);
             }
@@ -473,22 +471,21 @@ namespace SILConvertersWordML
             var strDefaultStyleFontName = LstDefaultStyleFontName.FirstOrDefault();
             if (!String.IsNullOrEmpty(strDefaultStyleFontName))
             {
-                Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for default paragraph style-based formatting based on font '{1}'...", strDefaultStyleFontName);
+                //Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for default paragraph style-based formatting based on font '{1}'...", strDefaultStyleFontName);
                 GetTextIteratorForName(strDefaultStyleFontName, XPathFormatGetDefaultPStyleFontText,
                     MyMapIteratorList.MapDefStyleFontNames2Iterator, false);
             }
 
             foreach (var strFontName in LstFontNamesPStyle)
             {
-                Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for paragraph style-based formatting based on font '{1}'...", strFontName);
+                //Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for paragraph style-based formatting based on font '{1}'...", strFontName);
                 GetTextIteratorForName(strFontName, XPathFormatGetPStyleFontText,
                     MyMapIteratorList.MapPStyleFontNames2Iterator, false);
             }
 
             foreach (var strFontName in LstFontNamesCStyle)
             {
-                Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for character style-based formatting based on font '{1}'...",
-                    strFontName);
+                //Program.UpdateStatusBarDocNamePlusOne("Examining '{0}'... Searching for character style-based formatting based on font '{1}'...", strFontName);
                 GetTextIteratorForName(strFontName, XPathFormatGetCStyleFontText,
                     MyMapIteratorList.MapCStyleFontNames2Iterator, false);
             }
@@ -512,8 +509,7 @@ namespace SILConvertersWordML
                 if (MyMapIteratorList.MapStyleId2Name.ContainsKey(strStyleId))
                 {
                     string strStyleName = MyMapIteratorList.MapStyleId2Name[strStyleId];
-                    Program.UpdateStatusBarDocNamePlusTwo("Examining '{0}'... Searching for {1} style-based formatting based on style '{2}'...",
-                        strStyleType, strStyleName);
+                    //Program.UpdateStatusBarDocNamePlusTwo("Examining '{0}'... Searching for {1} style-based formatting based on style '{2}'...", strStyleType, strStyleName);
 
                     if (GetTextIteratorForName(strStyleId, strXPathFormatText,
                         MyMapIteratorList.MapStyleId2Iterator, false))

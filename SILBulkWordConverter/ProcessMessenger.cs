@@ -14,6 +14,7 @@ namespace SILConvertersWordML
         ILogger logger;
 
         string processID;
+        ushort progressPercentage;
 
         public ProcessMessenger(ILogger logger, string processID = "")
         {
@@ -29,12 +30,27 @@ namespace SILConvertersWordML
             }
         }
 
-        public void LogMessage(DateTime datetime, MessageType typeOfMessage, MessageLevel levelOfMessage, string message)
+        public ushort ProgressPercentage
         {
+            get
+            {
+                return progressPercentage;
+            }
+
+            set
+            {
+                progressPercentage = value;
+                // call the notifier to update the status bar
+            }
+        }
+
+        public void LogMessage(string message, ushort progressPercentage, MessageType typeOfMessage = MessageType.UserMessage, MessageLevel levelOfMessage = MessageLevel.Normal)
+        {
+            this.ProgressPercentage += progressPercentage;
             // can be logged in DB using the ProcessID
 
             // Notify to the user
-            logger.LogMessage(datetime, typeOfMessage, levelOfMessage, message);
+            logger.LogMessage(DateTime.Now, typeOfMessage, levelOfMessage, message);
         }
     }
 }

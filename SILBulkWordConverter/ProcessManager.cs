@@ -277,7 +277,13 @@ namespace SILConvertersWordML
 
             // set it up so we 'see' the click
             m_dtStarted = DateTime.Now;
-            UpdateStatusBar("Choose the converter(s) and target font you want to apply to the text");
+
+            if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
+            {
+                // ControlMessage because user interaction is required.
+                processMessenger.LogMessage("Choose the converter(s) and target font you want to apply to the text", 10, MessageType.ControlMessage, MessageLevel.Normal);
+                //UpdateStatusBar();
+            }
         }
 
         public int RowMaxHeight = 28;    // start with this
@@ -779,6 +785,7 @@ namespace SILConvertersWordML
             //Cursor = Cursors.WaitCursor;
             if (!CheckForWinWord())
                 return;
+            string currentDocument= string.Empty;
 
             Word.Application wrdApp = new Word.Application();
             try
@@ -787,6 +794,8 @@ namespace SILConvertersWordML
 
                 foreach (string strOrigFileSpec in m_mapDocName2XmlDocument.Keys)
                 {
+                    currentDocument = strOrigFileSpec;
+
                     // convert the data in the document
                     string strConvertedXmlFilename;
                     ConvertAndSaveDoc(strOrigFileSpec, out strConvertedXmlFilename);
@@ -895,17 +904,25 @@ namespace SILConvertersWordML
                     }
                 }
 
-                UpdateStatusBar("Convert and Save complete!");
+                if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
+                {
+                    // ControlMessage because user can download the converted files now is required.
+                    processMessenger.LogMessage("Convert and Save complete!", 100, MessageType.ControlMessage, MessageLevel.Normal);
+                    //UpdateStatusBar();
+                }
             }
             catch (Exception ex)
             {
                 string strErrorMsg = String.Format("Unable to convert and/or save! Reason:{0}{0}{1}{0}{0}If the conversion was already started when this error occurred,{0}then you can't click 'Convert and Save' again (to avoid converting the document twice).{0}{0}Click 'Yes' to reload the files from scratch.",
                     Environment.NewLine, ex.Message);
-                DialogResult res = MessageBox.Show(strErrorMsg, cstrCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
-                if (res == DialogResult.Yes)
-                    Program.myTimer.Start();
-                else
-                    UpdateStatusBar("Do not click 'File', 'Convert and Save' again or you may convert the document twice! Press F5 to reload the files from scratch.");
+
+                if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
+                {
+                    processMessenger.LogMessage("Process failed: " + strErrorMsg, 0, MessageType.SystemErrorMessage, MessageLevel.Critical);
+                    // ControlMessage because user can download the converted files now is required.
+                    processMessenger.LogMessage("Conversion failed: " + currentDocument, 0, MessageType.ControlMessage, MessageLevel.Critical);
+                    //UpdateStatusBar();
+                }
             }
             finally
             {
@@ -994,8 +1011,7 @@ namespace SILConvertersWordML
                     break;
                 string strOutput = CallSafeConvert(aEC, strInput);
 
-                UpdateStatusBar(String.Format("In '{0}', converting: '{1}' to '{2}'",
-                    m_strCurrentDocument, strInput, strOutput));
+                // UpdateStatusBar(String.Format("In '{0}', converting: '{1}' to '{2}'", m_strCurrentDocument, strInput, strOutput)); TBD Not required
 
                 // if this string gets converted as a bunch of "?"s, it's probably an error. Show it to the
                 //  user as a potential problem (unless we're already in single-step mode).
@@ -1113,7 +1129,7 @@ namespace SILConvertersWordML
         protected void GetXmlDocuments(string[] astrFileNames)
         {
             // TODO: see what happens if PIAs aren't installed
-            UpdateStatusBar("Starting Word...");
+            //UpdateStatusBar("Starting Word...");
             if (!CheckForWinWord())
                 return;
 
@@ -1124,11 +1140,10 @@ namespace SILConvertersWordML
                 foreach (string strDocFilename in astrFileNames)
                 {
                     m_strCurrentDocument = Path.GetFileName(strDocFilename);
-                    UpdateStatusBar(String.Format("Examining '{0}'", m_strCurrentDocument));
+                    processMessenger.LogMessage(String.Format("Examining '{0}'", m_strCurrentDocument), 10, MessageType.UserMessage, MessageLevel.Normal); // TBD percentage
 
                     // convert the document to XML and get an XmlDoc for it (on which we can do queries for data)
                     var doc = ConvertDocToXml(wrdApp, strDocFilename);
-
                     // put it in a map if it exists
                     if (doc != null)
                         m_mapDocName2XmlDocument.Add(strDocFilename, doc);
@@ -1634,6 +1649,7 @@ namespace SILConvertersWordML
 
         protected bool m_bAnnoyAboutReadonly = true;
 
+        /*
         protected void RecursePath(ref List<FileInfo> afiFilesInToPath, List<string> astrSearchPatterns, List<string> astrFontsToSearchFor,
             DirectoryInfo diSearchSource, Word.Application wrdApp, string strSearchPathRoot, string strUserBackupPath, string strAppBackupPath,
             bool bConvertBackupFiles)
@@ -1719,6 +1735,7 @@ namespace SILConvertersWordML
                 RecursePath(ref afiFilesInToPath, astrSearchPatterns, astrFontsToSearchFor, di, wrdApp,
                     strSearchPathRoot, strUserBackupPath, strAppBackupPath, bConvertBackupFiles);
         }
+        */
 
         // this routine will convert the given document to an xml file and then look inside it to see if 
         //  one of the list of font names are used within it. If so, then it will also set the doc output param
