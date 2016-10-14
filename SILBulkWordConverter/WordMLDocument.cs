@@ -499,8 +499,7 @@ namespace SILConvertersWordML
             GetTextIteratorStyleType("character", LstCStyleIdList, XPathFormatGetCStyleText);
         }
 
-        protected void GetTextIteratorStyleType(string strStyleType, List<string> lstStyleIds,
-            string strXPathFormatText)
+        protected void GetTextIteratorStyleType(string strStyleType, List<string> lstStyleIds, string strXPathFormatText)
         {
             foreach (string strStyleId in lstStyleIds)
             {
@@ -514,7 +513,7 @@ namespace SILConvertersWordML
                     if (GetTextIteratorForName(strStyleId, strXPathFormatText,
                         MyMapIteratorList.MapStyleId2Iterator, false))
                     {
-                        Program.m_aForm.AddFontIfNeeded(this, strStyleName);
+                        AddFontIfNeeded(this, strStyleName);
                     }
                 }
             }
@@ -605,7 +604,7 @@ namespace SILConvertersWordML
             return bModified;
         }
 
-        public override bool ConvertDocumentByStylesOnly(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc)
+        public override bool ConvertDocumentByStylesOnly(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc, Func<string, bool> isConverterDefined)
         {
             // MapStyleId2Iterator, has one iterator for each unique style (across all docs). If there's
             //  only one doc, then we're done. But if there's more than one doc, then we have to treat each 

@@ -957,7 +957,7 @@ namespace SILConvertersWordML
             }
             else if (processRequest.ConversionElements == ConversionElements.StylesAlone)
             {
-                bModified |= doc.ConvertDocumentByStylesOnly(mapName2Font, ConvertDoc);
+                bModified |= doc.ConvertDocumentByStylesOnly(mapName2Font, ConvertDoc, IsConverterDefined);
             }
             else if (processRequest.ConversionElements == ConversionElements.FontsAlone)
             {
@@ -1145,6 +1145,7 @@ namespace SILConvertersWordML
 
                     //set isSingleFileMode
                     doc.IsSingleDocProcess = (astrFileNames.Length > 1);
+                    doc.AddFontIfNeeded = AddFontIfNeeded;
 
                     // put it in a map if it exists
                     if (doc != null)

@@ -179,7 +179,7 @@ namespace SILConvertersWordML
         }
 
         public override bool ConvertDocumentByStylesOnly(Dictionary<string, string> mapName2Font,
-                                                         Func<string, DataIterator, string, bool, bool> convertDoc)
+                                                         Func<string, DataIterator, string, bool, bool> convertDoc, Func<string,bool> isConverterDefined)
         {
             // mapFontNames2Iterator, has one iterator for each unique font (across all docs). If there's
             //  only one doc, then it's already loaded. But if there's more than one doc, then we have to treat each 
@@ -193,7 +193,7 @@ namespace SILConvertersWordML
             var bModified = false;
             var map2Iterator = MyMapIteratorList.MapStyleName2Iterator;
             foreach (var strStyleId in map2Iterator.Keys
-                                                   .Where(sn => Program.m_aForm.IsConverterDefined(sn)))
+                                                   .Where(sn => isConverterDefined(sn)))
             {
                 Debug.Assert(mapName2Font.ContainsKey(strStyleId));
                 var fontTargetName = mapName2Font[strStyleId];

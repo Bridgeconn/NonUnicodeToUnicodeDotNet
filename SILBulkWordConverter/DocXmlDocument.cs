@@ -47,9 +47,12 @@ namespace SILConvertersWordML
         public abstract void InitializeIteratorsStyleName(List<string> lstInGrid, Action<string, DataIterator> displayInGrid);
 
         public abstract bool ConvertDocumentByFontNameAndStyle(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc);
-        public abstract bool ConvertDocumentByStylesOnly(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc);
+        public abstract bool ConvertDocumentByStylesOnly(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc, Func<string, bool> isConverterDefined);
         public abstract bool ConvertDocumentByFontNameOnly(Dictionary<string, string> mapName2Font, Func<string, DataIterator, string, bool, bool> convertDoc);
         public abstract bool HasFonts(List<string> astrFontsToSearchFor);
         public abstract void Save(string strXmlOutputFilename);
+        public delegate void AddFontIfNeededDelegate(DocXmlDocument doc, string strStyleName);
+
+        public AddFontIfNeededDelegate AddFontIfNeeded { get; set; }
     }
 }
