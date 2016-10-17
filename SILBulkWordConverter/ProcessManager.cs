@@ -40,6 +40,7 @@ namespace SILConvertersWordML
         protected static int cnMaxConverterName = 30;
         protected const int nMaxRecentFiles = 15;
         public const int cnDefaultFontSize = 12;
+        private bool isInitialized;
 
         protected Dictionary<string, DocXmlDocument> m_mapDocName2XmlDocument = new Dictionary<string, DocXmlDocument>();
         protected Dictionary<string, string> m_mapBackupNameToDocName = new Dictionary<string, string>();
@@ -67,13 +68,7 @@ namespace SILConvertersWordML
         ProcessRequest processRequest;
         ProcessMessenger processMessenger;
 
-        public ProcessManager(ProcessRequest processRequest)
-        {
-            this.processRequest = processRequest;
-
-            // TBD process_ID needs to be generated based on the processrequest
-            this.processMessenger = new ProcessMessenger(processRequest.Logger);
-
+        /* API Calls sequence for two modes:
             // Decisions are made on behalf of the user - inputs & gets the final output , perhaps a logging mechanism
             if (processRequest.ConversionMode == ConversionMode.BasicUserMode)
             {
@@ -91,8 +86,14 @@ namespace SILConvertersWordML
                 // On final confirmation the below call is made
                 convertAndSaveDocuments();
             }
+        */
 
-            //InitializeComponent();
+        public ProcessManager(ProcessRequest processRequest)
+        {
+            this.processRequest = processRequest;
+
+            // TBD process_ID needs to be generated based on the processrequest
+            this.processMessenger = new ProcessMessenger(processRequest.Logger);
 
             //helpProvider.SetHelpString(this.dataGridView, Properties.Resources.dataGridViewHelp);
 #if DEBUG
@@ -100,15 +101,23 @@ namespace SILConvertersWordML
 #endif
         }
 
-        public void OpenDocuments(string[] astrFilenames)
+        public bool Initiatialize()
+        {
+            // Does the basic validation for the expected inputs and returns the result 
+            //isInitialized =
+
+            return isInitialized;
+        }
+
+        public void LoadInputDocuments(string[] astrFilenames)
         {
             //Cursor = Cursors.WaitCursor;
 
             // in case the app was already open and the user clicks the "Open SFM document" again.
             Reset();
 
-            GetXmlDocuments(astrFilenames);
-            DoRestOfOpen(astrFilenames);
+            ConvertToXMLDocuments(astrFilenames);
+            //DoRestOfOpen(astrFilenames);
 
             //Cursor = Cursors.Default;
         }
@@ -124,7 +133,7 @@ namespace SILConvertersWordML
                 reloadToolStripMenuItem.Enabled = this.toolStripButtonRefresh.Enabled = true;*/
         }
 
-        public void ChooseConverters()
+        public void AutoChooseConverters()
         {
             // For the fonts, the available converters are mapped for conversion.
         }
@@ -1124,7 +1133,7 @@ namespace SILConvertersWordML
             return true;
         }
 
-        protected void GetXmlDocuments(string[] astrFileNames)
+        protected void ConvertToXMLDocuments(string[] astrFileNames)
         {
             // TODO: see what happens if PIAs aren't installed
             //UpdateStatusBar("Starting Word...");
