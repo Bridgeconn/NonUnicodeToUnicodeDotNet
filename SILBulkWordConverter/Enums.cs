@@ -33,4 +33,21 @@ namespace SILConvertersWordML
         Normal,
         Critical
     }
+
+    public enum StepName
+    {
+        UploadSourceFiles,
+        InitializeAndBasicChecks,
+        LoadInputDocuments,
+        ChooseConverters,
+        ConvertAndSaveTargetFiles
+    }
+
+    public enum StepStatus
+    {
+        Started,
+        Completed,
+        WaitForUsersInput,
+        LandedInError
+    }
 }
