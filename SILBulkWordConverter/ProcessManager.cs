@@ -37,7 +37,7 @@ namespace SILConvertersWordML
         internal const string cstrLeftXmlFileSuffixAfterLinqTransform = " (SILConverters-generated after linq transform).xml";
         protected const string cstrLeftXmlFileSuffixAfter = " (SILConverters-generated after conversion).xml";
 
-        protected static int cnMaxConverterName = 30;
+        protected int cnMaxConverterName = 30;
         protected const int nMaxRecentFiles = 15;
         public const int cnDefaultFontSize = 12;
         private bool isInitialized;
@@ -101,12 +101,12 @@ namespace SILConvertersWordML
 #endif
         }
 
-        public bool Initiatialize()
+        public ResultMessage Initiatialize()
         {
             // Does the basic validation for the expected inputs and returns the result 
             //isInitialized =
-
-            return isInitialized;
+            
+            return new ResultMessage(); //isInitialized TBD
         }
 
         public void LoadInputDocuments(string[] astrFilenames)
@@ -221,7 +221,7 @@ namespace SILConvertersWordML
                 UpdateExampleDataColumns(theRow, GetCurrentValue(xpIterator));
         }
 
-        internal static void UpdateConverterCellValue(DataGridViewCell theCell, DirectableEncConverter aEC)
+        internal void UpdateConverterCellValue(DataGridViewCell theCell, DirectableEncConverter aEC)
         {
             if (aEC == null)
             {
@@ -308,7 +308,7 @@ namespace SILConvertersWordML
             // if there's not already a mapping, see if the repository can help us TBD this should choose for the basic user mode
             if (!IsConverterDefined(strName))
             {
-                EncConverters aECs = GetEncConverters;
+                EncConverters aECs = EncConvertersList;
                 if (aECs != null)
                 {
                     string strMappingName = aECs.GetMappingNameFromFont(strName);
@@ -339,7 +339,7 @@ namespace SILConvertersWordML
                 string strTargetFontName = strName;
                 if (IsConverterDefined(strName))
                 {
-                    EncConverters aECs = GetEncConverters;
+                    EncConverters aECs = EncConvertersList;
                     if (aECs != null)
                     {
                         DirectableEncConverter aEC = GetConverter(strName);
@@ -471,7 +471,7 @@ namespace SILConvertersWordML
                 bWord2007 = false;  // use Word 2003 compatibility mode
             }
 
-            string strXmlFilename = GetTempFilename + ".xml";
+            string strXmlFilename = Path.GetFileName(strDocFilename) + ".xml";
             object oXmlFilename = strXmlFilename;
             object oXmlFormat = (bWord2007) ? wdFormatFlatXML : Word.WdSaveFormat.wdFormatXML;
 
@@ -744,7 +744,7 @@ namespace SILConvertersWordML
             catch { }
         }
 
-        internal static EncConverters GetEncConverters
+        internal EncConverters EncConvertersList
         {
             get
             {
@@ -1102,14 +1102,6 @@ namespace SILConvertersWordML
             string strMessage = String.Format(strFormat, m_strCurrentDocument, strParam1, strParam2);
             //textBoxStatus.Text = strMessage; TBD
             Application.DoEvents();
-        }
-
-        internal static string GetTempFilename
-        {
-            get
-            {
-                return Path.GetTempFileName();
-            }
         }
 
         protected bool CheckForWinWord()

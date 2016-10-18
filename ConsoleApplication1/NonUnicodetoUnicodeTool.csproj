@@ -106,6 +106,8 @@
     <Compile Include="CharacterSetConversionUtility.cs" />
     <Compile Include="FontConverterConfigurationSection.cs" />
     <Compile Include="ISCIIEncoding.cs" />
+    <Compile Include="LocalProcessMessenger.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="NonUnicodeToUnicodeUtility.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
