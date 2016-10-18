@@ -69,7 +69,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResultMessage.cs" />
+    <Compile Include="ProcessResult.cs" />
     <Compile Include="Word03MLDocument.cs" />
     <Compile Include="StyleClass.cs" />
     <Compile Include="WordLinqDocument.cs" />

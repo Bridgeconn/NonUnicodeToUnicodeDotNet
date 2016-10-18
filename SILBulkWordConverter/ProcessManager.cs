@@ -101,15 +101,15 @@ namespace SILConvertersWordML
 #endif
         }
 
-        public ResultMessage Initiatialize()
+        public ProcessResult Initiatialize()
         {
             // Does the basic validation for the expected inputs and returns the result 
             //isInitialized =
             
-            return new ResultMessage(); //isInitialized TBD
+            return new ProcessResult(); //isInitialized TBD
         }
 
-        public void LoadInputDocuments(string[] astrFilenames)
+        public ProcessResult LoadInputDocuments(string[] astrFilenames)
         {
             //Cursor = Cursors.WaitCursor;
 
@@ -120,6 +120,7 @@ namespace SILConvertersWordML
             //DoRestOfOpen(astrFilenames);
 
             //Cursor = Cursors.Default;
+            return new ProcessResult(); // TBD
         }
 
         public void DoRestOfOpen(string[] astrFilenames)
@@ -133,9 +134,10 @@ namespace SILConvertersWordML
                 reloadToolStripMenuItem.Enabled = this.toolStripButtonRefresh.Enabled = true;*/
         }
 
-        public void AutoChooseConverters()
+        public ProcessResult AutoChooseConverters()
         {
             // For the fonts, the available converters are mapped for conversion.
+            return new ProcessResult(); // TBD
         }
 
         /*
@@ -786,12 +788,12 @@ namespace SILConvertersWordML
             return strFolder;
         }
 
-        private void convertAndSaveDocuments()
+        private ProcessResult convertAndSaveDocuments()
         {
             // TODO: see what happens if PIAs aren't installed
             //Cursor = Cursors.WaitCursor;
             if (!CheckForWinWord())
-                return;
+                return new ProcessResult(); // TBD
             string currentDocument= string.Empty;
 
             Word.Application wrdApp = new Word.Application();
@@ -937,6 +939,8 @@ namespace SILConvertersWordML
                 Marshal.ReleaseComObject(wrdApp);
                 //Cursor = Cursors.Default;
             }
+
+            return new ProcessResult(); // TBD
         }
 
         public bool ConvertDoc(string strFontStyleName, DataIterator dataIteratorFontStyleText, string strLhsFont, bool bConvertCharValue)

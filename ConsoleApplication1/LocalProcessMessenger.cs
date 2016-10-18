@@ -12,11 +12,11 @@ namespace NonUnicodetoUnicodeTool
      */
     public class LocalProcessMessenger 
     {
-        public ResultMessage Initialize(string[] sourceFilePaths)
+        public ProcessResult Initialize(string[] sourceFilePaths)
         {
             ProcessRequest processRequest = new ProcessRequest(sourceFilePaths, new Logger());
             ProcessManager processManager = new ProcessManager(processRequest);
-            ResultMessage resultMessage = processManager.Initiatialize();
+            ProcessResult resultMessage = processManager.Initiatialize();
 
             return resultMessage;
         }

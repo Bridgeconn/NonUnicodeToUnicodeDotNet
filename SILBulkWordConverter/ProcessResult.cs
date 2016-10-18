@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SILConvertersWordML
 {
-    public class ResultMessage
+    public class ProcessResult
     {
         public StepStatus ResultStepStatus { get; set; }
 
