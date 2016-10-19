@@ -44,13 +44,15 @@ namespace SILConvertersWordML
             }
         }
 
-        public void LogMessage(string message, ushort progressPercentage, MessageType typeOfMessage = MessageType.UserMessage, MessageLevel levelOfMessage = MessageLevel.Normal)
+        public void LogMessage(ProcessIntermediateResult resultMessage)
         {
+            // string message, ushort progressPercentage, MessageType typeOfMessage = MessageType.UserMessage, MessageLevel levelOfMessage = MessageLevel.Normal
+
             this.ProgressPercentage += progressPercentage;
             // can be logged in DB using the ProcessID
 
             // Notify to the user
-            logger.LogMessage(DateTime.Now, progressPercentage, typeOfMessage, levelOfMessage, message);
+            logger.LogMessage(DateTime.Now, resultMessage.ProgressPercentage, resultMessage.TypeOfMessage, resultMessage.LevelOfMessage, resultMessage.Message);
         }
     }
 }

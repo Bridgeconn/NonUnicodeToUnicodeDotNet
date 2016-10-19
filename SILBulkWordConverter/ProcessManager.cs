@@ -292,7 +292,14 @@ namespace SILConvertersWordML
             if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
             {
                 // ControlMessage because user interaction is required.
-                processMessenger.LogMessage("Choose the converter(s) and target font you want to apply to the text", 10, MessageType.ControlMessage, MessageLevel.Normal);
+
+                processMessenger.LogMessage(
+                    new ProcessIntermediateResult {
+                        Message = "Choose the converter(s) and target font you want to apply to the text",
+                        ProgressPercentage =10,
+                        TypeOfMessage = MessageType.ControlMessage,
+                        LevelOfMessage = MessageLevel.Normal
+                        });
                 //UpdateStatusBar();
             }
         }
@@ -916,7 +923,14 @@ namespace SILConvertersWordML
                 if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
                 {
                     // ControlMessage because user can download the converted files now is required.
-                    processMessenger.LogMessage("Convert and Save complete!", 100, MessageType.ControlMessage, MessageLevel.Normal);
+                    processMessenger.LogMessage(
+                    new ProcessIntermediateResult
+                    {
+                        Message = "Convert and Save complete!",
+                        ProgressPercentage = 100,
+                        TypeOfMessage = MessageType.ControlMessage,
+                        LevelOfMessage = MessageLevel.Normal
+                    });
                     //UpdateStatusBar();
                 }
             }
@@ -927,9 +941,24 @@ namespace SILConvertersWordML
 
                 if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
                 {
-                    processMessenger.LogMessage("Process failed: " + strErrorMsg, 0, MessageType.SystemErrorMessage, MessageLevel.Critical);
+                    processMessenger.LogMessage(
+                   new ProcessIntermediateResult
+                   {
+                       Message = "Process failed: " + strErrorMsg,
+                       ProgressPercentage = 0,
+                       TypeOfMessage = MessageType.SystemErrorMessage,
+                       LevelOfMessage = MessageLevel.Critical
+                   });
+
                     // ControlMessage because user can download the converted files now is required.
-                    processMessenger.LogMessage("Conversion failed: " + currentDocument, 0, MessageType.ControlMessage, MessageLevel.Critical);
+                    processMessenger.LogMessage(
+                   new ProcessIntermediateResult
+                   {
+                       Message = "Conversion failed: " + currentDocument,
+                       ProgressPercentage = 0,
+                       TypeOfMessage = MessageType.ControlMessage,
+                       LevelOfMessage = MessageLevel.Critical
+                   });
                     //UpdateStatusBar();
                 }
             }
@@ -1143,8 +1172,14 @@ namespace SILConvertersWordML
                 foreach (string strDocFilename in astrFileNames)
                 {
                     m_strCurrentDocument = Path.GetFileName(strDocFilename);
-                    processMessenger.LogMessage(String.Format("Examining '{0}'", m_strCurrentDocument), 10, MessageType.UserMessage, MessageLevel.Normal); // TBD percentage
-
+                    processMessenger.LogMessage(
+                 new ProcessIntermediateResult
+                 {
+                     Message = String.Format("Examining '{0}'", m_strCurrentDocument),
+                     ProgressPercentage = 10,
+                     TypeOfMessage = MessageType.UserMessage,
+                     LevelOfMessage = MessageLevel.Normal
+                 });
                     // convert the document to XML and get an XmlDoc for it (on which we can do queries for data)
                     var doc = ConvertDocToXml(wrdApp, strDocFilename);
 
