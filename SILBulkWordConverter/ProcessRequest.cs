@@ -20,9 +20,9 @@ namespace SILConvertersWordML
 
         ConversionElements conversionElements;
         ConversionMode conversionMode;
-        ILogger logger;
+        IProcessMessenger logger;
 
-        public ProcessRequest(string[] inputFiles, ILogger logger, bool leaveXMLFileInFolder = false)
+        public ProcessRequest(string[] inputFiles, IProcessMessenger logger, bool leaveXMLFileInFolder = false)
         {
             this.logger = logger;
             this.inputFiles = inputFiles;
@@ -91,7 +91,7 @@ namespace SILConvertersWordML
             }
         }
 
-        public ILogger Logger
+        public IProcessMessenger processMessenger
         {
             get
             {

@@ -66,7 +66,7 @@ namespace SILConvertersWordML
         object oFalse = false;
         object oTrue = true;
         ProcessRequest processRequest;
-        ProcessMessenger processMessenger;
+        IProcessMessenger processMessenger;
 
         /* API Calls sequence for two modes:
             // Decisions are made on behalf of the user - inputs & gets the final output , perhaps a logging mechanism
@@ -93,7 +93,7 @@ namespace SILConvertersWordML
             this.processRequest = processRequest;
 
             // TBD process_ID needs to be generated based on the processrequest
-            this.processMessenger = new ProcessMessenger(processRequest.Logger);
+            this.processMessenger = processRequest.processMessenger;
 
             //helpProvider.SetHelpString(this.dataGridView, Properties.Resources.dataGridViewHelp);
 #if DEBUG
@@ -296,7 +296,6 @@ namespace SILConvertersWordML
                 processMessenger.LogMessage(
                     new ProcessIntermediateResult {
                         Message = "Choose the converter(s) and target font you want to apply to the text",
-                        ProgressPercentage =10,
                         TypeOfMessage = MessageType.ControlMessage,
                         LevelOfMessage = MessageLevel.Normal
                         });
@@ -795,7 +794,7 @@ namespace SILConvertersWordML
             return strFolder;
         }
 
-        private ProcessResult convertAndSaveDocuments()
+        public ProcessResult ConvertAndSaveDocuments()
         {
             // TODO: see what happens if PIAs aren't installed
             //Cursor = Cursors.WaitCursor;
@@ -927,7 +926,6 @@ namespace SILConvertersWordML
                     new ProcessIntermediateResult
                     {
                         Message = "Convert and Save complete!",
-                        ProgressPercentage = 100,
                         TypeOfMessage = MessageType.ControlMessage,
                         LevelOfMessage = MessageLevel.Normal
                     });
@@ -945,7 +943,6 @@ namespace SILConvertersWordML
                    new ProcessIntermediateResult
                    {
                        Message = "Process failed: " + strErrorMsg,
-                       ProgressPercentage = 0,
                        TypeOfMessage = MessageType.SystemErrorMessage,
                        LevelOfMessage = MessageLevel.Critical
                    });
@@ -955,7 +952,6 @@ namespace SILConvertersWordML
                    new ProcessIntermediateResult
                    {
                        Message = "Conversion failed: " + currentDocument,
-                       ProgressPercentage = 0,
                        TypeOfMessage = MessageType.ControlMessage,
                        LevelOfMessage = MessageLevel.Critical
                    });
@@ -1176,7 +1172,6 @@ namespace SILConvertersWordML
                  new ProcessIntermediateResult
                  {
                      Message = String.Format("Examining '{0}'", m_strCurrentDocument),
-                     ProgressPercentage = 10,
                      TypeOfMessage = MessageType.UserMessage,
                      LevelOfMessage = MessageLevel.Normal
                  });

@@ -7,11 +7,20 @@ using System.Threading.Tasks;
 
 namespace NonUnicodetoUnicodeTool
 {
-    public class Logger: ILogger
+    public class Logger: IProcessMessenger
     {
-        public void LogMessage(DateTime datetime, ushort progressPercentage, MessageType typeOfMessage, MessageLevel levelOfMessage, string message)
-        {
+        public delegate void GetNotifiedDelegate(ProcessIntermediateResult processResult);
+        GetNotifiedDelegate GetNotified;
 
+        // TBD temporary arragement
+        public Logger(GetNotifiedDelegate GetNotified)
+        {
+            this.GetNotified = GetNotified;
+
+        }
+        public void LogMessage(ProcessIntermediateResult processIntermediateResult)
+        {
+            GetNotified(processIntermediateResult);
         }
     }
 }

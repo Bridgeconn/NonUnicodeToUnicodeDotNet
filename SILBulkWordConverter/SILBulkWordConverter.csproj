@@ -56,10 +56,9 @@
     <Compile Include="ConverterUtility.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FileFinderForFonts.cs" />
-    <Compile Include="ILogger.cs" />
+    <Compile Include="IProcessMessenger.cs" />
     <Compile Include="ProcessIntermediateResult.cs" />
     <Compile Include="ProcessManager.cs" />
-    <Compile Include="ProcessMessenger.cs" />
     <Compile Include="DocXmlDocument.cs" />
     <Compile Include="IteratorMap.cs" />
     <Compile Include="LinqDocument.cs" />

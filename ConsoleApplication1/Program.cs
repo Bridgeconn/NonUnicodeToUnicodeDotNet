@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Configuration;
+using SILConvertersWordML;
 
 namespace NonUnicodetoUnicodeTool
 {
@@ -10,7 +11,70 @@ namespace NonUnicodetoUnicodeTool
         {
             if (args.Length!=0 && IsValidInputArguments(args))
             {
-                NonUnicodeToUnicodeUtility.Convert(args[0], args[1], args[2]);
+                // Create a process request
+                ProcessRequest processRequest = new ProcessRequest(new string[] {""}, new Logger(GetNotified));
+                ProcessManager processManager = new ProcessManager(processRequest);
+
+                // ProcessResult is for the result for the steps & ProcessIntermediateResult is the in between messages
+                ProcessResult resultMessage = processManager.Initiatialize();
+
+                switch(resultMessage.ResultStepStatus)
+                {
+                    case StepStatus.Completed:
+
+                        break;
+                    case StepStatus.LandedInError:
+
+                        break;
+                    case StepStatus.WaitForUsersInput:
+
+                        break;
+                }
+
+                resultMessage = processManager.LoadInputDocuments(processRequest.InputFiles);
+
+                switch (resultMessage.ResultStepStatus)
+                {
+                    case StepStatus.Completed:
+
+                        break;
+                    case StepStatus.LandedInError:
+
+                        break;
+                    case StepStatus.WaitForUsersInput:
+
+                        break;
+                }
+
+                resultMessage = processManager.AutoChooseConverters();
+
+                switch (resultMessage.ResultStepStatus)
+                {
+                    case StepStatus.Completed:
+
+                        break;
+                    case StepStatus.LandedInError:
+
+                        break;
+                    case StepStatus.WaitForUsersInput:
+
+                        break;
+                }
+
+                resultMessage = processManager.ConvertAndSaveDocuments();
+
+                switch (resultMessage.ResultStepStatus)
+                {
+                    case StepStatus.Completed:
+
+                        break;
+                    case StepStatus.LandedInError:
+
+                        break;
+                    case StepStatus.WaitForUsersInput:
+
+                        break;
+                }
                 Console.Read();
             }
             else
@@ -18,6 +82,13 @@ namespace NonUnicodetoUnicodeTool
                 PrintHelp();
             }
         }
+
+        static void GetNotified(ProcessIntermediateResult processResult)
+        {
+            Console.WriteLine(processResult);
+        }
+
+        /*NonUnicodeToUnicodeUtility.Convert(args[0], args[1], args[2]);*/
 
         static void PrintHelp()
         {

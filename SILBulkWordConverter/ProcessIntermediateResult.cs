@@ -9,6 +9,13 @@ namespace SILConvertersWordML
     // Used primarirly for carrying the log message
     public class ProcessIntermediateResult : ProcessResult
     {
+        public ProcessIntermediateResult()
+        {
+            DateTime = DateTime.Now;
+        }
+
+        public DateTime DateTime { get; }
+
         public string Message { get; set; }
 
         public ushort ProgressPercentage { get; set; }
