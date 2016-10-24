@@ -33,6 +33,7 @@ namespace NonUnicodetoUnicodeTool
 
                 resultMessage = processManager.LoadInputDocuments(processRequest.InputFiles);
 
+
                 switch (resultMessage.ResultStepStatus)
                 {
                     case StepStatus.Completed:

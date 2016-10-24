@@ -41,6 +41,7 @@ namespace SILConvertersWordML
         protected const int nMaxRecentFiles = 15;
         public const int cnDefaultFontSize = 12;
         private bool isInitialized;
+        private EncConverters localEncConverters;
 
         protected Dictionary<string, DocXmlDocument> m_mapDocName2XmlDocument = new Dictionary<string, DocXmlDocument>();
         protected Dictionary<string, string> m_mapBackupNameToDocName = new Dictionary<string, string>();
@@ -94,6 +95,9 @@ namespace SILConvertersWordML
 
             // TBD process_ID needs to be generated based on the processrequest
             this.processMessenger = processRequest.processMessenger;
+
+            // localEncConverters list is maintained with font information from a simple XML file
+            // GetLocalEncoder
 
             //helpProvider.SetHelpString(this.dataGridView, Properties.Resources.dataGridViewHelp);
 #if DEBUG
@@ -439,6 +443,20 @@ namespace SILConvertersWordML
               //  "Click to convert the opened Word document(s) and save them with a new name";
         }
 
+        public DirectableEncConverter GetLocalEncoder(string fontName)
+        {
+            // Get an instance of the repository object
+            EncConverters aECs = new EncConverters();
+
+            // Add TECkit tec file generated from the map file
+            aECs.Add("S_D_708<>Unicode", "SD708.tec", ConvType.Legacy_to_from_Unicode, "SD708", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
+
+            // Get a reference to the converter
+            IEncConverter conv = aECs.GetMapByName("S_D_708<>Unicode");
+
+            return new DirectableEncConverter(conv);
+        }
+
         // if the document is based on a SaveFormat from Office 2007, then use the Office2007 "FlatXML" format
         //  for the temporary XML file.
         protected const Word.WdSaveFormat wdFormatXMLDocument = (Word.WdSaveFormat)12;
@@ -758,7 +776,8 @@ namespace SILConvertersWordML
             {
                 try
                 {
-                    return DirectableEncConverter.EncConverters;
+
+                    return localEncConverters;
                 }
                 catch (Exception ex)
                 {

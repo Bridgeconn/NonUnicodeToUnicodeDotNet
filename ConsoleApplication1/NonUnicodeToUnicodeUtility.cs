@@ -15,7 +15,7 @@ namespace NonUnicodetoUnicodeTool
             // Get an instance of the repository object
             EncConverters aECs = new EncConverters();
 
-            // Add Ticket tec file generated from the map file
+            // Add TECkit tec file generated from the map file
             aECs.Add("S_D_708<>Unicode", "SD708.tec", ConvType.Legacy_to_from_Unicode, "SD708", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
 
             // Get a reference to the converter
