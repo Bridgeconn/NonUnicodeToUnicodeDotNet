@@ -105,7 +105,7 @@ namespace SILConvertersWordML
 #endif
         }
 
-        public ProcessResult Initiatialize()
+        public ProcessResult Initialize()
         {
             // Does the basic validation for the expected inputs and returns the result 
             //isInitialized =

@@ -11,69 +11,79 @@ namespace NonUnicodetoUnicodeTool
         {
             if (args.Length!=0 && IsValidInputArguments(args))
             {
+                bool isProceedToNext = false;
+
                 // Create a process request
                 ProcessRequest processRequest = new ProcessRequest(new string[] {""}, new Logger(GetNotified));
                 ProcessManager processManager = new ProcessManager(processRequest);
 
                 // ProcessResult is for the result for the steps & ProcessIntermediateResult is the in between messages
-                ProcessResult resultMessage = processManager.Initiatialize();
+                ProcessResult resultMessage = processManager.Initialize();
 
                 switch(resultMessage.ResultStepStatus)
                 {
                     case StepStatus.Completed:
-
+                        isProceedToNext = true;
                         break;
                     case StepStatus.LandedInError:
-
+                        // Send ErrorMessage
                         break;
                     case StepStatus.WaitForUsersInput:
-
+                        isProceedToNext = true;
                         break;
                 }
 
-                resultMessage = processManager.LoadInputDocuments(processRequest.InputFiles);
-
+                if (isProceedToNext)
+                {
+                    resultMessage = processManager.LoadInputDocuments(processRequest.InputFiles);
+                }
 
                 switch (resultMessage.ResultStepStatus)
                 {
                     case StepStatus.Completed:
-
+                        isProceedToNext = true;
                         break;
                     case StepStatus.LandedInError:
-
+                        // Send ErrorMessage
                         break;
                     case StepStatus.WaitForUsersInput:
-
+                        isProceedToNext = true;
                         break;
                 }
 
-                resultMessage = processManager.AutoChooseConverters();
+                if (isProceedToNext)
+                {
+                    resultMessage = processManager.AutoChooseConverters();
+                }
 
                 switch (resultMessage.ResultStepStatus)
                 {
                     case StepStatus.Completed:
-
+                        // Send SuccessMessage
                         break;
                     case StepStatus.LandedInError:
-
+                        // Send ErrorMessage
                         break;
                     case StepStatus.WaitForUsersInput:
-
+                        // Send SuccessMessage
                         break;
                 }
 
-                resultMessage = processManager.ConvertAndSaveDocuments();
+                if (isProceedToNext)
+                {
+                    resultMessage = processManager.ConvertAndSaveDocuments();
+                }
 
                 switch (resultMessage.ResultStepStatus)
                 {
                     case StepStatus.Completed:
-
+                        // Send SuccessMessage
                         break;
                     case StepStatus.LandedInError:
-
+                        // Send ErrorMessage
                         break;
                     case StepStatus.WaitForUsersInput:
-
+                        // Send SuccessMessage
                         break;
                 }
                 Console.Read();
