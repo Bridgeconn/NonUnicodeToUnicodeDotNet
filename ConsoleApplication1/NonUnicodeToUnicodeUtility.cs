@@ -15,8 +15,10 @@ namespace NonUnicodetoUnicodeTool
             // Get an instance of the repository object
             EncConverters aECs = new EncConverters();
 
+            //TecEncConverter tc = new TecEncConverter(); TBD
+           
             // Add TECkit tec file generated from the map file
-            aECs.Add("S_D_708<>Unicode", "SD708.tec", ConvType.Legacy_to_from_Unicode, "SD708", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
+            aECs.Add("S_D_708<>Unicode", "SD708.tec", ConvType.Unicode_to_from_Unicode, "SD708", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
 
             // Get a reference to the converter
             IEncConverter conv = aECs.GetMapByName("S_D_708<>Unicode");

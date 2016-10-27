@@ -23,5 +23,10 @@ namespace SILConvertersWordML
         public MessageType TypeOfMessage { get; set; }
 
         public MessageLevel LevelOfMessage { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("[{0}] {1} - {2}: {3}", DateTime, TypeOfMessage, LevelOfMessage, Message);
+        }
     }
 }

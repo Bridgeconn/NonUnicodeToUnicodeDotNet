@@ -258,7 +258,7 @@ namespace SILConvertersWordML
             return dataIterator.CurrentValue;
         }
 
-        protected void PopulateGrid()
+        protected ProcessResult PopulateGrid()
         {
             //dataGridView.Rows.Clear();
             var lstInGrid = new List<string>();    // used so we don't add something twice
@@ -300,11 +300,13 @@ namespace SILConvertersWordML
                 processMessenger.LogMessage(
                     new ProcessIntermediateResult {
                         Message = "Choose the converter(s) and target font you want to apply to the text",
-                        TypeOfMessage = MessageType.ControlMessage,
+                        TypeOfMessage = MessageType.UserMessage,
                         LevelOfMessage = MessageLevel.Normal
                         });
                 //UpdateStatusBar();
             }
+
+            return new ProcessResult();
         }
 
         public int RowMaxHeight = 28;    // start with this
