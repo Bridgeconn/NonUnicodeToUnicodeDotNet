@@ -9,8 +9,11 @@ namespace NonUnicodetoUnicodeTool
     {
         static void Main(string[] args)
         {
-            if (args.Length!=0 && IsValidInputArguments(args))
+            if (true/*args.Length!=0 && IsValidInputArguments(args)*/)
             {
+                NonUnicodeToUnicodeUtility.Convert("sd708", @"NU.txt", @"U.txt");
+                return;
+
                 bool isProceedToNext = false;
 
                 // Create a process request

@@ -12,6 +12,12 @@ namespace SILConvertersWordML
         ExpertUserMode
     }
 
+    public enum ResultType
+    {
+       Completed,
+       Failed
+    }
+
     public enum MessageType
     {
         UserMessage,    // Can be shown to the user

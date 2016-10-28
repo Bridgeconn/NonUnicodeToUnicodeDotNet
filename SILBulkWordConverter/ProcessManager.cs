@@ -60,9 +60,6 @@ namespace SILConvertersWordML
         const int cnExampleOutputColumn = 3;
         const int cnTargetFontColumn = 4;
 
-        protected DateTime m_dtStarted = DateTime.Now;
-        TimeSpan m_timeMinStartup = new TimeSpan(0, 0, 1);
-
         object oMissing = System.Reflection.Missing.Value;
         object oFalse = false;
         object oTrue = true;
@@ -107,24 +104,62 @@ namespace SILConvertersWordML
 
         public ProcessResult Initialize()
         {
-            // Does the basic validation for the expected inputs and returns the result 
-            //isInitialized =
-            
-            return new ProcessResult(); //isInitialized TBD
+            var processResult = new ProcessResult();
+            try
+            {
+                // Does the basic validation for the expected inputs and returns the result 
+
+                bool areFilePathsValid = true;
+
+                foreach(string path in processRequest.InputFiles)
+                {
+                    if(!File.Exists(path))
+                    {
+                        areFilePathsValid = false;
+                    }
+                }
+
+
+                isInitialized = (areFilePathsValid && processRequest.InputFiles.Length > 0) ? true : false;
+
+                processResult.ResultType = ResultType.Completed;
+            }
+            catch (Exception exception)
+            {
+                processResult.TypeOfMessage = MessageType.SystemErrorMessage;
+                processResult.Message = exception.Message;
+                processResult.ResultType = ResultType.Failed;
+            }
+
+
+            return processResult;
         }
 
         public ProcessResult LoadInputDocuments(string[] astrFilenames)
         {
-            //Cursor = Cursors.WaitCursor;
+            var processResult = new ProcessResult();
+            try
+            {
+                //Cursor = Cursors.WaitCursor;
 
-            // in case the app was already open and the user clicks the "Open SFM document" again.
-            Reset();
+                // in case the app was already open and the user clicks the "Open SFM document" again.
+                Reset();
 
-            ConvertToXMLDocuments(astrFilenames);
-            //DoRestOfOpen(astrFilenames);
+                ConvertToXMLDocuments(astrFilenames);
+                //DoRestOfOpen(astrFilenames);
 
-            //Cursor = Cursors.Default;
-            return new ProcessResult(); // TBD
+                //Cursor = Cursors.Default;
+                processResult.ResultType = ResultType.Completed;
+            }
+            catch (Exception exception)
+            {
+                processResult.TypeOfMessage = MessageType.SystemErrorMessage;
+                processResult.Message = exception.Message;
+                processResult.ResultType = ResultType.Failed;
+            }
+
+
+            return processResult;
         }
 
         public void DoRestOfOpen(string[] astrFilenames)
@@ -140,8 +175,21 @@ namespace SILConvertersWordML
 
         public ProcessResult AutoChooseConverters()
         {
-            // For the fonts, the available converters are mapped for conversion.
-            return new ProcessResult(); // TBD
+            // For the fonts, the available converters are mapped for conversion. // TBD
+            var processResult = new ProcessResult();
+            try
+            {
+
+                processResult.ResultType = ResultType.Completed;
+            }
+            catch (Exception exception)
+            {
+                processResult.TypeOfMessage = MessageType.SystemErrorMessage;
+                processResult.Message = exception.Message;
+                processResult.ResultType = ResultType.Failed;
+            }
+
+            return processResult;
         }
 
         /*
@@ -260,53 +308,50 @@ namespace SILConvertersWordML
 
         protected ProcessResult PopulateGrid()
         {
-            //dataGridView.Rows.Clear();
-            var lstInGrid = new List<string>();    // used so we don't add something twice
-            if ((processRequest.ConversionElements == ConversionElements.FontsAndStyles))
-            {
-                //ColumnFont.HeaderText = "Font";
-                //ColumnTargetFont.HeaderText = "Apply Font";
+            var result = new ProcessResult();
 
-                // get the Fonts and Styles out of the xml docs
-                GetTextIteratorListCustomFont(ref lstInGrid);
-                GetTextIteratorListStyleFont(ref lstInGrid);
+            try
+            {
+                //dataGridView.Rows.Clear();
+                var lstInGrid = new List<string>();    // used so we don't add something twice
+                if ((processRequest.ConversionElements == ConversionElements.FontsAndStyles))
+                {
+                    //ColumnFont.HeaderText = "Font";
+                    //ColumnTargetFont.HeaderText = "Apply Font";
+
+                    // get the Fonts and Styles out of the xml docs
+                    GetTextIteratorListCustomFont(ref lstInGrid);
+                    GetTextIteratorListStyleFont(ref lstInGrid);
+                }
+                else if ((processRequest.ConversionElements == ConversionElements.StylesAlone))
+                {
+                    //ColumnFont.HeaderText = "Style";
+                    //ColumnTargetFont.HeaderText = "New Style Font";
+
+                    // get the Fonts and Styles out of the xml doc
+                    GetTextIteratorListStyleOnly(ref lstInGrid);
+                }
+                else if ((processRequest.ConversionElements == ConversionElements.FontsAlone))
+                {
+                    //ColumnFont.HeaderText = "Font";
+                    //ColumnTargetFont.HeaderText = "Apply Font";
+
+                    // get the Fonts and Styles out of the xml doc
+                    GetTextIteratorListCustomFont(ref lstInGrid);
+                }
+                else
+                    Debug.Assert(false);
+
+                result.ResultType = ResultType.Completed;
             }
-            else if ((processRequest.ConversionElements == ConversionElements.StylesAlone))
+            catch(Exception exception)
             {
-                //ColumnFont.HeaderText = "Style";
-                //ColumnTargetFont.HeaderText = "New Style Font";
-
-                // get the Fonts and Styles out of the xml doc
-                GetTextIteratorListStyleOnly(ref lstInGrid);
-            }
-            else if ((processRequest.ConversionElements == ConversionElements.FontsAlone))
-            {
-                //ColumnFont.HeaderText = "Font";
-                //ColumnTargetFont.HeaderText = "Apply Font";
-
-                // get the Fonts and Styles out of the xml doc
-                GetTextIteratorListCustomFont(ref lstInGrid);
-            }
-            else
-                Debug.Assert(false);
-
-            // set it up so we 'see' the click
-            m_dtStarted = DateTime.Now;
-
-            if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
-            {
-                // ControlMessage because user interaction is required.
-
-                processMessenger.LogMessage(
-                    new ProcessIntermediateResult {
-                        Message = "Choose the converter(s) and target font you want to apply to the text",
-                        TypeOfMessage = MessageType.UserMessage,
-                        LevelOfMessage = MessageLevel.Normal
-                        });
-                //UpdateStatusBar();
+                result.TypeOfMessage = MessageType.SystemErrorMessage;
+                result.Message = exception.Message;
+                result.ResultType = ResultType.Failed; 
             }
 
-            return new ProcessResult();
+            return result;
         }
 
         public int RowMaxHeight = 28;    // start with this
@@ -421,16 +466,7 @@ namespace SILConvertersWordML
 
         protected string CallSafeConvert(DirectableEncConverter aEC, string strInput)
         {
-            try
-            {
-                return aEC.Convert(strInput);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(String.Format("Conversion failed! Reason: {0}", ex.Message), cstrCaption);
-            }
-
-            return null;
+            return aEC.Convert(strInput);
         }
 
         protected void Reset()
@@ -817,6 +853,8 @@ namespace SILConvertersWordML
 
         public ProcessResult ConvertAndSaveDocuments()
         {
+            var processResult = new ProcessResult();
+
             // TODO: see what happens if PIAs aren't installed
             //Cursor = Cursors.WaitCursor;
             if (!CheckForWinWord())
@@ -940,44 +978,16 @@ namespace SILConvertersWordML
                     }
                 }
 
-                if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
-                {
-                    // ControlMessage because user can download the converted files now is required.
-                    processMessenger.LogMessage(
-                    new ProcessIntermediateResult
-                    {
-                        Message = "Convert and Save complete!",
-                        TypeOfMessage = MessageType.ControlMessage,
-                        LevelOfMessage = MessageLevel.Normal
-                    });
-                    //UpdateStatusBar();
-                }
+                processResult.ResultType = ResultType.Completed;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string strErrorMsg = String.Format("Unable to convert and/or save! Reason:{0}{0}{1}{0}{0}If the conversion was already started when this error occurred,{0}then you can't click 'Convert and Save' again (to avoid converting the document twice).{0}{0}Click 'Yes' to reload the files from scratch.",
-                    Environment.NewLine, ex.Message);
+                //string strErrorMsg = String.Format("Unable to convert and/or save! Reason:{0}{0}{1}{0}{0}If the conversion was already started when this error occurred,{0}then you can't click 'Convert and Save' again (to avoid converting the document twice).{0}{0}Click 'Yes' to reload the files from scratch.",
+                //    Environment.NewLine, exception.Message);
 
-                if (processRequest.ConversionMode == ConversionMode.ExpertUserMode)
-                {
-                    processMessenger.LogMessage(
-                   new ProcessIntermediateResult
-                   {
-                       Message = "Process failed: " + strErrorMsg,
-                       TypeOfMessage = MessageType.SystemErrorMessage,
-                       LevelOfMessage = MessageLevel.Critical
-                   });
-
-                    // ControlMessage because user can download the converted files now is required.
-                    processMessenger.LogMessage(
-                   new ProcessIntermediateResult
-                   {
-                       Message = "Conversion failed: " + currentDocument,
-                       TypeOfMessage = MessageType.ControlMessage,
-                       LevelOfMessage = MessageLevel.Critical
-                   });
-                    //UpdateStatusBar();
-                }
+                processResult.TypeOfMessage = MessageType.SystemErrorMessage;
+                processResult.Message = exception.Message;
+                processResult.ResultType = ResultType.Failed;
             }
             finally
             {
@@ -986,7 +996,7 @@ namespace SILConvertersWordML
                 //Cursor = Cursors.Default;
             }
 
-            return new ProcessResult(); // TBD
+            return processResult; 
         }
 
         public bool ConvertDoc(string strFontStyleName, DataIterator dataIteratorFontStyleText, string strLhsFont, bool bConvertCharValue)
@@ -1189,13 +1199,12 @@ namespace SILConvertersWordML
                 foreach (string strDocFilename in astrFileNames)
                 {
                     m_strCurrentDocument = Path.GetFileName(strDocFilename);
-                    processMessenger.LogMessage(
-                 new ProcessIntermediateResult
-                 {
-                     Message = String.Format("Examining '{0}'", m_strCurrentDocument),
-                     TypeOfMessage = MessageType.UserMessage,
-                     LevelOfMessage = MessageLevel.Normal
-                 });
+                    processMessenger.LogMessage(new ProcessIntermediateResult
+                    {
+                        Message = String.Format("Examining '{0}'", m_strCurrentDocument),
+                        TypeOfMessage = MessageType.UserMessage,
+                        LevelOfMessage = MessageLevel.Normal
+                    });
                     // convert the document to XML and get an XmlDoc for it (on which we can do queries for data)
                     var doc = ConvertDocToXml(wrdApp, strDocFilename);
 
