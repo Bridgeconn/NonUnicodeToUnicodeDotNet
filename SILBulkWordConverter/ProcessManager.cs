@@ -145,11 +145,9 @@ namespace SILConvertersWordML
                 // in case the app was already open and the user clicks the "Open SFM document" again.
                 Reset();
 
-                ConvertToXMLDocuments(astrFilenames);
+                processResult = ConvertToXMLDocuments(astrFilenames);
                 //DoRestOfOpen(astrFilenames);
-
                 //Cursor = Cursors.Default;
-                processResult.ResultType = ResultType.Completed;
             }
             catch (Exception exception)
             {
@@ -859,7 +857,7 @@ namespace SILConvertersWordML
             //Cursor = Cursors.WaitCursor;
             if (!CheckForWinWord())
                 return new ProcessResult(); // TBD
-            string currentDocument= string.Empty;
+            string currentDocument = string.Empty;
 
             Word.Application wrdApp = new Word.Application();
             try
@@ -978,7 +976,7 @@ namespace SILConvertersWordML
                     }
                 }
 
-    processResult.ResultType = ResultType.Completed;
+                processResult.ResultType = ResultType.Completed;
             }
             catch (Exception exception)
             {
@@ -996,7 +994,7 @@ namespace SILConvertersWordML
                 //Cursor = Cursors.Default;
             }
 
-            return processResult; 
+            return processResult;
         }
 
         public bool ConvertDoc(string strFontStyleName, DataIterator dataIteratorFontStyleText, string strLhsFont, bool bConvertCharValue)
@@ -1035,33 +1033,29 @@ namespace SILConvertersWordML
 
             strXmlOutputFilename = Path.GetTempFileName() + ".xml";
 
-            try
+            if (processRequest.LeaveXMLFileInFolder)
             {
-                if (processRequest.LeaveXMLFileInFolder)
-                {
-                    strXmlOutputFilename = String.Format(@"{0}\{1}{2}",
-                                Path.GetDirectoryName(strDocFilename),
-                                Path.GetFileName(strDocFilename),
-                                cstrLeftXmlFileSuffixAfter);
-                    if (File.Exists(strXmlOutputFilename))
-                        File.Delete(strXmlOutputFilename);
-                    doc.Save(strXmlOutputFilename);
-                }
-                else
-                {
-                    doc.Save(strXmlOutputFilename);
-                    /*
-                    // at least *try* to clean up the temp files
-                    const string cstrUdiPrefix = "file:///";
-                    string strXmlFilename = doc.BaseURI;
-                    int nIndex = strXmlFilename.IndexOf(cstrUdiPrefix);
-                    if (nIndex == 0)
-                        strXmlFilename = strXmlFilename.Replace(cstrUdiPrefix, null);
-                    File.Delete(strXmlFilename);
-                    */
-                }
+                strXmlOutputFilename = String.Format(@"{0}\{1}{2}",
+                            Path.GetDirectoryName(strDocFilename),
+                            Path.GetFileName(strDocFilename),
+                            cstrLeftXmlFileSuffixAfter);
+                if (File.Exists(strXmlOutputFilename))
+                    File.Delete(strXmlOutputFilename);
+                doc.Save(strXmlOutputFilename);
             }
-            catch { }
+            else
+            {
+                doc.Save(strXmlOutputFilename);
+                /*
+                // at least *try* to clean up the temp files
+                const string cstrUdiPrefix = "file:///";
+                string strXmlFilename = doc.BaseURI;
+                int nIndex = strXmlFilename.IndexOf(cstrUdiPrefix);
+                if (nIndex == 0)
+                    strXmlFilename = strXmlFilename.Replace(cstrUdiPrefix, null);
+                File.Delete(strXmlFilename);
+                */
+            }
 
             return bModified;
         }
@@ -1185,14 +1179,16 @@ namespace SILConvertersWordML
             return true;
         }
 
-        protected void ConvertToXMLDocuments(string[] astrFileNames)
+        protected ProcessResult ConvertToXMLDocuments(string[] astrFileNames)
         {
+            var processResult = new ProcessResult();
             // TODO: see what happens if PIAs aren't installed
             //UpdateStatusBar("Starting Word...");
             if (!CheckForWinWord())
-                return;
+                return processResult;
 
             var wrdApp = new Word.Application();
+
             try
             {
                 // first open all of the given files and save them as xml so we can work with them.
@@ -1216,16 +1212,22 @@ namespace SILConvertersWordML
                     if (doc != null)
                         m_mapDocName2XmlDocument.Add(strDocFilename, doc);
                 }
+
+                processResult.ResultType = ResultType.Completed;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                MessageBox.Show(ex.Message, cstrCaption);
+                processResult.TypeOfMessage = MessageType.SystemErrorMessage;
+                processResult.Message = exception.Message;
+                processResult.ResultType = ResultType.Failed;
             }
             finally
             {
                 ((Microsoft.Office.Interop.Word._Application)wrdApp).Quit(ref oMissing, ref oMissing, ref oMissing);
                 Marshal.ReleaseComObject(wrdApp);
             }
+
+            return processResult;
         }
 
         // this gets the text iterators for both Style (based on font name) and Custom formatted

@@ -11,28 +11,25 @@ namespace NonUnicodetoUnicodeTool
         {
             if (true/*args.Length!=0 && IsValidInputArguments(args)*/)
             {
-                NonUnicodeToUnicodeUtility.Convert("sd708", @"NU.txt", @"U.txt");
-                return;
+                //NonUnicodeToUnicodeUtility.Convert("sd708", @"NU.txt", @"U.txt");
+                //return;
 
                 bool isProceedToNext = false;
 
                 // Create a process request
-                ProcessRequest processRequest = new ProcessRequest(new string[] {""}, new Logger(GetNotified));
+                ProcessRequest processRequest = new ProcessRequest(new string[] { "NU.txt"}, new Logger(GetNotified));
                 ProcessManager processManager = new ProcessManager(processRequest);
 
                 // ProcessResult is for the result for the steps & ProcessIntermediateResult is the in between messages
                 ProcessResult resultMessage = processManager.Initialize();
 
-                switch(resultMessage.ResultStepStatus)
+                switch(resultMessage.ResultType)
                 {
-                    case StepStatus.Completed:
+                    case ResultType.Completed:
                         isProceedToNext = true;
                         break;
-                    case StepStatus.LandedInError:
+                    case ResultType.Failed:
                         // Send ErrorMessage
-                        break;
-                    case StepStatus.WaitForUsersInput:
-                        isProceedToNext = true;
                         break;
                 }
 
@@ -41,16 +38,13 @@ namespace NonUnicodetoUnicodeTool
                     resultMessage = processManager.LoadInputDocuments(processRequest.InputFiles);
                 }
 
-                switch (resultMessage.ResultStepStatus)
+                switch (resultMessage.ResultType)
                 {
-                    case StepStatus.Completed:
+                    case ResultType.Completed:
                         isProceedToNext = true;
                         break;
-                    case StepStatus.LandedInError:
+                    case ResultType.Failed:
                         // Send ErrorMessage
-                        break;
-                    case StepStatus.WaitForUsersInput:
-                        isProceedToNext = true;
                         break;
                 }
 
@@ -59,16 +53,13 @@ namespace NonUnicodetoUnicodeTool
                     resultMessage = processManager.AutoChooseConverters();
                 }
 
-                switch (resultMessage.ResultStepStatus)
+                switch (resultMessage.ResultType)
                 {
-                    case StepStatus.Completed:
-                        // Send SuccessMessage
+                    case ResultType.Completed:
+                        isProceedToNext = true;
                         break;
-                    case StepStatus.LandedInError:
+                    case ResultType.Failed:
                         // Send ErrorMessage
-                        break;
-                    case StepStatus.WaitForUsersInput:
-                        // Send SuccessMessage
                         break;
                 }
 
@@ -77,16 +68,13 @@ namespace NonUnicodetoUnicodeTool
                     resultMessage = processManager.ConvertAndSaveDocuments();
                 }
 
-                switch (resultMessage.ResultStepStatus)
+                switch (resultMessage.ResultType)
                 {
-                    case StepStatus.Completed:
-                        // Send SuccessMessage
+                    case ResultType.Completed:
+                        isProceedToNext = true;
                         break;
-                    case StepStatus.LandedInError:
+                    case ResultType.Failed:
                         // Send ErrorMessage
-                        break;
-                    case StepStatus.WaitForUsersInput:
-                        // Send SuccessMessage
                         break;
                 }
                 Console.Read();
