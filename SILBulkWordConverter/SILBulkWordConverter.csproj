@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="XMLParseToClassUtility.cs" />
+    <Compile Include="XMLUnicodeConverters.cs" />
     <Compile Include="ConverterUtility.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FileFinderForFonts.cs" />

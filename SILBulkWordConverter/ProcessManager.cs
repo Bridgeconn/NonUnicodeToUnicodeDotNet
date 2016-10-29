@@ -978,7 +978,7 @@ namespace SILConvertersWordML
                     }
                 }
 
-                processResult.ResultType = ResultType.Completed;
+    processResult.ResultType = ResultType.Completed;
             }
             catch (Exception exception)
             {
