@@ -12,6 +12,12 @@ namespace SILConvertersWordML
         ExpertUserMode
     }
 
+    public enum ConverterType
+    {
+        CP,
+        TEC
+    }
+
     public enum ResultType
     {
        Completed,

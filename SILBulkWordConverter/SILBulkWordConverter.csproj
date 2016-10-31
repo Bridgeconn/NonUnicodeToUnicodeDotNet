@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConverterFactory.cs" />
+    <Compile Include="ConverterRequest.cs" />
     <Compile Include="XMLParseToClassUtility.cs" />
     <Compile Include="XMLUnicodeConverters.cs" />
     <Compile Include="ConverterUtility.cs" />
