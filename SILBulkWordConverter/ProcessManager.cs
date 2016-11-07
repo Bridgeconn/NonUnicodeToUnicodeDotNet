@@ -36,12 +36,14 @@ namespace SILConvertersWordML
         internal const string cstrLeftXmlFileSuffixAfterXsltTransform = " (SILConverters-generated after xslt transform).xml";
         internal const string cstrLeftXmlFileSuffixAfterLinqTransform = " (SILConverters-generated after linq transform).xml";
         protected const string cstrLeftXmlFileSuffixAfter = " (SILConverters-generated after conversion).xml";
+        internal const string convertersXMLFilePath = "";
 
         protected int cnMaxConverterName = 30;
         protected const int nMaxRecentFiles = 15;
         public const int cnDefaultFontSize = 12;
         private bool isInitialized;
         private EncConverters localEncConverters;
+        private UnicodeConverters unicodeConverters;
 
         protected Dictionary<string, DocXmlDocument> m_mapDocName2XmlDocument = new Dictionary<string, DocXmlDocument>();
         protected Dictionary<string, string> m_mapBackupNameToDocName = new Dictionary<string, string>();
@@ -65,6 +67,7 @@ namespace SILConvertersWordML
         object oTrue = true;
         ProcessRequest processRequest;
         IProcessMessenger processMessenger;
+        private string processID;
 
         /* API Calls sequence for two modes:
             // Decisions are made on behalf of the user - inputs & gets the final output , perhaps a logging mechanism
@@ -119,8 +122,12 @@ namespace SILConvertersWordML
                     }
                 }
 
-
                 isInitialized = (areFilePathsValid && processRequest.InputFiles.Length > 0) ? true : false;
+
+                if(isInitialized && InitializeConverters())
+                {
+                    processID = DateTime.Now.ToString("yyyy-MM-ddTHHmmssfff");
+                }
 
                 processResult.ResultType = ResultType.Completed;
             }
@@ -133,6 +140,21 @@ namespace SILConvertersWordML
 
 
             return processResult;
+        }
+
+        private bool InitializeConverters()
+        {
+            bool isLoaded;
+            // Load xml info of the converters
+
+            if(true) // path found
+            {
+                string xml = File.ReadAllText(convertersXMLFilePath);
+                unicodeConverters = xml.ParseXML<UnicodeConverters>();
+                isLoaded = true;
+            }
+
+            return isLoaded;
         }
 
         public ProcessResult LoadInputDocuments(string[] astrFilenames)
@@ -1135,6 +1157,14 @@ namespace SILConvertersWordML
             set
             {
                 //processRequest.SingleStep = value; TBD
+            }
+        }
+
+        public string ProcessID
+        {
+            get
+            {
+                return processID;
             }
         }
 
