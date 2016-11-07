@@ -43,7 +43,6 @@ namespace SILConvertersWordML
         public const int cnDefaultFontSize = 12;
         private bool isInitialized;
         private EncConverters localEncConverters;
-        private UnicodeConverters unicodeConverters;
 
         protected Dictionary<string, DocXmlDocument> m_mapDocName2XmlDocument = new Dictionary<string, DocXmlDocument>();
         protected Dictionary<string, string> m_mapBackupNameToDocName = new Dictionary<string, string>();
@@ -124,7 +123,7 @@ namespace SILConvertersWordML
 
                 isInitialized = (areFilePathsValid && processRequest.InputFiles.Length > 0) ? true : false;
 
-                if(isInitialized && InitializeConverters())
+                if(isInitialized && ConverterFactory.IsLoaded)
                 {
                     processID = DateTime.Now.ToString("yyyy-MM-ddTHHmmssfff");
                 }
@@ -142,46 +141,6 @@ namespace SILConvertersWordML
             return processResult;
         }
 
-        private bool InitializeConverters()
-        {
-            bool isLoaded;
-            // Load xml info of the converters
-
-            if(true) // path found
-            {
-                string xml = File.ReadAllText(convertersXMLFilePath);
-                unicodeConverters = xml.ParseXML<UnicodeConverters>();
-                isLoaded = true;
-            }
-
-            return isLoaded;
-        }
-
-        private IEncConverter GetEncConverter(string leftEncoding, string rightEncoding)
-        {
-            IEncConverter encConverter = null;
-
-            // check if the required converter has been already instantiated.
-
-            // Else create one from the information provided
-
-            foreach (UnicodeConvertersConverter unicodeConverter in unicodeConverters.Converter)
-            {
-                if((leftEncoding == unicodeConverter.LHEncoding && rightEncoding == unicodeConverter.RHEncoding)
-                    || (rightEncoding == unicodeConverter.LHEncoding && leftEncoding == unicodeConverter.RHEncoding))
-                {
-                    EncConverters aECs = new EncConverters();
-                    IEncConverter aec = aECs.InstantiateIEncConverter("SilEncConverters40.TecEncConverter", null);
-                    ConvType conversionType = ConvType.Legacy_to_from_Unicode;
-                    string lhs = (leftEncoding == unicodeConverter.LHEncoding) ? leftEncoding : rightEncoding; //"SD708";
-                    string rhs = (rightEncoding == unicodeConverter.RHEncoding) ? rightEncoding : leftEncoding; //"Unicode";
-                    int pt = (int)((leftEncoding != "Unicode") ? ProcessTypeFlags.UnicodeEncodingConversion : ProcessTypeFlags.NonUnicodeEncodingConversion);
-                    aec.Initialize(unicodeConverter.ConverterName, unicodeConverter.Path, ref lhs, ref rhs, ref conversionType, ref pt, 0, 0, false);
-                }
-            }
-
-            return encConverter;
-        }
 
         public ProcessResult LoadInputDocuments(string[] astrFilenames)
         {
