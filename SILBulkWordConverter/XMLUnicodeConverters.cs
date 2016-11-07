@@ -35,24 +35,24 @@ namespace SILConvertersWordML
     public partial class UnicodeConvertersConverter
     {
 
-        private object languageField;
+        private string languageField;
 
         private string converterTypeField;
 
-        private object converterNameField;
+        private string converterNameField;
 
-        private object lHEncodingField;
+        private string lHEncodingField;
 
-        private object rHEncodingField;
+        private string rHEncodingField;
 
-        private object pathField;
+        private string pathField;
 
-        private object toAndFroField;
+        private string toAndFroField;
 
         private byte idField;
 
         /// <remarks/>
-        public object Language
+        public string Language
         {
             get
             {
@@ -78,7 +78,7 @@ namespace SILConvertersWordML
         }
 
         /// <remarks/>
-        public object ConverterName
+        public string ConverterName
         {
             get
             {
@@ -91,7 +91,7 @@ namespace SILConvertersWordML
         }
 
         /// <remarks/>
-        public object LHEncoding
+        public string LHEncoding
         {
             get
             {
@@ -104,7 +104,7 @@ namespace SILConvertersWordML
         }
 
         /// <remarks/>
-        public object RHEncoding
+        public string RHEncoding
         {
             get
             {
@@ -117,7 +117,7 @@ namespace SILConvertersWordML
         }
 
         /// <remarks/>
-        public object Path
+        public string Path
         {
             get
             {
@@ -130,7 +130,7 @@ namespace SILConvertersWordML
         }
 
         /// <remarks/>
-        public object ToAndFro
+        public string ToAndFro
         {
             get
             {

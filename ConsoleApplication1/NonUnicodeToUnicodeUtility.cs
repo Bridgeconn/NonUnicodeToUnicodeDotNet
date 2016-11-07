@@ -15,7 +15,7 @@ namespace NonUnicodetoUnicodeTool
             // Get an instance of the repository object
             EncConverters aECs = new EncConverters();
 
-          IEncConverter aec =  aECs.InstantiateIEncConverter("SilEncConverters40.TecEncConverter", null);
+            IEncConverter aec =  aECs.InstantiateIEncConverter("SilEncConverters40.TecEncConverter", null);
             ConvType conversionType = ConvType.Legacy_to_from_Unicode;
             string lhs = "SD708";
             string rhs = "Unicode";
