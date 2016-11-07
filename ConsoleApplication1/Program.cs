@@ -11,8 +11,8 @@ namespace NonUnicodetoUnicodeTool
         {
             if (true/*args.Length!=0 && IsValidInputArguments(args)*/)
             {
-                //NonUnicodeToUnicodeUtility.Convert("sd708", @"NU.txt", @"U.txt");
-                //return;
+                NonUnicodeToUnicodeUtility.Convert("sd708", @"NU.txt", @"U.txt");
+                return;
 
                 bool isProceedToNext = false;
 
