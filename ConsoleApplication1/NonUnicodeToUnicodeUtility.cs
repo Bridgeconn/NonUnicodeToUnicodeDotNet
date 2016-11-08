@@ -21,7 +21,7 @@ namespace NonUnicodetoUnicodeTool
             string rhs = "Unicode";
             int pt = (int)ProcessTypeFlags.UnicodeEncodingConversion;
             aec.Initialize("S_D_708<>Unicode", "SD708.tec", ref lhs, ref rhs,ref conversionType, ref pt, 0, 0, false);
-                      
+            DirectableEncConverter encConverter = new DirectableEncConverter(aec);          
             //// Add TECkit tec file generated from the map file
             //aECs.Add("S_D_708<>Unicode", "SD708.tec", ConvType.Legacy_to_from_Unicode, "SD708", "UNICODE", ProcessTypeFlags.UnicodeEncodingConversion);
 
@@ -32,7 +32,7 @@ namespace NonUnicodetoUnicodeTool
             //conv.NormalizeOutput = NormalizeFlags.None;
 
             string strIn = File.ReadAllText(sourceFilePath);
-            string strOut = aec.Convert(strIn);
+            string strOut = encConverter.Convert(strIn);
             File.WriteAllText(targetFilePath, strOut);
             Console.WriteLine("Unicode conversion is completed!");
 
