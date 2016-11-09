@@ -42,7 +42,6 @@ namespace SILConvertersWordML
         protected const int nMaxRecentFiles = 15;
         public const int cnDefaultFontSize = 12;
         private bool isInitialized;
-        private EncConverters localEncConverters;
 
         protected Dictionary<string, DocXmlDocument> m_mapDocName2XmlDocument = new Dictionary<string, DocXmlDocument>();
         protected Dictionary<string, string> m_mapBackupNameToDocName = new Dictionary<string, string>();
@@ -52,7 +51,7 @@ namespace SILConvertersWordML
         // Source font and target font
         public Dictionary<string, string> mapName2Font = new Dictionary<string, string>();
 
-        protected DirectableEncConverter m_aECLast = null;
+        //protected DirectableEncConverter m_aECLast = null;
         //protected Font m_aFontLast = null;
 
         const int cnFontStyleColumn = 0;
@@ -244,23 +243,27 @@ namespace SILConvertersWordML
 
         public bool IsConverterDefined(string strFontStyleName)
         {
-            return m_mapEncConverters.ContainsKey(strFontStyleName);
+            return ConverterFactory.IsConverterDefined(strFontStyleName);
+            //return m_mapEncConverters.ContainsKey(strFontStyleName);
         }
 
-        // This is where the respective EncConverter is mapped for font name
-        public void DefineConverter(string strFontStyleName, DirectableEncConverter aEC)
-        {
-            if (IsConverterDefined(strFontStyleName))
-                m_mapEncConverters.Remove(strFontStyleName);
-            m_mapEncConverters.Add(strFontStyleName, aEC);
-        }
+        //// This is where the respective EncConverter is mapped for font name
+        //public void DefineConverter(string strFontStyleName, DirectableEncConverter aEC)
+        //{
+        //    if (IsConverterDefined(strFontStyleName))
+        //        m_mapEncConverters.Remove(strFontStyleName);
+        //    m_mapEncConverters.Add(strFontStyleName, aEC);
+        //}
 
-        public DirectableEncConverter GetConverter(string strFontName)
-        {
-            return (DirectableEncConverter)m_mapEncConverters[strFontName];
-        }
+        //public DirectableEncConverter GetConverter(string strFontName)
+        //{
+        //    return (DirectableEncConverter)m_mapEncConverters[strFontName];
+        //}
 
-        protected void UpdateExampleDataColumns(DataGridViewRow theRow, string strSampleValue)
+       
+
+       /*
+ protected void UpdateExampleDataColumns(DataGridViewRow theRow, string strSampleValue)
         {
             theRow.Cells[cnExampleDataColumn].Value = strSampleValue;
             string strFontStyleName = (string)theRow.Cells[cnFontStyleColumn].Value;
@@ -271,8 +274,7 @@ namespace SILConvertersWordML
             }
             theRow.Cells[cnExampleOutputColumn].Value = strSampleValue;
         }
-
-        protected void UpdateSampleValue(DataGridViewRow theRow)
+          protected void UpdateSampleValue(DataGridViewRow theRow)
         {
             var xpIterator = (DataIterator)theRow.Tag;
             Debug.Assert(xpIterator != null);
@@ -296,8 +298,6 @@ namespace SILConvertersWordML
                 theCell.ToolTipText = aEC.ToString();
             }
         }
-
-        /*
         protected void UpdateTargetFontCellValue(DataGridViewRow theRow, Font fontTarget)
         {
             theRow.Cells[cnTargetFontColumn].Value = fontTarget.Name;
@@ -486,19 +486,19 @@ namespace SILConvertersWordML
               //  "Click to convert the opened Word document(s) and save them with a new name";
         }
 
-        public DirectableEncConverter GetLocalEncoder(string fontName)
-        {
-            // Get an instance of the repository object
-            EncConverters aECs = new EncConverters();
+        //public DirectableEncConverter GetLocalEncoder(string fontName)
+        //{
+        //    // Get an instance of the repository object
+        //    EncConverters aECs = new EncConverters();
 
-            // Add TECkit tec file generated from the map file
-            aECs.Add("S_D_708<>Unicode", "SD708.tec", ConvType.Legacy_to_from_Unicode, "SD708", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
+        //    // Add TECkit tec file generated from the map file
+        //    aECs.Add("S_D_708<>Unicode", "SD708.tec", ConvType.Legacy_to_from_Unicode, "SD708", "UNICODE", ProcessTypeFlags.NonUnicodeEncodingConversion);
 
-            // Get a reference to the converter
-            IEncConverter conv = aECs.GetMapByName("S_D_708<>Unicode");
+        //    // Get a reference to the converter
+        //    IEncConverter conv = aECs.GetMapByName("S_D_708<>Unicode");
 
-            return new DirectableEncConverter(conv);
-        }
+        //    return new DirectableEncConverter(conv);
+        //}
 
         // if the document is based on a SaveFormat from Office 2007, then use the Office2007 "FlatXML" format
         //  for the temporary XML file.
@@ -813,22 +813,6 @@ namespace SILConvertersWordML
             catch { }
         }
 
-        internal EncConverters EncConvertersList
-        {
-            get
-            {
-                try
-                {
-
-                    return localEncConverters;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Can't access the repository because: " + ex.Message, cstrCaption);
-                }
-                return null;
-            }
-        }
         /*
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1009,8 +993,8 @@ namespace SILConvertersWordML
             bool bModified = false;
             if (IsConverterDefined(strFontStyleName))
             {
-                var aEC = GetConverter(strFontStyleName);
-                bModified = SetValues(dataIteratorFontStyleText, strFontStyleName, aEC, bConvertCharValue);
+                var aEC = ConverterFactory.GetConverter(new ConverterRequest { LHEncodingField = strFontStyleName }); // TBD
+                bModified = SetValues(dataIteratorFontStyleText, strFontStyleName, aEC as DirectableEncConverter, bConvertCharValue);
             }
             return bModified;
         }
@@ -1296,7 +1280,7 @@ namespace SILConvertersWordML
                     UpdateSampleValue(theRow);
                     break;
 
-                case cnEncConverterColumn:
+                case cnEncConverterColumn:cnFontStyleColumn
                     string strExampleData = (string)theRow.Cells[cnExampleDataColumn].Value;
 
                     if (e.Button == MouseButtons.Right)

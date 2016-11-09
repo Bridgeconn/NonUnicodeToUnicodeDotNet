@@ -9,3 +9,4 @@ H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\SILBulkWordConverter\obj\Debug\
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\SILBulkWordConverter\obj\Debug\SILBulkWordConverter.csproj.GenerateResource.Cache
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\SILBulkWordConverter\obj\Debug\SILBulkWordConverter.dll
 H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\SILBulkWordConverter\obj\Debug\SILBulkWordConverter.pdb
+H:\WA\Scripts\Marathi NU - U\ConsoleApplication1\SILBulkWordConverter\obj\Debug\SILBulkWordConverter.csprojResolveAssemblyReference.cache

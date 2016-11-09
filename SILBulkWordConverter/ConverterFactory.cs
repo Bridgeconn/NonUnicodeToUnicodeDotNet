@@ -14,7 +14,6 @@ namespace SILConvertersWordML
         private static Dictionary<string, object> unicodeConverters;
         private static UnicodeConverters xmlUnicodeConverters;
 
-
         public static bool IsLoaded
         {
             get
@@ -30,7 +29,7 @@ namespace SILConvertersWordML
             // read the xml file, have the XMLUnicodeConverters object populated
 
             string xml = File.ReadAllText(@"D:\file.xml"); // TBD Path storage
-            var catalog1 = xml.ParseXML<UnicodeConverters>();
+            xmlUnicodeConverters = xml.ParseXML<UnicodeConverters>();
         }
 
         ///  Based on the converterRequest 
@@ -115,5 +114,31 @@ namespace SILConvertersWordML
 
             return encConverter;
         }
+
+        public static bool IsConverterDefined(string strFontStyleName)
+        {
+            bool isDefined = false;
+
+            isDefined = unicodeConverters.ContainsKey(strFontStyleName+":Unicode");
+            if(!isDefined)
+            {
+                isDefined = (GetConverter(new ConverterRequest {  }) != null);
+            }
+
+            return isDefined;
+        }
+
+        //// This is where the respective EncConverter is mapped for font name
+        //public void DefineConverter(string strFontStyleName, DirectableEncConverter aEC)
+        //{
+        //    if (IsConverterDefined(strFontStyleName))
+        //        m_mapEncConverters.Remove(strFontStyleName);
+        //    m_mapEncConverters.Add(strFontStyleName, aEC);
+        //}
+
+        //public DirectableEncConverter GetConverter(string strFontName)
+        //{
+        //    return (DirectableEncConverter)m_mapEncConverters[strFontName];
+        //}
     }
 }
