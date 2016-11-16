@@ -13,14 +13,7 @@ namespace SILConvertersWordML
     {
         private static Dictionary<string, object> unicodeConverters;
         private static UnicodeConverters xmlUnicodeConverters;
-
-        public static bool IsLoaded
-        {
-            get
-            {
-                return (xmlUnicodeConverters != null);
-            }
-        }
+        private static Dictionary<string, DirectableEncConverter> encConvertersDictionary;
 
         public static void initialize()
         {
@@ -128,17 +121,39 @@ namespace SILConvertersWordML
             return isDefined;
         }
 
-        //// This is where the respective EncConverter is mapped for font name
-        //public void DefineConverter(string strFontStyleName, DirectableEncConverter aEC)
-        //{
-        //    if (IsConverterDefined(strFontStyleName))
-        //        m_mapEncConverters.Remove(strFontStyleName);
-        //    m_mapEncConverters.Add(strFontStyleName, aEC);
-        //}
+        public static bool IsLoaded
+        {
+            get
+            {
+                return (xmlUnicodeConverters != null);
+            }
+        }
 
-        //public DirectableEncConverter GetConverter(string strFontName)
-        //{
-        //    return (DirectableEncConverter)m_mapEncConverters[strFontName];
-        //}
+        public static EncConverters EncConvertersList
+        {
+            get
+            {
+                EncConverters list = new EncConverters();
+                foreach(string key in encConvertersDictionary.Keys)
+                {
+                    list.Add(encConvertersDictionary[key].Name, encConvertersDictionary[key]);
+                }
+
+                return  list;
+            }
+        }
+
+        // This is where the respective EncConverter is mapped for font name
+        public static void DefineConverter(string strFontStyleName, DirectableEncConverter aEC)
+        {
+            if (IsConverterDefined(strFontStyleName))
+                encConvertersDictionary.Remove(strFontStyleName);
+            encConvertersDictionary.Add(strFontStyleName, aEC);
+        }
+
+        public static DirectableEncConverter GetConverter(string strFontName)
+        {
+            return encConvertersDictionary[strFontName];
+        }
     }
 }

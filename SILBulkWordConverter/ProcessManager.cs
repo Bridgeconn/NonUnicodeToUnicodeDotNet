@@ -372,7 +372,7 @@ namespace SILConvertersWordML
             // if there's not already a mapping, see if the repository can help us TBD this should choose for the basic user mode
             if (!IsConverterDefined(strName))
             {
-                EncConverters aECs = EncConvertersList;
+                EncConverters aECs = ConverterFactory.EncConvertersList;
                 if (aECs != null)
                 {
                     string strMappingName = aECs.GetMappingNameFromFont(strName);
@@ -384,7 +384,7 @@ namespace SILConvertersWordML
                         if (aIEC != null)
                         {
                             DirectableEncConverter aEC = new DirectableEncConverter(aIEC);
-                            DefineConverter(strName, aEC);
+                            ConverterFactory.DefineConverter(strName, aEC);
                         }
                     }
                 }
@@ -392,7 +392,7 @@ namespace SILConvertersWordML
 
             if (IsConverterDefined(strName))
             {
-                DirectableEncConverter aEC = GetConverter(strName);
+                DirectableEncConverter aEC = ConverterFactory.GetConverter(strName);
                 strConverterName = aEC.Name;
                 strOutput = CallSafeConvert(aEC, strTextSample);
                 strTooltip = aEC.ToString();
@@ -403,10 +403,10 @@ namespace SILConvertersWordML
                 string strTargetFontName = strName;
                 if (IsConverterDefined(strName))
                 {
-                    EncConverters aECs = EncConvertersList;
+                    EncConverters aECs = ConverterFactory.EncConvertersList;
                     if (aECs != null)
                     {
-                        DirectableEncConverter aEC = GetConverter(strName);
+                        DirectableEncConverter aEC = ConverterFactory.GetConverter(strName);
                         string[] astrFontnames = aECs.GetFontMapping(aEC.Name, strName);
                         if (astrFontnames.Length > 0)
                         {
