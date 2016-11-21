@@ -13,31 +13,45 @@ namespace SILConvertersWordML
     public partial class UnicodeConverters
     {
 
-        private UnicodeConvertersConverter[] converterField;
+        private UnicodeConvertersTECConverter[] tECConvertersField;
+
+        private UnicodeConvertersCPConverter[] cPConvertersField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Converter")]
-        public UnicodeConvertersConverter[] Converter
+        [System.Xml.Serialization.XmlArrayItemAttribute("TECConverter", IsNullable = false)]
+        public UnicodeConvertersTECConverter[] TECConverters
         {
             get
             {
-                return this.converterField;
+                return this.tECConvertersField;
             }
             set
             {
-                this.converterField = value;
+                this.tECConvertersField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("CPConverter", IsNullable = false)]
+        public UnicodeConvertersCPConverter[] CPConverters
+        {
+            get
+            {
+                return this.cPConvertersField;
+            }
+            set
+            {
+                this.cPConvertersField = value;
             }
         }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.bridgeconn.com/computing/schemas/UnicodeConverters.xsd")]
-    public partial class UnicodeConvertersConverter
+    public partial class UnicodeConvertersTECConverter
     {
 
         private string languageField;
-
-        private string converterTypeField;
 
         private string converterNameField;
 
@@ -65,15 +79,114 @@ namespace SILConvertersWordML
         }
 
         /// <remarks/>
-        public string ConverterType
+        public string ConverterName
         {
             get
             {
-                return this.converterTypeField;
+                return this.converterNameField;
             }
             set
             {
-                this.converterTypeField = value;
+                this.converterNameField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string LHEncoding
+        {
+            get
+            {
+                return this.lHEncodingField;
+            }
+            set
+            {
+                this.lHEncodingField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string RHEncoding
+        {
+            get
+            {
+                return this.rHEncodingField;
+            }
+            set
+            {
+                this.rHEncodingField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string Path
+        {
+            get
+            {
+                return this.pathField;
+            }
+            set
+            {
+                this.pathField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string ToAndFro
+        {
+            get
+            {
+                return this.toAndFroField;
+            }
+            set
+            {
+                this.toAndFroField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public byte id
+        {
+            get
+            {
+                return this.idField;
+            }
+            set
+            {
+                this.idField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.bridgeconn.com/computing/schemas/UnicodeConverters.xsd")]
+    public partial class UnicodeConvertersCPConverter
+    {
+
+        private string languageField;
+
+        private string converterNameField;
+
+        private string lHEncodingField;
+
+        private string rHEncodingField;
+
+        private string pathField;
+
+        private string toAndFroField;
+
+        private byte idField;
+
+        /// <remarks/>
+        public string Language
+        {
+            get
+            {
+                return this.languageField;
+            }
+            set
+            {
+                this.languageField = value;
             }
         }
 

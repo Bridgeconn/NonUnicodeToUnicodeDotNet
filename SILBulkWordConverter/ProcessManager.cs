@@ -90,12 +90,7 @@ namespace SILConvertersWordML
         public ProcessManager(ProcessRequest processRequest)
         {
             this.processRequest = processRequest;
-
-            // TBD process_ID needs to be generated based on the processrequest
             this.processMessenger = processRequest.processMessenger;
-
-            // localEncConverters list is maintained with font information from a simple XML file
-            // GetLocalEncoder
 
             //helpProvider.SetHelpString(this.dataGridView, Properties.Resources.dataGridViewHelp);
 #if DEBUG
