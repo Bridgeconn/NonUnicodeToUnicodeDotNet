@@ -22,11 +22,12 @@ namespace SILConvertersWordML
         ConversionMode conversionMode;
         IProcessMessenger logger;
 
-        public ProcessRequest(string[] inputFiles, IProcessMessenger logger, bool leaveXMLFileInFolder = false)
+        public ProcessRequest(string[] inputFiles, IProcessMessenger logger, bool leaveXMLFileInFolder = true)
         {
             this.logger = logger;
             this.inputFiles = inputFiles;
             this.leaveXMLFileInFolder = leaveXMLFileInFolder;
+            this.useLinqConversion = true;
             // ConversionElements.FontsAndStyles TBD
         }
 

@@ -11,13 +11,13 @@ namespace NonUnicodetoUnicodeTool
         {
             if (true/*args.Length!=0 && IsValidInputArguments(args)*/)
             {
-                NonUnicodeToUnicodeUtility.Convert("sd708", @"NU.txt", @"U.txt");
-                return;
+                //NonUnicodeToUnicodeUtility.Convert("sd708", @"NU.txt", @"U.txt");
+                //return;
 
                 bool isProceedToNext = false;
 
                 // Create a process request
-                ProcessRequest processRequest = new ProcessRequest(new string[] { "NU.txt"}, new Logger(GetNotified));
+                ProcessRequest processRequest = new ProcessRequest(new string[] { @"H:\WA\Scripts\Marathi NU - U\Font Study\MAP Files\DV_ME_SHREE\NU.docx" }, new Logger(GetNotified));
                 ProcessManager processManager = new ProcessManager(processRequest);
 
                 // ProcessResult is for the result for the steps & ProcessIntermediateResult is the in between messages

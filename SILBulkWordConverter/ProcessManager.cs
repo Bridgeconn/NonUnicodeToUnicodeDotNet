@@ -104,9 +104,9 @@ namespace SILConvertersWordML
             try
             {
                 // Does the basic validation for the expected inputs and returns the result 
-                if (!ConverterFactory.IsConfigurationFilePathValid)
+                if (!ConverterFactory.IsLoaded)
                 {
-                    throw (new FileNotFoundException("ConverterFactory's configuration file is not found!"));
+                    ConverterFactory.initialize();
                 }
 
                 foreach (string path in processRequest.InputFiles)
@@ -536,7 +536,7 @@ namespace SILConvertersWordML
                 bWord2007 = false;  // use Word 2003 compatibility mode
             }
 
-            string strXmlFilename = Path.GetFileName(strDocFilename) + ".xml";
+            string strXmlFilename = Path.GetTempFileName() + ".xml";
             object oXmlFilename = strXmlFilename;
             object oXmlFormat = (bWord2007) ? wdFormatFlatXML : Word.WdSaveFormat.wdFormatXML;
 

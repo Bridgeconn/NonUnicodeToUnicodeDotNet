@@ -18,10 +18,15 @@ namespace SILConvertersWordML
 
         public static void initialize()
         {
+            // read the xml file, have the XMLUnicodeConverters object populated
+            if (!IsConfigurationFilePathValid)
+            {
+                throw (new FileNotFoundException("ConverterFactory's configuration file is not found!"));
+            }
+
             unicodeConverters = new Dictionary<string, object>();
             encConvertersDictionary = new Dictionary<string, DirectableEncConverter>();
 
-            // read the xml file, have the XMLUnicodeConverters object populated
             string xml = File.ReadAllText(configurationFilePath); 
             xmlUnicodeConverters = xml.ParseXML<UnicodeConverters>();
         }
