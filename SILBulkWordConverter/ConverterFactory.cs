@@ -14,6 +14,7 @@ namespace SILConvertersWordML
         private static Dictionary<string, object> unicodeConverters;
         private static UnicodeConverters xmlUnicodeConverters;
         private static Dictionary<string, DirectableEncConverter> encConvertersDictionary;
+        private const string configurationFilePath = @"Converters.xml";
 
         public static void initialize()
         {
@@ -21,8 +22,16 @@ namespace SILConvertersWordML
             encConvertersDictionary = new Dictionary<string, DirectableEncConverter>();
 
             // read the xml file, have the XMLUnicodeConverters object populated
-            string xml = File.ReadAllText(@"Converters.xml"); 
+            string xml = File.ReadAllText(configurationFilePath); 
             xmlUnicodeConverters = xml.ParseXML<UnicodeConverters>();
+        }
+
+        public static bool IsConfigurationFilePathValid
+        {
+            get
+            {
+                return File.Exists(configurationFilePath);
+            }
         }
 
         ///  Based on the converterRequest 

@@ -104,20 +104,22 @@ namespace SILConvertersWordML
             try
             {
                 // Does the basic validation for the expected inputs and returns the result 
-
-                bool areFilePathsValid = true;
-
-                foreach(string path in processRequest.InputFiles)
+                if (!ConverterFactory.IsConfigurationFilePathValid)
                 {
-                    if(!File.Exists(path))
+                    throw (new FileNotFoundException("ConverterFactory's configuration file is not found!"));
+                }
+
+                foreach (string path in processRequest.InputFiles)
+                {
+                    if (!File.Exists(path))
                     {
-                        areFilePathsValid = false;
+                        throw (new FileNotFoundException("Input file path is not valid: " + path));
                     }
                 }
 
-                isInitialized = (areFilePathsValid && processRequest.InputFiles.Length > 0) ? true : false;
+                isInitialized = (processRequest.InputFiles.Length > 0) ? true : false;
 
-                if(isInitialized && ConverterFactory.IsLoaded)
+                if (isInitialized && ConverterFactory.IsLoaded)
                 {
                     processID = DateTime.Now.ToString("yyyy-MM-ddTHHmmssfff");
                 }
@@ -130,7 +132,6 @@ namespace SILConvertersWordML
                 processResult.Message = exception.Message;
                 processResult.ResultType = ResultType.Failed;
             }
-
 
             return processResult;
         }
