@@ -39,10 +39,7 @@ namespace SILConvertersWordML
             }
         }
 
-        ///  Based on the converterRequest 
-        ///  1) read from the XMLUnicodeConverters
-        ///  2) Instantiate and return the DirectableEncConverter  
-        public static IEncConverter GetConverter(ConverterRequest converterRequest)
+        public static void DefineConverter(ConverterRequest converterRequest)
         {
             IEncConverter encConverter = null;
             bool isFound = false;
@@ -59,16 +56,18 @@ namespace SILConvertersWordML
                     string key = converterRequest.LHEncodingField + ":" + converterRequest.RHEncodingField;
                     if (unicodeConverters.Keys.Contains(key))
                     {
-                        return unicodeConverters[key] as IEncConverter;
+                        return; // unicodeConverters[key] as IEncConverter;
                     }
                 }
 
-                if(converterRequest.ConverterType == ConverterType.CP)
+                DefineConverter(converterRequest);
+
+                if (converterRequest.ConverterType == ConverterType.CP)
                 {
 
 
                 }
-                else if(converterRequest.ConverterType == ConverterType.TEC)
+                else if (converterRequest.ConverterType == ConverterType.TEC)
                 {
                     // Else create one from the information provided
                     foreach (UnicodeConvertersTECConverter unicodeConverter in xmlUnicodeConverters.TECConverters)
@@ -114,6 +113,36 @@ namespace SILConvertersWordML
                         }
                     }
                 }
+
+            }
+            catch (Exception exception)
+            {
+                // log the  exception
+            }
+        }
+
+        ///  Based on the converterRequest 
+        ///  1) read from the XMLUnicodeConverters
+        ///  2) Instantiate and return the DirectableEncConverter  
+        public static IEncConverter GetConverter(ConverterRequest converterRequest)
+        {
+            IEncConverter converter = null;
+            try
+            {
+                if (xmlUnicodeConverters == null)
+                {
+                    initialize();
+                }
+                else    // check if the required converter has been already instantiated.
+                {
+                    string key = converterRequest.LHEncodingField + ":" + converterRequest.RHEncodingField;
+                    if (unicodeConverters.Keys.Contains(key))
+                    {
+                        return unicodeConverters[key] as IEncConverter;
+                    }
+                }
+
+                DefineConverter(converterRequest);
                     
             }
             catch (Exception exception)
@@ -121,7 +150,7 @@ namespace SILConvertersWordML
                 // log the  exception
             }
 
-            return encConverter;
+            return converter;
         }
 
         public static bool IsConverterDefined(string strFontStyleName)

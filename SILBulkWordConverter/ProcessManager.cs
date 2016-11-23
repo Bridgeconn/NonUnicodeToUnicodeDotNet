@@ -179,6 +179,10 @@ namespace SILConvertersWordML
             var processResult = new ProcessResult();
             try
             {
+                foreach(string fontName in mapName2Font.Keys)
+                {
+                    ConverterFactory.DefineConverter(new ConverterRequest { });
+                }
 
                 processResult.ResultType = ResultType.Completed;
             }
