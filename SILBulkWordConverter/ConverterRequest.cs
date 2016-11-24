@@ -11,5 +11,7 @@
         public string LHEncodingField { get; set; }
 
         public string RHEncodingField { get; set; }
+
+        public bool IsLegacyToUnicode { get; set; }
     }
 }

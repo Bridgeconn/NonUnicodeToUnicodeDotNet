@@ -17,17 +17,19 @@ namespace SILConvertersWordML
         bool leaveXMLFileInFolder;
         bool useLinqConversion;
         bool singleStep;
+        bool isLegacyToUnicode;
 
         ConversionElements conversionElements;
         ConversionMode conversionMode;
         IProcessMessenger logger;
 
-        public ProcessRequest(string[] inputFiles, IProcessMessenger logger, bool leaveXMLFileInFolder = true)
+        public ProcessRequest(string[] inputFiles, bool isLegacyToUnicode, IProcessMessenger logger, bool leaveXMLFileInFolder = true)
         {
             this.logger = logger;
             this.inputFiles = inputFiles;
             this.leaveXMLFileInFolder = leaveXMLFileInFolder;
             this.useLinqConversion = true;
+            this.IsLegacyToUnicode = isLegacyToUnicode;
             // ConversionElements.FontsAndStyles TBD
         }
 
@@ -97,6 +99,19 @@ namespace SILConvertersWordML
             get
             {
                 return logger;
+            }
+        }
+
+        public bool IsLegacyToUnicode
+        {
+            get
+            {
+                return isLegacyToUnicode;
+            }
+
+            set
+            {
+                isLegacyToUnicode = value;
             }
         }
     }

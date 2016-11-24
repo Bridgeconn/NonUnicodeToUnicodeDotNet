@@ -181,7 +181,7 @@ namespace SILConvertersWordML
             {
                 foreach(string fontName in mapName2Font.Keys)
                 {
-                    ConverterFactory.DefineConverter(new ConverterRequest { });
+                    ConverterFactory.LoadConverter(new ConverterRequest { });
                 }
 
                 processResult.ResultType = ResultType.Completed;
@@ -243,7 +243,7 @@ namespace SILConvertersWordML
 
         public bool IsConverterDefined(string strFontStyleName)
         {
-            return ConverterFactory.IsConverterDefined(strFontStyleName);
+            return ConverterFactory.IsConverterDefined(new ConverterRequest { IsLegacyToUnicode=processRequest.IsLegacyToUnicode, LHEncodingField=strFontStyleName});
             //return m_mapEncConverters.ContainsKey(strFontStyleName);
         }
 
@@ -384,7 +384,7 @@ namespace SILConvertersWordML
                         if (aIEC != null)
                         {
                             DirectableEncConverter aEC = new DirectableEncConverter(aIEC);
-                            ConverterFactory.DefineConverter(strName, aEC);
+                            ConverterFactory.DefineConverter( new ConverterRequest { IsLegacyToUnicode = processRequest.IsLegacyToUnicode, LHEncodingField= strName }, aEC);
                         }
                     }
                 }
