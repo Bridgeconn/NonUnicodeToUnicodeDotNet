@@ -11,9 +11,8 @@ namespace SILConvertersWordML
 {
     public static class ConverterFactory
     {
-        private static Dictionary<string, object> unicodeConverters;
         private static UnicodeConverters xmlUnicodeConverters;
-        private static Dictionary<string, DirectableEncConverter> encConvertersDictionary;
+        private static List<DirectableEncConverter> unicodeConverters;
         private const string configurationFilePath = @"Converters.xml";
 
         public static void initialize()
@@ -24,8 +23,7 @@ namespace SILConvertersWordML
                 throw (new FileNotFoundException("ConverterFactory's configuration file is not found!"));
             }
 
-            unicodeConverters = new Dictionary<string, object>();
-            encConvertersDictionary = new Dictionary<string, DirectableEncConverter>();
+            unicodeConverters = new List<DirectableEncConverter>() ;
 
             string xml = File.ReadAllText(configurationFilePath); 
             xmlUnicodeConverters = xml.ParseXML<UnicodeConverters>();
@@ -39,9 +37,9 @@ namespace SILConvertersWordML
             }
         }
 
-        public static void LoadConverter(ConverterRequest converterRequest)
+        public static bool LoadConverter(ConverterRequest converterRequest)
         {
-            IEncConverter encConverter = null;
+            DirectableEncConverter encConverter = null;
             bool isFound = false;
 
             try
@@ -53,17 +51,19 @@ namespace SILConvertersWordML
                 else    // check if the required converter has been already instantiated.
                 {
                     string key = converterRequest.LHEncodingField;
-                    if (unicodeConverters.Keys.Contains(key))
+                    if (unicodeConverters.Exists(
+                        x => x.GetEncConverter.LeftEncodingID == converterRequest.LHEncodingField
+                        &&
+                        x.GetEncConverter.DirectionForward == converterRequest.IsLegacyToUnicode))
                     {
-                        return; // unicodeConverters[key] as IEncConverter;
+                        return true; // unicodeConverters[key] as IEncConverter;
                     }
                 }
              
 
                 if (converterRequest.ConverterType == ConverterType.CP)
                 {
-
-
+                    return true;
                 }
                 else if (converterRequest.ConverterType == ConverterType.TEC)
                 {
@@ -71,13 +71,19 @@ namespace SILConvertersWordML
                     foreach (UnicodeConvertersTECConverter unicodeConverter in xmlUnicodeConverters.TECConverters)
                     {
                         string key = converterRequest.LHEncodingField;
-                         if (converterRequest.LHEncodingField == unicodeConverter.LHEncoding)
+                        if (converterRequest.LHEncodingField == unicodeConverter.LHEncoding)
                         {
-                            if (unicodeConverter.ToAndFro == "True")
+                            if (!converterRequest.IsLegacyToUnicode)
                             {
-                                // TBD
+                                if (unicodeConverter.ToAndFro == "True")
+                                {
+                                    isFound = true;
+                                }
                             }
+                            else
+                            {
                                 isFound = true;
+                            }
                         }
 
                         if (isFound)
@@ -89,14 +95,11 @@ namespace SILConvertersWordML
                             string rhs = converterRequest.RHEncodingField; //"Unicode";
                             int pt = 0;
                             tecConverter.Initialize(unicodeConverter.ConverterName, unicodeConverter.Path, ref lhs, ref rhs, ref conversionType, ref pt, 0, 0, false);
-                            encConverter = new DirectableEncConverter(tecConverter) as IEncConverter;
+                            tecConverter.DirectionForward = converterRequest.IsLegacyToUnicode;
+                            encConverter = new DirectableEncConverter(tecConverter);
+                            unicodeConverters.Add(encConverter);
 
-                            if (!unicodeConverters.Keys.Contains(key))
-                            {
-                                unicodeConverters.Add(key, encConverter);
-                            }
-
-                            break;
+                            return true;
                         }
                     }
                 }
@@ -106,6 +109,8 @@ namespace SILConvertersWordML
             {
                 // log the  exception
             }
+
+            return false;
         }
 
         ///  Based on the converterRequest 
@@ -119,18 +124,19 @@ namespace SILConvertersWordML
                 if (xmlUnicodeConverters == null)
                 {
                     initialize();
-                }
-                else    // check if the required converter has been already instantiated.
-                {
-                    string key = converterRequest.LHEncodingField;
-                    if (unicodeConverters.Keys.Contains(key))
-                    {
-                        return unicodeConverters[key] as IEncConverter;
-                    }
+                    LoadConverter(converterRequest);
                 }
 
-                LoadConverter(converterRequest);
-                    
+                if (unicodeConverters.Exists(
+                    x => x.GetEncConverter.LeftEncodingID == converterRequest.LHEncodingField
+                    &&
+                    x.GetEncConverter.DirectionForward == converterRequest.IsLegacyToUnicode))
+                {
+                    return unicodeConverters.First(
+                    x => x.GetEncConverter.LeftEncodingID == converterRequest.LHEncodingField
+                    &&
+                    x.GetEncConverter.DirectionForward == converterRequest.IsLegacyToUnicode) as IEncConverter;
+                }
             }
             catch (Exception exception)
             {
@@ -144,10 +150,13 @@ namespace SILConvertersWordML
         {
             bool isDefined = false;
 
-            isDefined = unicodeConverters.ContainsKey(converterRequest.LHEncodingField);
-            if(!isDefined)
+            isDefined = unicodeConverters.Exists(
+                    x => x.GetEncConverter.LeftEncodingID == converterRequest.LHEncodingField
+                    &&
+                    x.GetEncConverter.DirectionForward == converterRequest.IsLegacyToUnicode);
+            if (!isDefined)
             {
-                isDefined = (GetConverter(converterRequest) != null);
+                return LoadConverter(converterRequest);
             }
 
             return isDefined;
@@ -161,31 +170,31 @@ namespace SILConvertersWordML
             }
         }
 
-        public static EncConverters EncConvertersList
-        {
-            get
-            {
-                EncConverters list = new EncConverters();
-                foreach(string key in encConvertersDictionary.Keys)
-                {
-                    list.Add(encConvertersDictionary[key].Name, encConvertersDictionary[key]);
-                }
+        //public static EncConverters EncConvertersList
+        //{
+        //    get
+        //    {
+        //        EncConverters list = new EncConverters();
+        //        foreach(string key in unicodeConverters.Keys)
+        //        {
+        //            list.Add(unicodeConverters[key].Name, unicodeConverters[key]);
+        //        }
 
-                return  list;
-            }
-        }
+        //        return  list;
+        //    }
+        //}
 
         // This is where the respective EncConverter is mapped for font name
-        public static void DefineConverter(ConverterRequest converterRequest, DirectableEncConverter aEC)
-        {
-            if (IsConverterDefined(converterRequest))
-                encConvertersDictionary.Remove(converterRequest.LHEncodingField);
-            encConvertersDictionary.Add(converterRequest.LHEncodingField, aEC);
-        }
+        //public static void DefineConverter(ConverterRequest converterRequest, DirectableEncConverter aEC)
+        //{
+        //    if (IsConverterDefined(converterRequest))
+        //        unicodeConverters.Remove(converterRequest.LHEncodingField);
+        //    unicodeConverters.Add(converterRequest.LHEncodingField, aEC);
+        //}
 
-        public static DirectableEncConverter GetConverter(string strFontName)
-        {
-            return encConvertersDictionary[strFontName];
-        }
+        //public static DirectableEncConverter GetConverter(string strFontName)
+        //{
+        //    return unicodeConverters[strFontName];
+        //}
     }
 }

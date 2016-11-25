@@ -364,6 +364,7 @@ namespace SILConvertersWordML
         // TBD selection is made for basic-user-mode & have to show to the user in expert-user-mode
         protected void DisplayInGrid(string strName, DataIterator dataIterator)
         {
+            /*
             string strTextSample = GetCurrentValue(dataIterator);
             string strConverterName = cstrClickMsg;
             string strOutput = strTextSample;
@@ -425,6 +426,8 @@ namespace SILConvertersWordML
             //int nIndex = this.dataGridView.Rows.Add(row);
             // DataGridViewRow thisRow = dataGridView.Rows[nIndex];
             //thisRow.Cells[cnEncConverterColumn].ToolTipText = strTooltip;
+
+            */
         }
 
         /*
