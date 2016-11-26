@@ -148,7 +148,7 @@ namespace SILConvertersWordML
                 Reset();
 
                 processResult = ConvertToXMLDocuments(astrFilenames);
-                //DoRestOfOpen(astrFilenames);
+                DoRestOfOpen(astrFilenames);
                 //Cursor = Cursors.Default;
             }
             catch (Exception exception)
@@ -181,7 +181,7 @@ namespace SILConvertersWordML
             {
                 foreach(string fontName in mapName2Font.Keys)
                 {
-                    ConverterFactory.LoadConverter(new ConverterRequest { });
+                    ConverterFactory.LoadConverter(new ConverterRequest { LHEncodingField = fontName, IsLegacyToUnicode = processRequest.IsLegacyToUnicode });
                 }
 
                 processResult.ResultType = ResultType.Completed;
@@ -364,70 +364,21 @@ namespace SILConvertersWordML
         // TBD selection is made for basic-user-mode & have to show to the user in expert-user-mode
         protected void DisplayInGrid(string strName, DataIterator dataIterator)
         {
-            /*
-            string strTextSample = GetCurrentValue(dataIterator);
-            string strConverterName = cstrClickMsg;
-            string strOutput = strTextSample;
-            string strTooltip = cstrClickMsg;
-
-            // if there's not already a mapping, see if the repository can help us TBD this should choose for the basic user mode
-            if (!IsConverterDefined(strName))
-            {
-                EncConverters aECs = ConverterFactory.EncConvertersList;
-                if (aECs != null)
-                {
-                    string strMappingName = aECs.GetMappingNameFromFont(strName);
-                    if (!String.IsNullOrEmpty(strMappingName))
-                    {
-                        strConverterName = strMappingName;
-                        IEncConverter aIEC = aECs[strConverterName];
-
-                        if (aIEC != null)
-                        {
-                            DirectableEncConverter aEC = new DirectableEncConverter(aIEC);
-                            ConverterFactory.DefineConverter( new ConverterRequest { IsLegacyToUnicode = processRequest.IsLegacyToUnicode, LHEncodingField= strName }, aEC);
-                        }
-                    }
-                }
-            }
-
-            if (IsConverterDefined(strName))
-            {
-                DirectableEncConverter aEC = ConverterFactory.GetConverter(strName);
-                strConverterName = aEC.Name;
-                strOutput = CallSafeConvert(aEC, strTextSample);
-                strTooltip = aEC.ToString();
-            }
-
+            
             if (!mapName2Font.ContainsKey(strName))
             {
-                string strTargetFontName = strName;
-                if (IsConverterDefined(strName))
-                {
-                    EncConverters aECs = ConverterFactory.EncConvertersList;
-                    if (aECs != null)
-                    {
-                        DirectableEncConverter aEC = ConverterFactory.GetConverter(strName);
-                        string[] astrFontnames = aECs.GetFontMapping(aEC.Name, strName);
-                        if (astrFontnames.Length > 0)
-                        {
-                            strTargetFontName = astrFontnames[0];
-                        }
-                    }
-                }
 
                 //Font font = CreateFontSafe(strTargetFontName);
-                mapName2Font.Add(strName, strTargetFontName);
+                mapName2Font.Add(strName, strName);
             }
 
-            string[] row = { strName, strTextSample, strConverterName, strOutput, mapName2Font[strName] };
+           // string[] row = { strName, strTextSample, strConverterName, strOutput, mapName2Font[strName] };
             // can be used to display to the user TBD
 
             //int nIndex = this.dataGridView.Rows.Add(row);
             // DataGridViewRow thisRow = dataGridView.Rows[nIndex];
             //thisRow.Cells[cnEncConverterColumn].ToolTipText = strTooltip;
 
-            */
         }
 
         /*
