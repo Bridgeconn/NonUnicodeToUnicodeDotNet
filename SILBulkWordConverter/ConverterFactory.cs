@@ -52,7 +52,7 @@ namespace SILConvertersWordML
                 {
                     string key = converterRequest.LHEncodingField;
                     if (unicodeConverters.Exists(
-                        x => x.GetEncConverter.LeftEncodingID == converterRequest.LHEncodingField
+                        x => x.GetEncConverter.LeftEncodingID.ToLower() == converterRequest.LHEncodingField.ToLower()
                         &&
                         x.GetEncConverter.DirectionForward == converterRequest.IsLegacyToUnicode))
                     {
@@ -71,7 +71,7 @@ namespace SILConvertersWordML
                     foreach (UnicodeConvertersTECConverter unicodeConverter in xmlUnicodeConverters.TECConverters)
                     {
                         string key = converterRequest.LHEncodingField;
-                        if (converterRequest.LHEncodingField == unicodeConverter.LHEncoding)
+                        if (converterRequest.LHEncodingField.ToLower() == unicodeConverter.LHEncoding.ToLower())
                         {
                             if (!converterRequest.IsLegacyToUnicode)
                             {
@@ -92,9 +92,10 @@ namespace SILConvertersWordML
                             IEncConverter tecConverter = aECs.InstantiateIEncConverter("SilEncConverters40.TecEncConverter", null);
                             ConvType conversionType = ConvType.Legacy_to_from_Unicode;
                             string lhs = converterRequest.LHEncodingField; //"SD708";
-                            string rhs = converterRequest.RHEncodingField; //"Unicode";
+                            string rhs = "Unicode"; //converterRequest.RHEncodingField;
                             int pt = 0;
-                            tecConverter.Initialize(unicodeConverter.ConverterName, unicodeConverter.Path, ref lhs, ref rhs, ref conversionType, ref pt, 0, 0, false);
+                            string tecFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, unicodeConverter.Path);
+                            tecConverter.Initialize(unicodeConverter.ConverterName, tecFilePath, ref lhs, ref rhs, ref conversionType, ref pt, 0, 0, false);
                             tecConverter.DirectionForward = converterRequest.IsLegacyToUnicode;
                             encConverter = new DirectableEncConverter(tecConverter);
                             unicodeConverters.Add(encConverter);
@@ -128,12 +129,12 @@ namespace SILConvertersWordML
                 }
 
                 if (unicodeConverters.Exists(
-                    x => x.GetEncConverter.LeftEncodingID == converterRequest.LHEncodingField
+                    x => x.GetEncConverter.LeftEncodingID.ToLower() == converterRequest.LHEncodingField.ToLower()
                     &&
                     x.GetEncConverter.DirectionForward == converterRequest.IsLegacyToUnicode))
                 {
                     return unicodeConverters.First(
-                    x => x.GetEncConverter.LeftEncodingID == converterRequest.LHEncodingField
+                    x => x.GetEncConverter.LeftEncodingID.ToLower() == converterRequest.LHEncodingField.ToLower()
                     &&
                     x.GetEncConverter.DirectionForward == converterRequest.IsLegacyToUnicode) as IEncConverter;
                 }
@@ -151,7 +152,7 @@ namespace SILConvertersWordML
             bool isDefined = false;
 
             isDefined = unicodeConverters.Exists(
-                    x => x.GetEncConverter.LeftEncodingID == converterRequest.LHEncodingField
+                    x => x.GetEncConverter.LeftEncodingID.ToLower() == converterRequest.LHEncodingField.ToLower()
                     &&
                     x.GetEncConverter.DirectionForward == converterRequest.IsLegacyToUnicode);
             if (!isDefined)

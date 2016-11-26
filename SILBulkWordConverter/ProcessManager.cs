@@ -369,7 +369,14 @@ namespace SILConvertersWordML
             {
 
                 //Font font = CreateFontSafe(strTargetFontName);
-                mapName2Font.Add(strName, strName);
+                if (processRequest.IsLegacyToUnicode)
+                {
+                    mapName2Font.Add(strName, "Arial Unicode MS");
+                }
+                else
+                {
+                    mapName2Font.Add(strName, strName); //??
+                }
             }
 
            // string[] row = { strName, strTextSample, strConverterName, strOutput, mapName2Font[strName] };
