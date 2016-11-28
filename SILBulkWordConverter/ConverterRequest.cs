@@ -2,6 +2,13 @@
 {
     public class ConverterRequest
     {
+        public ConverterRequest()
+        {
+            ConverterType = ConverterType.Unknown;
+        }
+
+        public ConverterType ConverterName { get; set; }
+            
         public ConverterType ConverterType { get; set; }
 
         public string CodePage { get; set; }

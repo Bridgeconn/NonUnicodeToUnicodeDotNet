@@ -14,6 +14,7 @@ namespace SILConvertersWordML
 
     public enum ConverterType
     {
+        Unknown,
         CP,
         TEC
     }

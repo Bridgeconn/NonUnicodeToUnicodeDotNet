@@ -954,7 +954,7 @@ namespace SILConvertersWordML
             bool bModified = false;
             if (IsConverterDefined(strFontStyleName))
             {
-                var aEC = ConverterFactory.GetConverter(new ConverterRequest { LHEncodingField = strFontStyleName }); // TBD
+                var aEC = ConverterFactory.GetConverter(new ConverterRequest { LHEncodingField = strFontStyleName, IsLegacyToUnicode = processRequest.IsLegacyToUnicode }); // TBD
                 bModified = SetValues(dataIteratorFontStyleText, strFontStyleName, aEC as DirectableEncConverter, bConvertCharValue);
             }
             return bModified;
