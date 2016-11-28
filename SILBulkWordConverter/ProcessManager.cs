@@ -30,7 +30,7 @@ namespace SILConvertersWordML
     {
         public const string cstrCaption = "SILConverters for Word Documents";
         protected const string cstrClickMsg = "Select a converter";
-        protected const string cstrOutputFileAddn = " (Convert'd)";
+        protected const string cstrOutputFileAddn = " (Converted)";
         protected const string cstrCancelSearch = "Canceling the search";
         protected const string cstrLeftXmlFileSuffixBefore = " (SILConverters-generated before conversion).xml";
         internal const string cstrLeftXmlFileSuffixAfterXsltTransform = " (SILConverters-generated after xslt transform).xml";
@@ -854,38 +854,38 @@ namespace SILConvertersWordML
                     else
                     {
                         string strNewSaveFileSpecLowerCase;
-                        do
-                        {
+                       // do
+                       // {
                             // if the user is saving the file somewhere besides the original folder...
-                            if (GetDirEnsureFinalSlash(strOrigFileSpec) != strFilenamePath)
-                            {
+                           // if (GetDirEnsureFinalSlash(strOrigFileSpec) != strFilenamePath)
+                           // {
                                 // then no need to query for the name -- just use the bits we figured out from before
-                                var strOutputFilenameOrig = strFilenamePath + strFilenamePrefix + strFileTitle + strFilenameSuffix + strExtn;
+                                //var strOutputFilenameOrig = strFilenamePath + strFilenamePrefix + strFileTitle + strFilenameSuffix + strExtn;
                                 //saveFileDialog.FileName = strOutputFilenameOrig; TBD
-                                strNewSaveFileSpecLowerCase = strOutputFilenameOrig.ToLower();
-                            }
-                            else
-                            {
+                               // strNewSaveFileSpecLowerCase = strOutputFilenameOrig.ToLower();
+                           // }
+                            //else
+                           // {
                                 // otherwise, query for the name to make sure it isn't the same as the original file
-                                var strOutputFilenameOrig = strFilenamePath + strFilenamePrefix + strFileTitle +
-                                                               strFilenameSuffix; //  +strExtn;
+                              var strOutputFilenameOrig = strFilenamePath + strFilenamePrefix + strFileTitle +
+                                                              strFilenameSuffix; //  +strExtn;
 
-                                //saveFileDialog.FileName = strOutputFilenameOrig;TBD
+                        //saveFileDialog.FileName = strOutputFilenameOrig;TBD
 
-                                //DialogResult res = this.saveFileDialog.ShowDialog();TBD
-                                //strNewSaveFileSpecLowerCase = saveFileDialog.FileName.ToLower();TBD
-                                /*if (res == DialogResult.Cancel)
-                                {
-                                    UpdateStatusBar(
-                                        "Do not click 'File', 'Convert and Save' again or you may convert the document twice! Press F5 to reload the files from scratch.");
-                                    return;
-                                }
-                                else if ((res == DialogResult.OK) && (strNewSaveFileSpecLowerCase == strOrigFileSpecLowerCase))
-                                    MessageBox.Show("Sorry, you cannot save this file with the same name", cstrCaption);
-                                    */
-                            }
-                        } while (true/*strNewSaveFileSpecLowerCase == strOrigFileSpecLowerCase*/); // TBD
-                        //strNewSaveFileSpec = saveFileDialog.FileName; TBD
+                        //DialogResult res = this.saveFileDialog.ShowDialog();TBD
+                        //strNewSaveFileSpecLowerCase = saveFileDialog.FileName.ToLower();TBD
+                        /*if (res == DialogResult.Cancel)
+                        {
+                            UpdateStatusBar(
+                                "Do not click 'File', 'Convert and Save' again or you may convert the document twice! Press F5 to reload the files from scratch.");
+                            return;
+                        }
+                        else if ((res == DialogResult.OK) && (strNewSaveFileSpecLowerCase == strOrigFileSpecLowerCase))
+                            MessageBox.Show("Sorry, you cannot save this file with the same name", cstrCaption);
+                            */
+                        //}
+                        //} while (strNewSaveFileSpecLowerCase == strOrigFileSpecLowerCase); // TBD
+                        strNewSaveFileSpec = strOutputFilenameOrig;
                     }
 
                     string strOutputFilenameNew = strNewSaveFileSpec;
