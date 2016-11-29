@@ -12,5 +12,6 @@ namespace SILConvertersWordML
     public interface IProcessMessenger
     {
         void LogMessage(ProcessIntermediateResult resultMessage);
+        UserResponse GetResponseFromUser(UserRequest processRequest);
     }
 }

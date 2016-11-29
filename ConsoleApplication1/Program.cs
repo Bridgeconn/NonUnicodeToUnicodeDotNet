@@ -17,7 +17,7 @@ namespace NonUnicodetoUnicodeTool
                 bool isProceedToNext = false;
 
                 // Create a process request
-                ProcessRequest processRequest = new ProcessRequest(new string[] { @"H:\WA\Scripts\MarathiNU-U\Font Study\MAP Files\DV_ME_SHREE\NU.docx" }, true, new Logger(GetNotified));
+                ProcessRequest processRequest = new ProcessRequest(new string[] { @"H:\WA\Scripts\MarathiNU-U\Font Study\MAP Files\DV_ME_SHREE\NU.docx" }, true, new Logger(GetNotified, GetResponseFromUser));
                 ProcessManager processManager = new ProcessManager(processRequest);
 
                 // ProcessResult is for the result for the steps & ProcessIntermediateResult is the in between messages
@@ -88,6 +88,13 @@ namespace NonUnicodetoUnicodeTool
         static void GetNotified(ProcessIntermediateResult processResult)
         {
             Console.WriteLine(processResult);
+        }
+
+        static UserResponse GetResponseFromUser(UserRequest userRequest)
+        {
+            Console.WriteLine(userRequest.Message);
+            string result = Console.ReadLine();
+            return new UserResponse { ResultType = ResultType.Completed };
         }
 
         /*NonUnicodeToUnicodeUtility.Convert(args[0], args[1], args[2]);*/

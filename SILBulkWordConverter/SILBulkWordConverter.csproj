@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="ConverterFactory.cs" />
     <Compile Include="ConverterRequest.cs" />
+    <Compile Include="UserRequest.cs" />
+    <Compile Include="UserResponse.cs" />
     <Compile Include="XMLParseToClassUtility.cs" />
     <Compile Include="XMLUnicodeConverters.cs" />
     <Compile Include="ConverterUtility.cs" />
