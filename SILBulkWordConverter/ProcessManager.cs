@@ -236,6 +236,18 @@ namespace SILConvertersWordML
             return new List<string>(mapName2Font.Keys);
         }
 
+        public List<string> GetInstalledFonts()
+        {
+            List<string> fonts = new List<string>();
+
+            foreach (FontFamily font in System.Drawing.FontFamily.Families)
+            {
+                fonts.Add(font.Name);
+            }
+
+            return fonts;
+        }
+
         public void SetTargetFonts(Dictionary<string,string> targetFontList)
         {
             if(targetFontList.Count == mapName2Font.Count)
