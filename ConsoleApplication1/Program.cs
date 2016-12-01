@@ -2,6 +2,7 @@
 using System.IO;
 using System.Configuration;
 using SILConvertersWordML;
+using System.Collections.Generic;
 
 namespace NonUnicodetoUnicodeTool
 {
@@ -15,9 +16,25 @@ namespace NonUnicodetoUnicodeTool
                 //return;
 
                 bool isProceedToNext = false;
+                Console.WriteLine();
+
+                Console.WriteLine("*********************************************************************");
+                Console.WriteLine("Interactive Non-Unicode to Unicode converter: Single/Multiple files");
+                Console.WriteLine("*********************************************************************");
+                Console.WriteLine();
+                Console.WriteLine("How many files would you like to convert?");
+                int filecount = Convert.ToInt32(Console.ReadLine());
+                List<string> filePaths = new List<string>();
+                for(int i = 0; i< filecount; i++)
+                {
+                    Console.WriteLine("Enter Path {0}:", i+1);
+                    var path = Console.ReadLine();
+                    filePaths.Add(@path);
+                }
 
                 // Create a process request
-                ProcessRequest processRequest = new ProcessRequest(new string[] { @"H:\WA\Scripts\MarathiNU-U\Font Study\MAP Files\DV_ME_SHREE\NU.docx" }, true, new Logger(GetNotified, GetResponseFromUser), ExecutionMode.Console);
+                //new string[] { @"H:\WA\Scripts\MarathiNU-U\Font Study\MAP Files\DV_ME_SHREE\NU.docx" }
+                ProcessRequest processRequest = new ProcessRequest(filePaths.ToArray(), true, new Logger(GetNotified, GetResponseFromUser), ExecutionMode.Console);
                 ProcessManager processManager = new ProcessManager(processRequest);
 
                 // ProcessResult is for the result for the steps & ProcessIntermediateResult is the in between messages

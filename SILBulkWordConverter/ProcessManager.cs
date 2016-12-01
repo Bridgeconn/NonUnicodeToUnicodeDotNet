@@ -113,6 +113,13 @@ namespace SILConvertersWordML
                 {
                     if (!File.Exists(path))
                     {
+                        processMessenger.LogMessage(new ProcessIntermediateResult
+                        {
+                            Message = String.Format("Input file path is not valid:  {0}", path),
+                            TypeOfMessage = MessageType.UserMessage,
+                            LevelOfMessage = MessageLevel.Critical
+                        });
+
                         throw (new FileNotFoundException("Input file path is not valid: " + path));
                     }
                 }
@@ -190,7 +197,26 @@ namespace SILConvertersWordML
                             mapName2Font[fontName] = response.Value.ToString();
                         }
                     }
-                    ConverterFactory.LoadConverter(new ConverterRequest { LHEncodingField = fontName, IsLegacyToUnicode = processRequest.IsLegacyToUnicode });
+                   
+                }
+
+                bool isConverterCreated = false;
+                foreach (string fontName in keys)
+                {
+                    if(ConverterFactory.LoadConverter(new ConverterRequest { LHEncodingField = fontName, IsLegacyToUnicode = processRequest.IsLegacyToUnicode }))
+                    {
+                        isConverterCreated = true;
+                    }
+                }
+
+                if(isConverterCreated)
+                {
+                    processMessenger.LogMessage(new ProcessIntermediateResult
+                    {
+                        Message = "Please ignore any of the EncConverters' messages!",
+                        TypeOfMessage = MessageType.UserMessage,
+                        LevelOfMessage = MessageLevel.Normal
+                    });
                 }
 
                 processResult.ResultType = ResultType.Completed;
@@ -518,9 +544,9 @@ namespace SILConvertersWordML
             {
                 if (m_bWarnAboutWord2007Conversion)
                 {
-                    DialogResult res = MessageBox.Show(String.Format("The document '{0}' can be processed if you use Word 2003 compatibility mode, though you may lose some formatting. Would you like to use Word 2003 compatibility mode on this and all subsequent Word 2007 documents?", strDocFilename), cstrCaption, MessageBoxButtons.YesNoCancel);
-                    if (res == DialogResult.No)
-                        return null;
+                    //DialogResult res = MessageBox.Show(String.Format("The document '{0}' can be processed if you use Word 2003 compatibility mode, though you may lose some formatting. Would you like to use Word 2003 compatibility mode on this and all subsequent Word 2007 documents?", strDocFilename), cstrCaption, MessageBoxButtons.YesNoCancel);
+                    //if (res == DialogResult.No)
+                      //  return null;
                     m_bWarnAboutWord2007Conversion = false;
                 }
                 bWord2007 = false;  // use Word 2003 compatibility mode
@@ -579,9 +605,9 @@ namespace SILConvertersWordML
             {
                 string strErrorMsg = String.Format("Unable to save a copy of the xml file in the local folder (requested by \"Advanced\", \"Leave XML file in folder\" option)! Reason:{0}{0}{1}{0}{0}Would you like to continue with the conversion process anyway?",
                     Environment.NewLine, ex.Message);
-                DialogResult res = MessageBox.Show(strErrorMsg, cstrCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
-                if (res != DialogResult.Yes)
-                    return null;
+                //DialogResult res = MessageBox.Show(strErrorMsg, cstrCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
+                //if (res != DialogResult.Yes)
+                 //   return null;
             }
             return doc;
         }
@@ -1176,9 +1202,14 @@ namespace SILConvertersWordML
                 {
                     if (myProcess.ProcessName.ToLower() == "winword")
                     {
-                        DialogResult res = MessageBox.Show("Close all running instances of Microsoft Word (including Outlook when Word is your email editor) and then click OK to continue.", cstrCaption, MessageBoxButtons.OKCancel);
-                        if (res == DialogResult.Cancel)
-                            return false;
+                        var response = processMessenger.GetResponseFromUser(new UserRequest("Please close all the instances of MS Word in order to proceed! Press Enter!"));
+                        if (response != null && response.ResultType == ResultType.Completed)
+                        {
+                         // TBD  
+                        };
+                        //DialogResult res = MessageBox.Show("Close all running instances of Microsoft Word (including Outlook when Word is your email editor) and then click OK to continue.", cstrCaption, MessageBoxButtons.OKCancel);
+                        //if (res == DialogResult.Cancel)
+                        //    return false;
                         bReady = false;
                     }
                 }
