@@ -94,7 +94,12 @@ namespace NonUnicodetoUnicodeTool
         {
             Console.WriteLine(userRequest.Message);
             string result = Console.ReadLine();
-            return new UserResponse { ResultType = ResultType.Completed };
+            if(!string.IsNullOrEmpty(result))
+            {
+                return new UserResponse { ResultType = ResultType.Completed, Value = result };
+            }
+
+            return null;
         }
 
         /*NonUnicodeToUnicodeUtility.Convert(args[0], args[1], args[2]);*/

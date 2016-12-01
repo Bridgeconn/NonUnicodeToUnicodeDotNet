@@ -179,9 +179,15 @@ namespace SILConvertersWordML
             var processResult = new ProcessResult();
             try
             {
-                foreach(string fontName in mapName2Font.Keys)
+                List<string> keys = new List<string>(mapName2Font.Keys);
+                foreach (string fontName in keys)
                 {
-                    ConverterFactory.LoadConverter(new ConverterRequest { LHEncodingField = fontName, IsLegacyToUnicode = processRequest.IsLegacyToUnicode });
+                    var response = processMessenger.GetResponseFromUser(new UserRequest(string.Format("What's your choice for Font:{0} >", fontName )));
+                    if (response != null && response.ResultType == ResultType.Completed)
+                    {
+                        mapName2Font[fontName] = response.Value.ToString();
+                        ConverterFactory.LoadConverter(new ConverterRequest { LHEncodingField = fontName, IsLegacyToUnicode = processRequest.IsLegacyToUnicode });
+                    }
                 }
 
                 processResult.ResultType = ResultType.Completed;
