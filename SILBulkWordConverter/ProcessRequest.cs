@@ -18,18 +18,20 @@ namespace SILConvertersWordML
         bool useLinqConversion;
         bool singleStep;
         bool isLegacyToUnicode;
+        ExecutionMode executionMode;
 
         ConversionElements conversionElements;
         ConversionMode conversionMode;
         IProcessMessenger logger;
 
-        public ProcessRequest(string[] inputFiles, bool isLegacyToUnicode, IProcessMessenger logger, bool leaveXMLFileInFolder = true)
+        public ProcessRequest(string[] inputFiles, bool isLegacyToUnicode, IProcessMessenger logger, ExecutionMode executionMode, bool leaveXMLFileInFolder = true)
         {
             this.logger = logger;
             this.inputFiles = inputFiles;
             this.leaveXMLFileInFolder = leaveXMLFileInFolder;
             this.useLinqConversion = true;
             this.IsLegacyToUnicode = isLegacyToUnicode;
+            this.executionMode = executionMode;
             // ConversionElements.FontsAndStyles TBD
         }
 
@@ -112,6 +114,14 @@ namespace SILConvertersWordML
             set
             {
                 isLegacyToUnicode = value;
+            }
+        }
+
+        public ExecutionMode ExecutionMode
+        {
+            get
+            {
+                return executionMode;
             }
         }
     }

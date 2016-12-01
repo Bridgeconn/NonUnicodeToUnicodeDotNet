@@ -182,12 +182,15 @@ namespace SILConvertersWordML
                 List<string> keys = new List<string>(mapName2Font.Keys);
                 foreach (string fontName in keys)
                 {
-                    var response = processMessenger.GetResponseFromUser(new UserRequest(string.Format("What's your choice for Font:{0} >", fontName )));
-                    if (response != null && response.ResultType == ResultType.Completed)
+                    if (processRequest.ExecutionMode == ExecutionMode.Console)
                     {
-                        mapName2Font[fontName] = response.Value.ToString();
-                        ConverterFactory.LoadConverter(new ConverterRequest { LHEncodingField = fontName, IsLegacyToUnicode = processRequest.IsLegacyToUnicode });
+                        var response = processMessenger.GetResponseFromUser(new UserRequest(string.Format("What's your choice for Font:{0} >", fontName)));
+                        if (response != null && response.ResultType == ResultType.Completed)
+                        {
+                            mapName2Font[fontName] = response.Value.ToString();
+                        }
                     }
+                    ConverterFactory.LoadConverter(new ConverterRequest { LHEncodingField = fontName, IsLegacyToUnicode = processRequest.IsLegacyToUnicode });
                 }
 
                 processResult.ResultType = ResultType.Completed;
@@ -200,6 +203,22 @@ namespace SILConvertersWordML
             }
 
             return processResult;
+        }
+
+        public List<string> GetSourceFonts()
+        {
+            return new List<string>(mapName2Font.Keys);
+        }
+
+        public void SetTargetFonts(Dictionary<string,string> targetFontList)
+        {
+            if(targetFontList.Count == mapName2Font.Count)
+            {
+                foreach (var sourceFont in targetFontList.Keys)
+                {
+                    mapName2Font[sourceFont] = targetFontList[sourceFont];
+                }
+            }
         }
 
         /*

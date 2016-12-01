@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace SILConvertersWordML
 {
+    public enum ExecutionMode
+    {
+        Console,
+        Web
+    }
+
     public enum ConversionMode
     {
         BasicUserMode,
