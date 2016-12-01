@@ -830,6 +830,13 @@ namespace SILConvertersWordML
         {
             var processResult = new ProcessResult();
 
+            processMessenger.LogMessage(new ProcessIntermediateResult
+            {
+                Message = "Convert and Save has been initiated!",
+                TypeOfMessage = MessageType.UserMessage,
+                LevelOfMessage = MessageLevel.Normal
+            });
+
             // TODO: see what happens if PIAs aren't installed
             //Cursor = Cursors.WaitCursor;
             if (!CheckForWinWord())
@@ -843,6 +850,14 @@ namespace SILConvertersWordML
 
                 foreach (string strOrigFileSpec in m_mapDocName2XmlDocument.Keys)
                 {
+                    string strFileTitle = Path.GetFileNameWithoutExtension(strOrigFileSpec);
+                    processMessenger.LogMessage(new ProcessIntermediateResult
+                    {
+                        Message = String.Format("Save initiated for '{0}'", strFileTitle),
+                        TypeOfMessage = MessageType.UserMessage,
+                        LevelOfMessage = MessageLevel.Normal
+                    });
+
                     currentDocument = strOrigFileSpec;
 
                     // convert the data in the document
@@ -857,7 +872,7 @@ namespace SILConvertersWordML
                     if (strFilenamePath == null)
                         strFilenamePath = GetDirEnsureFinalSlash(strOrigFileSpec);
 
-                    string strFileTitle = Path.GetFileNameWithoutExtension(strOrigFileSpec);
+                    
 
                     string strOrigFileSpecLowerCase = strOrigFileSpec.ToLower();
                     string strNewSaveFileSpec = null;
@@ -952,6 +967,13 @@ namespace SILConvertersWordML
                             strFilenameSuffix = null;
                     }
                 }
+
+                processMessenger.LogMessage(new ProcessIntermediateResult
+                {
+                    Message = "Convert and Save has been completed!",
+                    TypeOfMessage = MessageType.UserMessage,
+                    LevelOfMessage = MessageLevel.Normal
+                });
 
                 processResult.ResultType = ResultType.Completed;
             }
